@@ -52,6 +52,17 @@ function App() {
           icon: 'error',
           title: 'Ошибка',
           text: 'Некорректный формат времени окончания.',
+          showClass: {
+            popup: 'swal2-show', // Анимация появления
+        },
+        hideClass: {
+            popup: 'swal2-hide', // Анимация исчезновения
+        },
+        timer: 1500, // Автоматическое закрытие через 1.5 секунды
+        timerProgressBar: true, // Показывать прогрессбар таймера
+        didOpen: () => {
+            Swal.getPopup().style.transition = 'transform 0.1s ease-out'; // Ускорение анимации
+        },
         });
         return;
       }
@@ -69,6 +80,17 @@ function App() {
           icon: 'error',
           title: 'Ошибка',
           text: 'Время окончания не может быть меньше времени начала',
+          showClass: {
+            popup: 'swal2-show', // Анимация появления
+        },
+        hideClass: {
+            popup: 'swal2-hide', // Анимация исчезновения
+        },
+        timer: 1500, // Автоматическое закрытие через 1.5 секунды
+        timerProgressBar: true, // Показывать прогрессбар таймера
+        didOpen: () => {
+            Swal.getPopup().style.transition = 'transform 0.1s ease-out'; // Ускорение анимации
+        },
         });
         return;
       }
@@ -94,8 +116,18 @@ function App() {
         title: 'Добавление новой активности',
         text: 'Активность успешно добавлена!',
         icon: 'success',
-        confirmButtonText: 'ОК',
-      });
+        showClass: {
+            popup: 'swal2-show', // Анимация появления
+        },
+        hideClass: {
+            popup: 'swal2-hide', // Анимация исчезновения
+        },
+        timer: 1500, // Автоматическое закрытие через 1.5 секунды
+        timerProgressBar: true, // Показывать прогрессбар таймера
+        didOpen: () => {
+            Swal.getPopup().style.transition = 'transform 0.1s ease-out'; // Ускорение анимации
+        },
+    });
       // Здесь можно добавить логику для добавления новой активности
     };
   

@@ -43,6 +43,13 @@ button {
     transition: all 0.3s ease;
 }
 
+#add-activity,
+#set-start-time,
+#set-end-time,
+#set-total-time{
+    flex: 0;
+}
+
 select {
     cursor: pointer;
 }
@@ -96,4 +103,35 @@ textarea:hover {
 .custom-content {
     font-size: 13px;
     color: #555; /* Серый текст */
+}
+
+
+.swal2-show {
+    animation: swal2-show 0.2s ease-out; /* Ускоренная анимация появления */
+}
+
+.swal2-hide {
+    animation: swal2-hide 0.2s ease-out; /* Ускоренная анимация исчезновения */
+}
+
+@keyframes swal2-show {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes swal2-hide {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
 }
