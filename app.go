@@ -2,17 +2,25 @@ package main
 
 import (
 	"context"
+	"database/sql" // Импорт пакета для работы с SQL
 	"fmt"
+
+	_ "github.com/mattn/go-sqlite3" // Драйвер для SQLite
 )
 
 // App struct
 type App struct {
 	ctx context.Context
+	db  *sql.DB
 }
 
 // NewApp creates a new App application struct
-func NewApp() *App {
-	return &App{}
+func NewApp() (*App, error) {
+	db, err := InitDB()
+	if err != nil {
+		return nil, err
+	}
+	return &App{db: db}, nil
 }
 
 // startup is called when the app starts. The context is saved

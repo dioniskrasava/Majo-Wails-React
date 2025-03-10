@@ -107,11 +107,11 @@ textarea:hover {
 
 
 .swal2-show {
-    animation: swal2-show 0.2s ease-out; /* Ускоренная анимация появления */
+    animation: swal2-show 0.3s ease-out; /* Ускоренная анимация появления */
 }
 
 .swal2-hide {
-    animation: swal2-hide 0.2s ease-out; /* Ускоренная анимация исчезновения */
+    animation: swal2-hide 0.3s ease-out; /* Ускоренная анимация исчезновения */
 }
 
 @keyframes swal2-show {
