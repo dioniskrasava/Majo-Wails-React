@@ -34,10 +34,6 @@ textarea,
 button {
     flex: 1; /* Растягиваемые поля ввода и выпадающий список */
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.9); /* Белый фон с небольшой прозрачностью */
-    color: #333; /* Темный текст */
     font-size: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
@@ -65,19 +61,22 @@ button {
     cursor: pointer;
     padding: 10px 15px;
     font-size: 14px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /*тень*/
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #2a6ba8; /* Темно-синий при наведении */
+   /* background-color: #19538a; /* Темно-синий при наведении */
+   background-color: #8a1919;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.3); /*тень*/
 }
 
 input:hover,
 select:hover,
 textarea:hover {
-    background-color: #e0f2ff; /* Светло-голубой при наведении */
+    background-color: #cbe7fb; /* Светло-голубой при наведении */
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2); /*тень*/
 }
 
 /* Стили для SweetAlert2 */
