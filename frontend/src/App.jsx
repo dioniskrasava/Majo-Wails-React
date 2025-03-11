@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
+import { showSuccessAlert } from './swalUtils'; // Импортируем функцию
 import Swal from 'sweetalert2';
 import './App.css';
-import { invoke } from '@wailsapp/runtime';
-
 
 function App() {
     // Состояния для формы
@@ -60,7 +59,7 @@ function App() {
         hideClass: {
             popup: 'swal2-hide', // Анимация исчезновения
         },
-        timer: 2500, // Автоматическое закрытие через 1.5 секунды
+        timer: 1500, // Автоматическое закрытие через 1.5 секунды
         timerProgressBar: true, // Показывать прогрессбар таймера
         didOpen: () => {
             Swal.getPopup().style.transition = 'transform 0.1s ease-out'; // Ускорение анимации
@@ -112,45 +111,13 @@ function App() {
       setTotalTime(formattedTime);
     };
   
-    // Обработчик добавления активности
-    const handleAddTypeActivity = () => {
-      Swal.fire({
-        title: 'Добавление новой активности',
-        text: 'Активность успешно добавлена!',
-        icon: 'success',
-        showClass: {
-            popup: 'swal2-show', // Анимация появления
-        },
-        hideClass: {
-            popup: 'swal2-hide', // Анимация исчезновения
-        },
-        timer: 1500, // Автоматическое закрытие через 1.5 секунды
-        timerProgressBar: true, // Показывать прогрессбар таймера
-        didOpen: () => {
-            Swal.getPopup().style.transition = 'transform 0.1s ease-out'; // Ускорение анимации
-        },
-    });
-      // Здесь можно добавить логику для добавления новой активности
-    };
-
-    const handleAddActivity = async () => {
-      try {
-          const result = await invoke('SaveActivity', activityType, startTime, endTime, totalTime, comment);
-          Swal.fire({
-              title: 'Успех!',
-              text: result,
-              icon: 'success',
-          });
-      } catch (error) {
-          Swal.fire({
-              title: 'Ошибка',
-              text: error.message,
-              icon: 'error',
-          });
-      }
-  };
-
-
+// Обработчик добавления активности
+const handleAddActivity = () => {
+  // Вызов метода из Go
+  window.go.main.App.PrintHelloWorld(activityType,startTime,endTime,totalTime,comment).then(() => {
+    showSuccessAlert('Добавление новой активности', 'Активность успешно добавлена!');
+  });
+};
   
     return (
       <div id="App">
@@ -172,7 +139,7 @@ function App() {
               <option value="rest">Отдых</option>
               <option value="sport">Спорт</option>
             </select>
-            <button type="button" id="add-activity" onClick={handleAddTypeActivity}>
+            <button type="button" id="add-activity" onClick={handleAddActivity}>
               +
             </button>
           </div>
@@ -248,4 +215,3 @@ function App() {
   }
   
 export default App;
-

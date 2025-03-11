@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -14,13 +13,10 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
-	app, err := NewApp()
-	if err != nil {
-		log.Fatalf("Ошибка при инициализации приложения: %v", err)
-	}
+	app := NewApp()
 
 	// Create application with options
-	err = wails.Run(&options.App{
+	err := wails.Run(&options.App{
 		Title:     "Majo-Wails-React",
 		Width:     600,
 		Height:    400,
@@ -32,7 +28,16 @@ func main() {
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        app.startup,
 		Bind: []interface{}{
-			app,
+			app, // Здесь происходит привязка методов
+			// В этом срезе вы передаете экземпляры структур,
+			// методы которых хотите сделать доступными для фронтенда.
+
+			// Все экспортируемые методы (с большой буквы) структуры App
+			// автоматически становятся доступными для вызова из JavaScript.
+
+			/*Привязка к фронтенду: Wails автоматически создает прокси-объект
+			в JavaScript, который позволяет вызывать методы Go из фронтенда.
+			Этот объект доступен через window.go.main.App.*/
 		},
 	})
 
