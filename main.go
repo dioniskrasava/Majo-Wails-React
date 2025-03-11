@@ -1,7 +1,9 @@
 package main
 
 import (
+	"Majo-Wails-React/model/database"
 	"embed"
+	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -12,11 +14,25 @@ import (
 var assets embed.FS
 
 func main() {
+
+	db, err := database.InitDB()
+	if err != nil {
+		log.Fatalf("Ошибка при инициализации базы данных: %v", err)
+	}
+	defer db.Close()
+
 	// Create an instance of the app structure
-	app := NewApp()
+	app := NewApp(db)
+
+	// Загрузка категорий при запуске
+	categories, err := app.LoadCategories()
+	if err != nil {
+		log.Fatalf("Ошибка при загрузке категорий: %v", err)
+	}
+	log.Printf("Загружены категории: %v", categories)
 
 	// Create application with options
-	err := wails.Run(&options.App{
+	err = wails.Run(&options.App{
 		Title:     "Majo-Wails-React",
 		Width:     550,
 		Height:    400,

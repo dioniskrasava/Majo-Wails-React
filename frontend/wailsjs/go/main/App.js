@@ -5,3 +5,11 @@
 export function AddActivityWithDB(arg1, arg2, arg3, arg4, arg5) {
   return window['go']['main']['App']['AddActivityWithDB'](arg1, arg2, arg3, arg4, arg5);
 }
+
+export function LoadCategories() {
+  return window['go']['main']['App']['LoadCategories']();
+}
+
+export function SaveCategory(arg1) {
+  return window['go']['main']['App']['SaveCategory'](arg1);
+}

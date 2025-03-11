@@ -17,3 +17,7 @@ to this in your browser, and you can call your Go code from devtools.
 ## Building
 
 To build a redistributable, production mode package, use `wails build`.
+
+## На доработку
+
+1 Отработать защиту от дурака при добавлении активности в бд (не позволять добавлять запись с некорректным временем и пустой категорией)

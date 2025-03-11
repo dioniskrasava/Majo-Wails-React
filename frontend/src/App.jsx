@@ -1,12 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { showSuccessAlert } from "./swalUtils"; // Импортируем функцию
 import Swal from "sweetalert2";
 import "./App.css";
 
 function App() {
   // Состояния для формы
-  const [categories, setCategories] = useState(["Работа", "Дом", "Спорт"]); // Начальные категории
-  const [activityType, setActivityType] = useState(categories[0]); // Выбранная категория
+  const [categories, setCategories] = useState([]); // Начальные категории
+  const [activityType, setActivityType] = useState(""); // Выбранная категория
+
+   // Загрузка категорий при запуске
+  useEffect(() => {
+    window.go.main.App.LoadCategories()
+      .then((loadedCategories) => {
+        // Проверяем, что loadedCategories не равен null или undefined
+        if (loadedCategories) {
+          setCategories(loadedCategories);
+          if (loadedCategories.length > 0) {
+            setActivityType(loadedCategories[0]); // Устанавливаем первую категорию как выбранную
+          }
+        } else {
+          // Если loadedCategories равен null, устанавливаем пустой список
+          setCategories([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка при загрузке категорий:", error);
+        Swal.fire({
+          title: "Ошибка",
+          text: "Не удалось загрузить категории.",
+          icon: "error",
+        });
+      });
+  }, []);
+  
+
   const [startTime, setStartTime] = useState(""); // Время начала
   const [endTime, setEndTime] = useState(""); // Время окончания
   const [totalTime, setTotalTime] = useState(""); // Общее время
@@ -143,9 +170,7 @@ function App() {
       showLoaderOnConfirm: true,
       preConfirm: (newCategory) => {
         if (!newCategory) {
-          Swal.showValidationMessage(
-            "Название категории не может быть пустым!"
-          );
+          Swal.showValidationMessage("Название категории не может быть пустым!");
           return false;
         }
         return newCategory;
@@ -155,18 +180,26 @@ function App() {
       if (result.isConfirmed) {
         const newCategory = result.value;
 
-        // Добавляем новую категорию в список
-        setCategories((prevCategories) => [...prevCategories, newCategory]);
-        setActivityType(newCategory); // Устанавливаем новую категорию как выбранную
-        // Если нужно сохранить список категорий, можно использовать состояние
-        // Например, добавить новую категорию в массив categories
-        // setCategories([...categories, newCategory]);
+        // Сохраняем новую категорию в базу данных
+        window.go.main.App.SaveCategory(newCategory)
+          .then(() => {
+            // Обновляем список категорий
+            setCategories((prevCategories) => [...prevCategories, newCategory]);
+            setActivityType(newCategory); // Устанавливаем новую категорию как выбранную
 
-        Swal.fire({
-          title: "Успешно!",
-          text: `Категория "${newCategory}" добавлена.`,
-          icon: "success",
-        });
+            Swal.fire({
+              title: "Успешно!",
+              text: `Категория "${newCategory}" добавлена.`,
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: "Ошибка",
+              text: `Не удалось сохранить категорию: ${error}`,
+              icon: "error",
+            });
+          });
       }
     });
   };

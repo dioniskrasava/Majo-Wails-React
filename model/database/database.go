@@ -12,7 +12,7 @@ func InitDBAndAddActivity(activityType, begintime, endtime, totaltime, comment s
 	db := createDB() // создаем бд если не создана
 	defer db.Close() // закрываем после выполнения этой ф-ии
 
-	createTableInDB(db) // создаем таблицу активностей (если не создана)
+	createTableActivityInDB(db) // создаем таблицу активностей (если не создана)
 
 	// добавляем активность в бд
 	addActivity(db, activityType, begintime, endtime, totaltime, comment)
@@ -29,7 +29,7 @@ func createDB() (db *sql.DB) {
 
 }
 
-func createTableInDB(db *sql.DB) {
+func createTableActivityInDB(db *sql.DB) {
 
 	// Создание таблицы, если она не существует
 	createTableSQL := `CREATE TABLE IF NOT EXISTS activities (
