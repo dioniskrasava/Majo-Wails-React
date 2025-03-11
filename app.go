@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Majo-Wails-React/model/database"
 	"context"
 	"fmt"
 )
@@ -24,4 +25,6 @@ func (a *App) startup(ctx context.Context) {
 // New method to print "Hello World" to the console
 func (a *App) PrintHelloWorld(activityType, begintime, endtime, totaltime, comment string) {
 	fmt.Println("Комментарий из React:", activityType, begintime, endtime, totaltime, comment)
+	database.InitDBAndAddActivity(activityType, begintime, endtime, totaltime, comment)
+
 }
