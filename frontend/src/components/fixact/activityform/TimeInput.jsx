@@ -21,7 +21,7 @@ const TimeInput = ({
         onChange={onChange}
         readOnly={readOnly}
       />
-      <button type="button" id={`set-${id}`} onClick={onSetCurrentTime}>
+      <button type="button" id={`set-${id}`} onClick={onSetCurrentTime} className="button-fixact-support">
         ᐊ
       </button>
     </div>

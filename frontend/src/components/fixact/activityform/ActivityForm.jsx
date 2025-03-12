@@ -22,7 +22,7 @@ const ActivityForm = ({
   handleAddTypeActivity,
 }) => {
   return (
-    <form>
+    <form id="form-fix-act">
       <div>
         <label id="top-label">Добавление активности:</label>
       </div>
@@ -78,7 +78,7 @@ const ActivityForm = ({
 
       {/* Кнопка добавления */}
       <div className="form-row">
-        <button type="button" onClick={handleAddActivity}>
+        <button type="button" onClick={handleAddActivity} className="buttonFixActAdd">
           Добавить запись
         </button>
       </div>

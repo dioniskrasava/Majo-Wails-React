@@ -23,8 +23,8 @@ const CategorySelect = ({
           </option>
         ))}
       </select>
-      <button type="button" id="add-activity" onClick={handleAddTypeActivity}>
-        ᐊ
+      <button type="button" id="add-activity" onClick={handleAddTypeActivity} className="button-fixact-support">
+      …
       </button>
     </div>
   );
