@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { showSuccessAlert } from "./utils/swalUtils";
 import Swal from "sweetalert2";
 import "./App.css";
+
 import ActivityForm from "./components/ActivityForm";
+import Sidebar from './components/sidebar/Sidebar';
+
 import useCategories from "./hooks/useCategories";
 import { setCurrentTime, calculateTotalTime } from "./utils/timeUtils";
 
@@ -80,7 +83,10 @@ function App() {
   };
 
   return (
+    <div id="globalApp">
+    <Sidebar />
     <div id="App">
+     
       <ActivityForm
         categories={categories}
         activityType={activityType}
@@ -108,6 +114,7 @@ function App() {
         handleAddActivity={handleAddActivity}
         handleAddTypeActivity={handleAddTypeActivity}
       />
+    </div>
     </div>
   );
 }

@@ -34,10 +34,12 @@ func main() {
 	// Create application with options
 	err = wails.Run(&options.App{
 		Title:     "Majo-Wails-React",
-		Width:     550,
-		Height:    400,
-		MinWidth:  450, // Минимальная ширина окна
-		MinHeight: 300, // Минимальная высота окна
+		Width:     680,
+		Height:    470,
+		MinWidth:  630, // Минимальная ширина окна
+		MinHeight: 470, // Минимальная высота окна
+		MaxWidth:  880,
+		MaxHeight: 880,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

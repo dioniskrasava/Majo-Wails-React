@@ -1,9 +1,14 @@
 /* App.css */
+#globalApp{
+    display: flex;
+}
+
 #App {
+    flex-grow: 1;
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
+    background-color: rgba(255, 255, 255, 0.005); /* Полупрозрачный белый фон */
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     max-width: 500px;
@@ -76,7 +81,7 @@ input:hover,
 select:hover,
 textarea:hover {
     background-color: #cbe7fb; /* Светло-голубой при наведении */
-    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2); /*тень*/
+    box-shadow: 0 8px 4px rgba(0, 0, 0, 0.2); /*тень*/
 }
 
 /* Стили для SweetAlert2 */
@@ -133,4 +138,8 @@ textarea:hover {
         transform: scale(0.9);
         opacity: 0;
     }
+}
+
+#top-label{
+    font-size:30px; /*увеличим шрифт названия микроприложения*/
 }
