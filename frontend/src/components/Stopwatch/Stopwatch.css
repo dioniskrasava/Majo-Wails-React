@@ -1,0 +1,39 @@
+.stopwatch {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff07;
+  }
+  
+  .time {
+    font-size: 35px;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 1px rgba(238, 8, 8, 0.404); /* легкая тень */
+  }
+  
+  .buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    width: 100px;
+  }
+  
+  .buttons button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  
+  .buttons button:hover:not(:disabled) {
+    background-color: #b6602e;
+  }
+
+  .stopwatch_label{
+    font-family: 'Georgia', serif;
+    font-size: 30px;
+    text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
+  }

@@ -8,6 +8,8 @@ import useCategories from "./hooks/useCategories";
 import { setCurrentTime, calculateTotalTime } from "./utils/timeUtils";
 import handleAddTypeActivity from "./utils/handleAddTypeActivity"; // Импортируем функцию
 
+import Stopwatch from "../Stopwatch/Stopwatch"
+
 function AppFixAct() {
   const { categories, activityType, setCategories, setActivityType } =
     useCategories();
@@ -37,6 +39,8 @@ function AppFixAct() {
   };
 
   return (
+    <>
+    <Stopwatch/>
     <ActivityForm
       categories={categories}
       activityType={activityType}
@@ -64,6 +68,7 @@ function AppFixAct() {
       handleAddActivity={handleAddActivity}
       handleAddTypeActivity={() => handleAddTypeActivity(setCategories, setActivityType)} // Используем функцию
     />
+    </>
   );
 }
 

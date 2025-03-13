@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
-import AppFixAct from './components/fixact/AppFixAct';
 import Sidebar from './components/sidebar/Sidebar';
 import ContentManager from './components/ContentManager/ContentManager'
 
