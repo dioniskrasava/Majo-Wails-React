@@ -96,7 +96,7 @@ button {
 
 button:hover {  
     box-shadow: 0 6px 4px rgba(0, 0, 0, 0.3); /*тень*/
-    letter-spacing: 0.03em; /* немного увеличить расстояние между буквами */
+    /*letter-spacing: 0.03em; /* немного увеличить расстояние между буквами */
 }
 
 .button-fixact-support:hover{

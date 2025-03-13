@@ -1,16 +1,18 @@
-import React from 'react';
-import './Sidebar.css'; // Подключаем стили для сайдбара
+import React, { useState } from 'react';
+import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ onButtonClick }) => {
   return (
     <div className="sidebar">
-      <button className="sidebar-button">α</button>
-      <button className="sidebar-button">β</button>
-      <button className="sidebar-button">γ</button>
-      <button className="sidebar-button">δ</button>
-      <button className="sidebar-button">ε</button>
-      <button className="sidebar-button">ζ</button>
-      {/* Добавьте столько кнопок, сколько вам нужно */}
+      <div className="sidebar-buttons">
+      <button className="sidebar-button" onClick={() => onButtonClick('AppFixAct')}>
+        α
+      </button>
+      <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
+        β
+      </button>
+      {/* Добавьте другие кнопки */}
+      </div>
     </div>
   );
 };

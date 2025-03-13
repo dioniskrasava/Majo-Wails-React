@@ -3,17 +3,25 @@
   height: 100vh; /* Высота на весь экран */
   background-color: #2c3e50; /* Цвет фона */
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   position: fixed; /* Закрепляем сайдбар */
   left: 0; /* Прижимаем к левой части экрана */
   top: 0; /* Прижимаем к верхней части экрана */
 }
 
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Выравниваем кнопки по верхнему краю */
+  width: 100%;
+}
+
 .sidebar .sidebar-button {
   background-color: #398ad5; /* Синий цвет кнопок */
   color: white;
-  margin: 20px 0; /* Отступ между кнопками */
+  margin: 10px 0; /* Уменьшаем отступ между кнопками */
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -21,11 +29,11 @@
   cursor: pointer;
   border-radius: 4px; /* Закруглённые углы */
   width: 38px; /* Фиксированная ширина */
-  /*height: 10px !important; /* Фиксированная высота */
-  line-height: 20px; /* Центрируем текст по вертикали */
-  /*flex-shrink: 0; /* Запрещаем сжатие кнопок */
+  height: 38px; /* Фиксированная высота */
+  line-height: 38px; /* Центрируем текст по вертикали */
   box-sizing: border-box; /* Учитываем padding и border в размерах */
   padding: 0; /* Убираем внутренние отступы */
+  flex-shrink: 0; /* Запрещаем сжатие кнопок */
 }
 
 .sidebar .sidebar-button:hover {
