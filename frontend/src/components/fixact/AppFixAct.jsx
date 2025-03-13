@@ -8,7 +8,6 @@ import useCategories from "./hooks/useCategories";
 import { setCurrentTime, calculateTotalTime } from "./utils/timeUtils";
 import handleAddTypeActivity from "./utils/handleAddTypeActivity"; // Импортируем функцию
 
-import Stopwatch from "../Stopwatch/Stopwatch";
 
 function AppFixAct() {
   const { categories, activityType, setCategories, setActivityType } =
@@ -17,7 +16,6 @@ function AppFixAct() {
   const [endTime, setEndTime] = useState("");
   const [totalTime, setTotalTime] = useState("");
   const [comment, setComment] = useState("");
-  const [showStopwatch, setShowStopwatch] = useState(false); // Состояние для управления видимостью таймера
 
   const handleActivityTypeChange = (e) => setActivityType(e.target.value);
   const handleStartTimeChange = (e) => setStartTime(e.target.value);
@@ -39,20 +37,12 @@ function AppFixAct() {
     });
   };
 
-  // Функция для переключения видимости таймера
-  const toggleStopwatch = () => {
-    setShowStopwatch((prev) => !prev);
-  };
+  
+ 
 
   return (
     <>
-      {/* Кнопка для показа/скрытия таймера */}
-      <button onClick={toggleStopwatch} className="toggle-stopwatch-button">
-        {showStopwatch ? "Скрыть таймер" : "Показать таймер"}
-      </button>
-
-      {/* Условный рендеринг таймера */}
-      {showStopwatch && <Stopwatch />}
+     
 
       <ActivityForm
         categories={categories}

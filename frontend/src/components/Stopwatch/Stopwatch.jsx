@@ -48,18 +48,19 @@ const Stopwatch = () => {
 
   return (
     <div className="stopwatch">
-      <h1 className='stopwatch_label'>Секундомер</h1>
-      <div className="time">{formatTime(time)}</div>
-      <div className="buttons">
-        <button onClick={handleStart} disabled={isRunning}>
-          Старт
-        </button>
-        <button onClick={handleStop} disabled={!isRunning}>
-          Стоп
-        </button>
-        <button onClick={handleReset}>Стереть</button>
-      </div>
+  <div className="time-and-buttons">
+    <div className="time">{formatTime(time)}</div>
+    <div className="buttons">
+      <button  type="button" onClick={handleStart} disabled={isRunning}>
+        ▶
+      </button>
+      <button  type="button" onClick={handleStop} disabled={!isRunning}>
+        ⏸
+      </button>
+      <button  type="button" onClick={handleReset}>⏹</button>
     </div>
+  </div>
+</div>
   );
 };
 

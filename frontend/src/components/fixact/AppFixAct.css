@@ -48,11 +48,12 @@ label {
     letter-spacing: 0.01em; /* немного увеличить расстояние между буквами */
 }
 
-#top-label{
-    font-size:30px; /*увеличим шрифт названия микроприложения*/
-    font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
-}
+#top-label {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+    flex: 0 0 82%; /* Лейбл занимает 90% ширины */
+  }
 
 select,
 input,
@@ -170,3 +171,24 @@ textarea:hover {
     }
 }
 
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Надпись и кнопка будут по краям */
+    gap: 10px; /* Расстояние между надписью и кнопкой */
+  }
+
+
+  .toggle-stopwatch-button {
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    white-space: nowrap;
+    flex: 0 0 9%; /* Кнопка занимает 10% ширины */
+  }
+  
+  .toggle-stopwatch-button:hover {
+    background-color: #218838; /* Темно-зеленый цвет при наведении */
+  }
