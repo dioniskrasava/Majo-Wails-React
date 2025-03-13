@@ -37,3 +37,19 @@
     font-size: 30px;
     text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
   }
+
+
+  .toggle-stopwatch-button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745; /* Зеленый цвет */
+    color: white;
+  }
+  
+  .toggle-stopwatch-button:hover {
+    background-color: #218838; /* Темно-зеленый цвет при наведении */
+  }
