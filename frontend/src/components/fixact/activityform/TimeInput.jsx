@@ -1,6 +1,5 @@
-// Компонент для ввода времени.
-
-import React from "react";
+// src/components/fixact/activityform/TimeInput.jsx
+import React from 'react';
 
 const TimeInput = ({
   label,

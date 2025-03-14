@@ -1,6 +1,5 @@
-// Компонент для выбора категории и добавления новой.
-
-import React from "react";
+// src/components/fixact/activityform/CategorySelect.jsx
+import React from 'react';
 
 const CategorySelect = ({
   categories,
@@ -24,7 +23,7 @@ const CategorySelect = ({
         ))}
       </select>
       <button type="button" id="add-activity" onClick={handleAddTypeActivity} className="button-fixact-support">
-      …
+        …
       </button>
     </div>
   );
