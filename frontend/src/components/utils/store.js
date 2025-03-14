@@ -19,6 +19,7 @@ const useStopwatchStore = create((set) => ({
   incrementTime: () => set((state) => ({ time: state.time + 50 })),
 }));
 
+
 // Хранилище для формы
 const useFormStore = create((set) => ({
   formData: {
@@ -37,6 +38,23 @@ const useFormStore = create((set) => ({
         [field]: value,
       },
     })),
+
+  // Функция для установки текущего времени
+  setCurrentTime: (field) => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const currentTime = `${hours}:${minutes}:${seconds}`;
+
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        [field]: currentTime,
+      },
+    }));
+  },
 }));
 
-  export { useStopwatchStore, useFormStore };
+
+export { useStopwatchStore, useFormStore };

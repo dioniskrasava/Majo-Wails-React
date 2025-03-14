@@ -10,13 +10,11 @@ const ActivityForm = ({
   handleAddTypeActivity,
   handleAddActivity,
   calculateTotalTime,
-  setCurrentStartTime,
-  setCurrentEndTime,
 }) => {
   const [showStopwatch, setShowStopwatch] = useState(false);
 
-  // Получаем состояние формы и функцию для его обновления из Zustand
-  const { formData, updateFormData } = useFormStore();
+ // Получаем состояние формы и функции из Zustand
+ const { formData, updateFormData, setCurrentTime } = useFormStore();
 
   const toggleStopwatch = () => {
     setShowStopwatch((prev) => !prev);
@@ -37,6 +35,16 @@ const ActivityForm = ({
 
   const handleCommentChange = (e) => {
     updateFormData('comment', e.target.value);
+  };
+
+  // Функция для установки текущего времени начала
+  const handleSetStartTime = () => {
+    setCurrentTime('startTime');
+  };
+
+  // Функция для установки текущего времени окончания
+  const handleSetEndTime = () => {
+    setCurrentTime('endTime');
   };
 
   return (
@@ -64,7 +72,7 @@ const ActivityForm = ({
         id="start-time"
         value={formData.startTime}
         onChange={handleStartTimeChange}
-        onSetCurrentTime={setCurrentStartTime}
+        onSetCurrentTime={handleSetStartTime}
       />
 
       {/* Время окончания активности */}
@@ -73,7 +81,7 @@ const ActivityForm = ({
         id="end-time"
         value={formData.endTime}
         onChange={handleEndTimeChange}
-        onSetCurrentTime={setCurrentEndTime}
+        onSetCurrentTime={handleSetEndTime}
       />
 
       {/* Общее время */}
