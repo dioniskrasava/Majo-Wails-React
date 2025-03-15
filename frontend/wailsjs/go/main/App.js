@@ -6,10 +6,22 @@ export function AddActivityWithDB(arg1, arg2, arg3, arg4, arg5) {
   return window['go']['main']['App']['AddActivityWithDB'](arg1, arg2, arg3, arg4, arg5);
 }
 
+export function GetWindowSize() {
+  return window['go']['main']['App']['GetWindowSize']();
+}
+
 export function LoadCategories() {
   return window['go']['main']['App']['LoadCategories']();
 }
 
+export function ResizeWindow(arg1, arg2) {
+  return window['go']['main']['App']['ResizeWindow'](arg1, arg2);
+}
+
 export function SaveCategory(arg1) {
   return window['go']['main']['App']['SaveCategory'](arg1);
+}
+
+export function SetSettings(arg1, arg2) {
+  return window['go']['main']['App']['SetSettings'](arg1, arg2);
 }

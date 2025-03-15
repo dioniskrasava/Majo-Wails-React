@@ -14,6 +14,9 @@ const Sidebar = ({ onButtonClick }) => {
       <button className="sidebar-button" onClick={() => onButtonClick('Stopwatch')}>
         t
       </button>
+      <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>
+        ...
+      </button>
       {/* Добавьте другие кнопки */}
       </div>
     </div>

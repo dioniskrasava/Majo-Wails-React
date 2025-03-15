@@ -3,6 +3,12 @@
 
 export function AddActivityWithDB(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string):Promise<void>;
 
+export function GetWindowSize():Promise<number|number>;
+
 export function LoadCategories():Promise<Array<string>>;
 
+export function ResizeWindow(arg1:number,arg2:number):Promise<void>;
+
 export function SaveCategory(arg1:string):Promise<void>;
+
+export function SetSettings(arg1:string,arg2:number):Promise<void>;
