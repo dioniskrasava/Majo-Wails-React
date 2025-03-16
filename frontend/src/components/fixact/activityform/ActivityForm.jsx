@@ -5,11 +5,14 @@ import TimeInput from './TimeInput';
 import Stopwatch from '../../Stopwatch/Stopwatch';
 import { useFormStore } from '../../utils/store';
 
+import {calculateTotalTime } from "../utilsFixAct/timeUtils";
+
+
+
 const ActivityForm = ({
   categories,
   handleAddTypeActivity,
-  handleAddActivity,
-  calculateTotalTime,
+  handleAddActivity
 }) => {
   const [showStopwatch, setShowStopwatch] = useState(false);
 
@@ -21,6 +24,7 @@ const ActivityForm = ({
   };
 
   // Обработчики изменений полей формы
+  // я так понимаю, что эти обработчики анализируют, что вписал пользователь в это поле ручками
   const handleActivityTypeChange = (e) => {
     updateFormData('activityType', e.target.value);
   };
@@ -37,6 +41,12 @@ const ActivityForm = ({
     updateFormData('comment', e.target.value);
   };
 
+  // ------------ДОПИСАТЬ---------------------
+  //  на случай если юзер ручками поменяет общее время!!!
+  const handleTotalTimeChange = () => {
+    updateFormData('totalTime', e.target.value);
+  }
+
   // Функция для установки текущего времени начала
   const handleSetStartTime = () => {
     setCurrentTime('startTime');
@@ -46,6 +56,15 @@ const ActivityForm = ({
   const handleSetEndTime = () => {
     setCurrentTime('endTime');
   };
+
+  // обертка для вызова функции подсчета времени активности
+  const handleSetTotalTime = () => {
+    let totalTime = calculateTotalTime(formData.startTime, formData.endTime);
+    updateFormData("totalTime", totalTime)
+  }
+
+
+  
 
   return (
     <form id="form-fix-act">
@@ -90,7 +109,8 @@ const ActivityForm = ({
         id="total-time"
         value={formData.totalTime}
         readOnly
-        onSetCurrentTime={calculateTotalTime}
+        onChange={handleTotalTimeChange}
+        onSetCurrentTime={handleSetTotalTime}
       />
 
       {/* Комментарии */}

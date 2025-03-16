@@ -5,29 +5,19 @@ import "./AppFixAct.css";
 
 import ActivityForm from "./activityform/ActivityForm";
 import useCategories from "./hooks/useCategories";
-import { setCurrentTime, calculateTotalTime } from "./utilsFixAct/timeUtils";
 import handleAddTypeActivity from "./utilsFixAct/handleAddTypeActivity"; // Импортируем функцию
 
 import { useFormStore } from "../utils/store";
 
 
-function AppFixAct() {
-  const { categories, activityType, setCategories, setActivityType } =
-    useCategories(); 
-    /*
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [totalTime, setTotalTime] = useState("");
-  const [comment, setComment] = useState("");*/
 
- /* const handleActivityTypeChange = (e) => setActivityType(e.target.value);
-  const handleStartTimeChange = (e) => setStartTime(e.target.value);
-  const handleEndTimeChange = (e) => setEndTime(e.target.value);
-  const handleCommentChange = (e) => setComment(e.target.value);*/
+
+function AppFixAct() {
+  const { categories, activityType, setCategories, setActivityType } = useCategories(); 
 
   const { formData, updateFormData, setCurrentTime } = useFormStore();
   
-  // добавление активности в БД
+  // добавление активности в БД (---> go)
   const handleAddActivity = () => {
     window.go.main.App.AddActivityWithDB(
       formData.activityType,
@@ -42,14 +32,18 @@ function AppFixAct() {
       );
     });
   };
+
+
  
 
+  // Я пока ТУТ чудить не буду
+  // но нужно удалить все параметры
+  // потому что главный контент-менеджер дергает этот компонент без атрибутов и всё работает, потому что находится в глоб.состояниях zustand
   return (
       <ActivityForm
         categories={categories}
         handleAddActivity={handleAddActivity}
         handleAddTypeActivity={() => handleAddTypeActivity(setCategories, setActivityType)} // Используем функцию
-        calculateTotalTime={calculateTotalTime}
       />
   );
 }

@@ -9,11 +9,13 @@ import SettApp from '../settApp/SettApp';
 const components = {
   AppFixAct: <AppFixAct />,
   AnotherComponent: <AnotherComponent />,
-  Stopwatch: <Stopwatch/>,
-  SettApp: <SettApp/>
+  Stopwatch: <Stopwatch />,
+  SettApp: <SettApp />
   // Добавьте другие компоненты
 };
 
+
+// ГЛАВНЫЙ ОТРИСОВЩИК АКТИВНОГО ПРИЛОЖЕНИЯ
 const ContentManager = ({ activeComponent }) => {
   return components[activeComponent] || <AppFixAct />; // По умолчанию отображаем AppFixAct
 };

@@ -1,5 +1,6 @@
 //  Утилиты для работы со временем.
 
+// видимо можно ЭТО удалить, так-как есть клон этой функции в utils/store
 export const setCurrentTime = () => {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, "0");
