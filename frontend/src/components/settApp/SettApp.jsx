@@ -16,11 +16,13 @@ return (
 };
 
 const AddWidth = () => {
-    window.go.main.App.SetSettings("WIDTH+",25)   
+    window.go.main.App.SetSettings("WIDTH",800)  
+    let w,h = window.go.main.App.GetWindowSize()
+    console.log('fuckyou',w,h) 
 }
 
 const IncWidth = () => {
-    window.go.main.App.SetSettings("WIDTH+",-25)
+    window.go.main.App.SetSettings("HEIGHT",800)
 }
 
 

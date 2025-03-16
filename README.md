@@ -1,23 +1,15 @@
-# README
+# Main Journal
 
-## About
+Когда-то я вёл свои журналы в электронной таблице. Хватит это терпеть!!!
 
-This is the official Wails React template.
+### Добавить в будущем
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+https://gojs.net/latest/
 
-## Live Development
+#### Процесс разработки
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+Незнаю куда такие вещи пишут, но пока будут здесь.
 
-## Building
-
-To build a redistributable, production mode package, use `wails build`.
-
-## На доработку
-
-1 Отработать защиту от дурака при добавлении активности в бд (не позволять добавлять запись с некорректным временем и пустой категорией)
+1) 16/03/25 - Исправить отвалившийся функционал автоматического подсчета разницы времени
+2) 16/03/25 - Сделать кнопки таймера в одной стилистике с кнопками фикс-акта
+3) 16/03/25 - Добавить таймеру глобальное состояние (вкл/выкл) чтобы не исчезал при перекючении вкладок

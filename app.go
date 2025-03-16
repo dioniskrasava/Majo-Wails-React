@@ -59,15 +59,20 @@ func (a *App) GetWindowSize() (int, int) {
 	return width, height
 }
 
+// ф-я вызываемая из js
 func (a *App) SetSettings(command string, parametr int) {
-	if command == "WIDTH+" {
-		fmt.Println(parametr, " WAAAAY!")
-		WIDTH += parametr
-		a.ResizeWindow(WIDTH, HEIGHT)
-
-		widFact, heigFact := a.GetWindowSize()
-		fmt.Println("WINDOWS SIZE ---> ", widFact, heigFact)
-
+	if command == "WIDTH" {
+		// получаем фактическое значения размеров окна
+		_, heigFact := a.GetWindowSize()
+		WIDTH = parametr
+		a.ResizeWindow(parametr, heigFact)
+		fmt.Println("WINDOWS SIZE ---> ", WIDTH, heigFact)
+	} else if command == "HEIGHT" {
+		// получаем фактическое значения размеров окна
+		widthFact, _ := a.GetWindowSize()
+		HEIGHT = parametr
+		a.ResizeWindow(widthFact, parametr)
+		fmt.Println("WINDOWS SIZE ---> ", widthFact, HEIGHT)
 	}
 
 }
