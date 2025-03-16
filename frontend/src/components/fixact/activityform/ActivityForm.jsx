@@ -71,7 +71,7 @@ const ActivityForm = ({
       <div className="header-container">
         <label id="top-label">Добавление активности</label>
         <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button">
-          {showStopwatch ? "ᐃ" : "ᐁ"}
+          <i class="fa-solid fa-clock fa-lg"></i>
         </button>
       </div>
 

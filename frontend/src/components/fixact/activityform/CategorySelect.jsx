@@ -23,7 +23,7 @@ const CategorySelect = ({
         ))}
       </select>
       <button type="button" id="add-activity" onClick={handleAddTypeActivity} className="button-fixact-support">
-        …
+        <i class="fa-solid fa-list"></i>
       </button>
     </div>
   );

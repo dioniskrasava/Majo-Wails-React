@@ -1,50 +1,56 @@
 .stopwatch {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    background-color: #ffffff07;
-  }
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff07;
+}
 
-  .time-and-buttons {
-    display: flex; /* Включаем flexbox */
-    align-items: center; /* Выравниваем элементы по вертикали */
-    justify-content: center; /* Выравниваем элементы по горизонтали */
-    gap: 50px; /* Расстояние между элементами */
-  }
-  
-  .time {
-    margin-top: 10px;
-    font-size: 35px;
-    margin-bottom: 10px;
-    text-shadow: 4px 4px 1px rgba(238, 8, 8, 0.404); /* легкая тень */
-  }
-  
-  .buttons button {
-    margin: 5px;
-    padding: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    width: 30px;
-    height: 30px;
-  }
-  
-  .buttons button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  
-  .buttons button:hover:not(:disabled) {
-    background-color: #b6602e;
-  }
+.time-and-buttons {
+  display: flex; /* Включаем flexbox */
+  align-items: center; /* Выравниваем элементы по вертикали */
+  justify-content: center; /* Выравниваем элементы по горизонтали */
+  gap: 50px; /* Расстояние между элементами */
+}
 
-  .stopwatch_label{
-    font-family: 'Georgia', serif;
-    font-size: 30px;
-    text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
-  }
+.time {
+  margin-top: 10px;
+  font-size: 35px;
+  margin-bottom: 10px;
+  text-shadow: 4px 4px 1px rgba(238, 8, 8, 0.404); /* легкая тень */
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row; /* Кнопки располагаются горизонтально */
+  gap: 10px; /* Расстояние между кнопками */
+  margin-left: auto; /* Прижимаем кнопки вправо */
+}
+
+.buttons button {
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
+
+.buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.buttons button:hover:not(:disabled) {
+  background-color: #b6602e;
+}
+
+.stopwatch_label {
+  font-family: 'Georgia', serif;
+  font-size: 30px;
+  text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
+}
