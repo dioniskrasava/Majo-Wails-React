@@ -7,6 +7,8 @@ import { useFormStore } from '../../utils/store';
 
 import {calculateTotalTime } from "../utilsFixAct/timeUtils";
 
+import {useStopwatchStore} from '../../utils/store'
+
 
 
 const ActivityForm = ({
@@ -14,13 +16,16 @@ const ActivityForm = ({
   handleAddTypeActivity,
   handleAddActivity
 }) => {
-  const [showStopwatch, setShowStopwatch] = useState(false);
+
+  const {isOpen, toggleIsOpen} = useStopwatchStore();
 
  // Получаем состояние формы и функции из Zustand
  const { formData, updateFormData, setCurrentTime } = useFormStore();
 
+
+ // обертка для переключения глоб.состояния видимости таймера
   const toggleStopwatch = () => {
-    setShowStopwatch((prev) => !prev);
+    toggleIsOpen(); // Используем функцию из хранилища
   };
 
   // Обработчики изменений полей формы
@@ -41,8 +46,6 @@ const ActivityForm = ({
     updateFormData('comment', e.target.value);
   };
 
-  // ------------ДОПИСАТЬ---------------------
-  //  на случай если юзер ручками поменяет общее время!!!
   const handleTotalTimeChange = () => {
     updateFormData('totalTime', e.target.value);
   }
@@ -71,11 +74,12 @@ const ActivityForm = ({
       <div className="header-container">
         <label id="top-label">Добавление активности</label>
         <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button">
-          <i class="fa-solid fa-clock fa-lg"></i>
+          <i className="fa-solid fa-clock fa-lg"></i>
         </button>
       </div>
 
-      {showStopwatch && <Stopwatch />}
+      {/*Если состояние таймера тру, то рисуем его*/}
+      {(isOpen && <Stopwatch />)}
 
       {/* Тип активности */}
       <CategorySelect

@@ -1,4 +1,3 @@
-// src/store/store.js
 import { create } from 'zustand';
 
 // Создаем хранилище для состояния таймера
@@ -17,6 +16,13 @@ const useStopwatchStore = create((set) => ({
 
   // Увеличение времени
   incrementTime: () => set((state) => ({ time: state.time + 50 })),
+
+  // открыт ли секундомер
+  isOpen: false,
+
+   // Переключение состояния isOpen
+   toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+
 }));
 
 
