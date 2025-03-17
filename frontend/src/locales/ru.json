@@ -2,5 +2,6 @@
     "counter.title": "Счетчик: {count}",
     "counter.increment": "Увеличить",
     "counter.decrement": "Уменьшить",
-    "counter.reset": "Сбросить"
+    "counter.reset": "Сбросить",
+    "anotherComponent.title" : "Другой компонент"
   }

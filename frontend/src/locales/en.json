@@ -2,5 +2,6 @@
     "counter.title": "Counter: {count}",
     "counter.increment": "Increment",
     "counter.decrement": "Decrement",
-    "counter.reset": "Reset"
-  }
+    "counter.reset": "Reset",
+    "anotherComponent.title" : "anotherComponent"
+}
