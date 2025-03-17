@@ -9,6 +9,8 @@ import {calculateTotalTime } from "../utilsFixAct/timeUtils";
 
 import {useStopwatchStore} from '../../utils/store'
 
+import { FormattedMessage } from 'react-intl'; // multilanguage
+
 
 
 const ActivityForm = ({
@@ -72,7 +74,7 @@ const ActivityForm = ({
   return (
     <form id="form-fix-act">
       <div className="header-container">
-        <label id="top-label">Добавление активности</label>
+        <label id="top-label"><FormattedMessage id="fixact.title" defaultMessage="Добавление активности" /></label>
         <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button">
           <i className="fa-solid fa-clock fa-lg"></i>
         </button>
@@ -91,7 +93,7 @@ const ActivityForm = ({
 
       {/* Время начала активности */}
       <TimeInput
-        label="Начало :"
+        label={<FormattedMessage id="fixact.beginTime" defaultMessage="Начало" />}
         id="start-time"
         value={formData.startTime}
         onChange={handleStartTimeChange}
@@ -100,7 +102,7 @@ const ActivityForm = ({
 
       {/* Время окончания активности */}
       <TimeInput
-        label="Конец :"
+        label={<FormattedMessage id="fixact.endTime" defaultMessage="Конец" />}
         id="end-time"
         value={formData.endTime}
         onChange={handleEndTimeChange}
@@ -109,7 +111,7 @@ const ActivityForm = ({
 
       {/* Общее время */}
       <TimeInput
-        label="Общее время :"
+        label={<FormattedMessage id="fixact.totalTime" defaultMessage="Общее время" />}
         id="total-time"
         value={formData.totalTime}
         readOnly
@@ -120,14 +122,14 @@ const ActivityForm = ({
       {/* Комментарии */}
       <div className="form-row">
         <label htmlFor="comment" className="labelFormFixAct">
-          Комментарий :
+          <FormattedMessage id="fixact.commentAct" defaultMessage="Комментарий" />
         </label>
         <textarea
           id="comment"
           name="comment-activity"
           rows="2"
           cols="40"
-          placeholder="Comments"
+          placeholder={<FormattedMessage id="fixact.commentAct" defaultMessage="Ваши комментарии" />}
           value={formData.comment}
           onChange={handleCommentChange}
         />
@@ -136,7 +138,7 @@ const ActivityForm = ({
       {/* Кнопка добавления */}
       <div className="form-row">
         <button type="button" onClick={handleAddActivity} className="buttonFixActAdd">
-          Добавить запись
+          <FormattedMessage id="fixact.addAct" defaultMessage="Добавить запись" />
         </button>
       </div>
     </form>

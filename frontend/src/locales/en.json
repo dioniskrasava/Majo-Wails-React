@@ -3,5 +3,13 @@
     "counter.increment": "Increment",
     "counter.decrement": "Decrement",
     "counter.reset": "Reset",
-    "anotherComponent.title" : "anotherComponent"
+    "anotherComponent.title" : "anotherComponent",
+    "fixact.title" : "Adding an activity",
+    "fixact.typeAct" : "Type",
+    "fixact.beginTime" : "Start",
+    "fixact.endTime" : "End",
+    "fixact.totalTime" : "Total time",
+    "fixact.commentAct" : "Comment",
+    "fixact.addAct" : "Add an entry",
+    "fixact.commentPlaceHolder" : "Your comments"
 }

@@ -3,5 +3,14 @@
     "counter.increment": "Увеличить",
     "counter.decrement": "Уменьшить",
     "counter.reset": "Сбросить",
-    "anotherComponent.title" : "Другой компонент"
-  }
+    "anotherComponent.title" : "Другой компонент",
+    "fixact.title" : "Добавление активности",
+    "fixact.typeAct" : "Тип",
+    "fixact.beginTime" : "Начало",
+    "fixact.endTime" : "Конец",
+    "fixact.totalTime" : "Общее время",
+    "fixact.commentAct" : "Комментарий",
+    "fixact.addAct" : "Добавить запись",
+    "fixact.commentPlaceHolder" : "Комментарии"
+}
+

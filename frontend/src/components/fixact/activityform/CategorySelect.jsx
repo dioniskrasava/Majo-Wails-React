@@ -1,6 +1,8 @@
 // src/components/fixact/activityform/CategorySelect.jsx
 import React from 'react';
 
+import { FormattedMessage } from 'react-intl'; // multilanguage
+
 const CategorySelect = ({
   categories,
   activityType,
@@ -9,7 +11,9 @@ const CategorySelect = ({
 }) => {
   return (
     <div className="form-row">
-      <label htmlFor="activity-type" className="labelFormFixAct">Тип :</label>
+      <label htmlFor="activity-type" className="labelFormFixAct">
+        <FormattedMessage id="fixact.typeAct" defaultMessage="Тип" />
+      </label>
       <select
         id="activity-type"
         className="select-field"
