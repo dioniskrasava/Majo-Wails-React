@@ -10,6 +10,7 @@ import {calculateTotalTime } from "../utilsFixAct/timeUtils";
 import {useStopwatchStore} from '../../utils/store'
 
 import { FormattedMessage } from 'react-intl'; // multilanguage
+import { useIntl } from 'react-intl';
 
 
 
@@ -68,6 +69,12 @@ const ActivityForm = ({
     updateFormData("totalTime", totalTime)
   }
 
+  const intl = useIntl(); // хук для вставки мультиязычного значения в placeholder комментария
+
+  const placeholderText = intl.formatMessage({
+    id: 'fixact.commentPlaceHolder',
+    defaultMessage: 'Ваши комментарии',
+  });
 
   
 
@@ -129,7 +136,7 @@ const ActivityForm = ({
           name="comment-activity"
           rows="2"
           cols="40"
-          placeholder={<FormattedMessage id="fixact.commentAct" defaultMessage="Ваши комментарии" />}
+          placeholder={placeholderText}
           value={formData.comment}
           onChange={handleCommentChange}
         />

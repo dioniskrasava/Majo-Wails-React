@@ -1,6 +1,12 @@
 /* App.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('../../assets/fonts/Oswald-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
 #globalApp{
     display: flex;
@@ -44,8 +50,7 @@ label {
     font-family: "Oswald", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    font-weight: bold;
-    font-size: 22px;
+    font-size: 25px;
     width: 140px;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
 }
@@ -69,6 +74,7 @@ select,
 input,
 textarea,
 button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     flex: 1; /* Растягиваемые поля ввода и выпадающий список */
     padding: 8px;
     font-size: 14px;

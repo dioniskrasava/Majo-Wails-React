@@ -6,16 +6,14 @@ const Sidebar = ({ onButtonClick }) => {
     <div className="sidebar">
       <div className="sidebar-buttons">
       <button className="sidebar-button" onClick={() => onButtonClick('AppFixAct')}>
-        α
+        <i class="fa-solid fa-newspaper"></i>
+        
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
         β
       </button>
-      <button className="sidebar-button" onClick={() => onButtonClick('Stopwatch')}>
-        t
-      </button>
       <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>
-        ...
+        <i class="fa-solid fa-wrench"></i>
       </button>
       {/* Добавьте другие кнопки */}
       </div>

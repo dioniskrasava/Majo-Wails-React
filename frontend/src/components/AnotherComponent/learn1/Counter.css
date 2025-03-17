@@ -1,0 +1,12 @@
+.counterButton{
+    margin-left: 5px;
+}
+
+.counterButton:hover{
+    background-color: brown;
+    text-shadow: 3px 3px 3px rgb(0, 0, 0);
+}
+
+.counterLabel{
+    text-shadow: 3px 3px 3px rgb(0, 0, 0);
+}

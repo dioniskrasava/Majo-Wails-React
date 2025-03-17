@@ -9,7 +9,6 @@ const ContentManager = ({ activeComponent, setLocale, locale }) => {
   const components = {
     AppFixAct: <AppFixAct />,
     AnotherComponent: <AnotherComponent />,
-    Stopwatch: <Stopwatch />,
     SettApp: <SettApp />, // Пока не передаем пропсы здесь
   };
 

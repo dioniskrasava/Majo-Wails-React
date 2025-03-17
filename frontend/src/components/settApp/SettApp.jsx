@@ -12,14 +12,16 @@ const SettApp = ({ setLocale, locale }) => { // Принимаем setLocale и 
         </div>
         <div>
           <button
+            className="buttonSettApp"
             onClick={() => setLocale('en')}
-            style={{ backgroundColor: locale === 'en' ? '#4CAF50' : '#f1f1f1' }} // Подсветка активного языка
+            style={{ backgroundColor: locale === 'en' ? '#ff1010' : '#a7a749' }} // Подсветка активного языка
           >
             English
           </button>
           <button
+            className="buttonSettApp"
             onClick={() => setLocale('ru')}
-            style={{ backgroundColor: locale === 'ru' ? '#4CAF50' : '#f1f1f1' }} // Подсветка активного языка
+            style={{ backgroundColor: locale === 'ru' ? '#ff1010' : '#a7a749' }} // Подсветка активного языка
           >
             Русский
           </button>
