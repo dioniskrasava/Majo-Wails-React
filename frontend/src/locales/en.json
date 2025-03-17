@@ -1,0 +1,6 @@
+{
+    "counter.title": "Counter: {count}",
+    "counter.increment": "Increment",
+    "counter.decrement": "Decrement",
+    "counter.reset": "Reset"
+  }

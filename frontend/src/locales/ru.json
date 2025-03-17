@@ -1,0 +1,6 @@
+{
+    "counter.title": "Счетчик: {count}",
+    "counter.increment": "Увеличить",
+    "counter.decrement": "Уменьшить",
+    "counter.reset": "Сбросить"
+  }

@@ -1,24 +1,27 @@
 import React from 'react';
 import AppFixAct from '../fixact/AppFixAct';
-// Импортируйте другие компоненты, которые будут отображаться
-import AnotherComponent from '../AnotherComponent/AnotherComponent'; // Импортируйте другие компоненты
+import AnotherComponent from '../AnotherComponent/AnotherComponent';
 import Stopwatch from '../Stopwatch/Stopwatch';
 import SettApp from '../settApp/SettApp';
 
-
-const components = {
-  AppFixAct: <AppFixAct />,
-  AnotherComponent: <AnotherComponent />,
-  Stopwatch: <Stopwatch />,
-  SettApp: <SettApp />
-  // Добавьте другие компоненты
-};
-
-
 // ГЛАВНЫЙ ОТРИСОВЩИК АКТИВНОГО ПРИЛОЖЕНИЯ
-const ContentManager = ({ activeComponent }) => {
-  return components[activeComponent] || <AppFixAct />; // По умолчанию отображаем AppFixAct
-};
+const ContentManager = ({ activeComponent, setLocale, locale }) => {
+  const components = {
+    AppFixAct: <AppFixAct />,
+    AnotherComponent: <AnotherComponent />,
+    Stopwatch: <Stopwatch />,
+    SettApp: <SettApp />, // Пока не передаем пропсы здесь
+  };
 
+  // Получаем компонент для активного приложения
+  const Component = components[activeComponent] || <AppFixAct />;
+
+  // Если активный компонент - SettApp, передаем setLocale и locale
+  if (activeComponent === 'SettApp') {
+    return React.cloneElement(Component, { setLocale, locale });
+  }
+
+  return Component;
+};
 
 export default ContentManager;
