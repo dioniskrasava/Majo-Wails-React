@@ -8,10 +8,10 @@ const Sidebar = ({ onButtonClick }) => {
       <button className="sidebar-button" onClick={() => onButtonClick('AppFixAct')}>
         <i class="fa-solid fa-newspaper"></i>
       </button>
-      <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
-        βT
-      </button>
       <button className="sidebar-button" onClick={() => onButtonClick('TableApp')}>
+        β-T
+      </button>
+      <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
         β
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>
