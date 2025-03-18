@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Oswald';
+  src: url('../../assets/fonts/Oswald-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .stopwatch {
   text-align: center;
   font-family: Arial, sans-serif;
@@ -12,10 +19,11 @@
 }
 
 .time {
+  font-family: 'Oswald';
   margin-top: 10px;
   font-size: 35px;
   margin-bottom: 10px;
-  text-shadow: 4px 4px 1px rgba(238, 8, 8, 0.404); /* легкая тень */
+  text-shadow: 2px 2px 1px rgba(8, 62, 238, 0.404); /* легкая тень */
 }
 
 .buttons {
