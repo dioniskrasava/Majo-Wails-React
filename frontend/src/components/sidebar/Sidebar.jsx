@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbTack, faPen, faGear } from '@fortawesome/free-solid-svg-icons';
+
 const Sidebar = ({ onButtonClick }) => {
   return (
     <div className="sidebar">
       <div className="sidebar-buttons">
       <button className="sidebar-button" onClick={() => onButtonClick('AppFixAct')}>
-        <i class="fa-solid fa-newspaper"></i>
+        <FontAwesomeIcon icon={faThumbTack} size='lg' className='iconsSideBar'/>
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('TableApp')}>
-        β-T
+        <FontAwesomeIcon icon={faPen} size='lg' /> 
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
         β
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>
-        <i class="fa-solid fa-wrench"></i>
+        <FontAwesomeIcon icon={faGear} size='lg' />
       </button>
       {/* Добавьте другие кнопки */}
       </div>

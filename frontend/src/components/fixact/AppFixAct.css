@@ -98,7 +98,7 @@ textarea {
 }
 
 button {
-    background-color: #398ad5; /* Синий цвет кнопок */
+    background: linear-gradient(135deg, #1a73e8, #004ba0); /* Градиентный фон */
     color: white;
     border: none;
     cursor: pointer;
@@ -112,16 +112,36 @@ button {
 }
 
 button:hover {  
+    background: linear-gradient(135deg, #1a73e8, #418a19); /* Градиентный фон */
     box-shadow: 0 6px 4px rgba(0, 0, 0, 0.3); /*тень*/
     /*letter-spacing: 0.03em; /* немного увеличить расстояние между буквами */
 }
 
+#referenceButton{
+  position: fixed; /* Фиксированное позиционирование */
+  top: 20px;      /* Отступ сверху */
+  left: 60px;    /* Отступ справа */
+  padding: 5px 10px; /* Внутренние отступы */
+  font-size: 16px;    /* Размер текста */
+  background-color: #1a73e8; /* Цвет фона */
+  color: white;       /* Цвет текста */
+  border: none;       /* Убираем границу */
+  border-radius: 5px; /* Закругленные углы */
+  cursor: pointer;    /* Курсор в виде указателя */
+  z-index: 1000;      /* Чтобы кнопка была поверх других элементов */
+}
+
+#referenceButton:hover{
+    background: linear-gradient(135deg, #1a73e8, #418a19); /* Градиентный фон */
+}
+
 .button-fixact-support:hover{
-    background-color: #ba5a27;
+    background: linear-gradient(135deg, #1a73e8, #ba5a27); /* Градиентный фон */
+    
 }
 
 .buttonFixActAdd:hover{
-    background-color: #418a19;
+    background: linear-gradient(135deg, #1a73e8, #418a19); /* Градиентный фон */
 }
 
 input:hover,

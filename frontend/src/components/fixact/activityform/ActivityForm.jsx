@@ -12,6 +12,11 @@ import {useStopwatchStore} from '../../utils/store'
 import { FormattedMessage } from 'react-intl'; // multilanguage
 import { useIntl } from 'react-intl';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+
+import Swal from "sweetalert2";
+
 
 
 const ActivityForm = ({
@@ -76,14 +81,20 @@ const ActivityForm = ({
     defaultMessage: 'Ваши комментарии',
   });
 
+  const ShowReferenceInfo = () => {
+    Swal.fire("SweetAlert2 is working!");
+  }
   
 
   return (
+    
+  <>
+  <button id='referenceButton' onClick={ShowReferenceInfo}>?</button>
     <form id="form-fix-act">
       <div className="header-container">
         <label id="top-label"><FormattedMessage id="fixact.title" defaultMessage="Добавление активности" /></label>
         <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button">
-          <i className="fa-solid fa-clock fa-lg"></i>
+          <FontAwesomeIcon icon={faClock} size='lg' /> 
         </button>
       </div>
 
@@ -149,6 +160,7 @@ const ActivityForm = ({
         </button>
       </div>
     </form>
+  </>
   );
 };
 
