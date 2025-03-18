@@ -1,0 +1,59 @@
+/* Основные стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e1e1e; /* Темный фон таблицы */
+    color: #ffffff; /* Белый текст */
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Стили для заголовков столбцов */
+  .thClass {
+    padding: 12px;
+    text-align: left;
+    background: linear-gradient(135deg, #1a73e8, #004ba0); /* Градиентный фон для заголовков */
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #004ba0;
+    transition: background 0.3s ease;
+  }
+  
+  /* Анимация при наведении на заголовок */
+  .thClass:hover {
+    background: linear-gradient(135deg, #004ba0, #1a73e8);
+  }
+  
+  /* Стили для ячеек таблицы */
+  .cellTable {
+    padding: 12px;
+    border-bottom: 1px solid #333333; /* Темная граница между строками */
+    transition: all 0.3s ease;
+  }
+  
+  /* Анимация при наведении на ячейку */
+  .cellTable:hover {
+    background-color: rgba(26, 115, 232, 0.1); /* Полупрозрачный синий фон */
+    transform: scale(1.02); /* Легкое увеличение */
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.3); /* Тень с синим оттенком */
+    border-bottom: 1px solid #1a73e8; /* Синяя граница снизу */
+  }
+  
+  /* Стили для четных строк (опционально) */
+  tr:nth-child(even) {
+    background-color: #2a2a2a; /* Темный фон для четных строк */
+  }
+  
+  /* Стили для нечетных строк (опционально) */
+  tr:nth-child(odd) {
+    background-color: #1e1e1e; /* Еще более темный фон для нечетных строк */
+  }
+  
+  /* Стили для строки при наведении */
+  tr:hover {
+    background-color: rgba(26, 115, 232, 0.05); /* Легкий синий фон при наведении на строку */
+  }

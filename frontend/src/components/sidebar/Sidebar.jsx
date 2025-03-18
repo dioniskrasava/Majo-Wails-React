@@ -7,9 +7,11 @@ const Sidebar = ({ onButtonClick }) => {
       <div className="sidebar-buttons">
       <button className="sidebar-button" onClick={() => onButtonClick('AppFixAct')}>
         <i class="fa-solid fa-newspaper"></i>
-        
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
+        βT
+      </button>
+      <button className="sidebar-button" onClick={() => onButtonClick('TableApp')}>
         β
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>

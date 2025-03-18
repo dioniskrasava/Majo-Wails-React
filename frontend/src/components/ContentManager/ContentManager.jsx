@@ -3,6 +3,7 @@ import AppFixAct from '../fixact/AppFixAct';
 import AnotherComponent from '../AnotherComponent/AnotherComponent';
 import Stopwatch from '../Stopwatch/Stopwatch';
 import SettApp from '../settApp/SettApp';
+import TableApp from '../TableApp/TableApp'
 
 // ГЛАВНЫЙ ОТРИСОВЩИК АКТИВНОГО ПРИЛОЖЕНИЯ
 const ContentManager = ({ activeComponent, setLocale, locale }) => {
@@ -10,6 +11,7 @@ const ContentManager = ({ activeComponent, setLocale, locale }) => {
     AppFixAct: <AppFixAct />,
     AnotherComponent: <AnotherComponent />,
     SettApp: <SettApp />, // Пока не передаем пропсы здесь
+    TableApp: <TableApp/>,
   };
 
   // Получаем компонент для активного приложения
