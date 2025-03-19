@@ -1,39 +1,36 @@
+// src/utils/store.js
 import { create } from 'zustand';
 
 // Создаем хранилище для состояния таймера
 const useStopwatchStore = create((set) => ({
   time: 0, // Текущее время
   isRunning: false, // Состояние работы таймера
+  history: [], // Массив для хранения событий
 
-  // Запуск таймера
-  start: () => set({ isRunning: true }),
+  start: () => set({ isRunning: true }), // Запуск таймера
+  stop: () => set({ isRunning: false }), // Остановка таймера
+  reset: () => set({ time: 0, isRunning: false }), // Сброс таймера (не затрагивает логи)
+  incrementTime: () => set((state) => ({ time: state.time + 50 })), // Увеличение времени
+  isOpen: false, // Открыт ли секундомер
 
-  // Остановка таймера
-  stop: () => set({ isRunning: false }),
+  // Переключение состояния isOpen
+  toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
 
-  // Сброс таймера
-  reset: () => set({ time: 0, isRunning: false }),
+  // Функция для добавления события
+  addEvent: (event) => set((state) => ({ history: [...state.history, event] })),
 
-  // Увеличение времени
-  incrementTime: () => set((state) => ({ time: state.time + 50 })),
-
-  // открыт ли секундомер
-  isOpen: false,
-
-   // Переключение состояния isOpen
-   toggleIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
-
+  // Функция для очистки логов
+  clearHistory: () => set({ history: [] }),
 }));
-
 
 // Хранилище для формы
 const useFormStore = create((set) => ({
   formData: {
     activityType: '', // Тип активности
-    startTime: '',    // Время начала
-    endTime: '',      // Время окончания
-    totalTime: '',    // Общее время
-    comment: '',      // Комментарий
+    startTime: '', // Время начала
+    endTime: '', // Время окончания
+    totalTime: '', // Общее время
+    comment: '', // Комментарий
   },
 
   // Функция для обновления данных формы
@@ -61,6 +58,5 @@ const useFormStore = create((set) => ({
     }));
   },
 }));
-
 
 export { useStopwatchStore, useFormStore };

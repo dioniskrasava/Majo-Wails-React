@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import CategorySelect from './CategorySelect';
 import TimeInput from './TimeInput';
 import Stopwatch from '../../Stopwatch/Stopwatch';
+
+// хранилище состояний для формы (и функция изменений состояний формы)
 import { useFormStore } from '../../utils/store';
 
 /*функция подсчета времени*/
