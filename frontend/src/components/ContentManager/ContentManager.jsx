@@ -1,7 +1,6 @@
 import React from 'react';
 import AppFixAct from '../fixact/AppFixAct';
 import AnotherComponent from '../AnotherComponent/AnotherComponent';
-import Stopwatch from '../Stopwatch/Stopwatch';
 import SettApp from '../settApp/SettApp';
 import TableApp from '../TableApp/TableApp'
 

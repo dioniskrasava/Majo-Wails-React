@@ -1,6 +1,6 @@
 /* App.css */
 
-
+/*ПОДКЛЮЧАЕМ ШРИФТ*/
 @font-face {
     font-family: 'Oswald';
     src: url('../../assets/fonts/Oswald-VariableFont_wght.ttf') format('truetype');
@@ -8,24 +8,6 @@
     font-style: normal;
   }
 
-#globalApp{
-    display: flex;
-}
-
-#App {
-    flex-grow: 1;
-    font-family: Arial, sans-serif;
-    margin: 5px;
-    padding: 50px;
-    background-color: #ffffff01; /* Полупрозрачный белый фон */
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
-    width: 100%;
-    position: fixed; /* Закрепляем сайдбар */
-    left: 50px; /* Прижимаем к левой части экрана */
-    top: 0px; /* Прижимаем к верхней части экрана */
-}
 
 form {
     display: flex;

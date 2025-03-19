@@ -10,7 +10,7 @@ import (
 )
 
 var WIDTH int = 750
-var HEIGHT int = 600
+var HEIGHT int = 550
 
 // App struct
 type App struct {
