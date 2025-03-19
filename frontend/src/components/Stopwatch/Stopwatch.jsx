@@ -1,4 +1,3 @@
-// src/components/Stopwatch/Stopwatch.jsx
 import React, { useEffect } from 'react';
 import './Stopwatch.css';
 import { useStopwatchStore } from '../utils/store';
@@ -16,9 +15,10 @@ const Stopwatch = () => {
     incrementTime,
     history,
     addEvent,
-    clearHistory, // Добавляем функцию очистки логов
+    clearHistory,
+    startTime,
   } = useStopwatchStore();
-  const { setCurrentTime } = useFormStore();
+  const { formData, setCurrentTime } = useFormStore(); // Добавляем formData
 
   // Эффект для обновления времени
   useEffect(() => {
@@ -33,12 +33,12 @@ const Stopwatch = () => {
     return () => clearInterval(interval);
   }, [isRunning, incrementTime]);
 
-  // Форматирование времени
+  // Форматирование времени (без миллисекунд)
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
-    const milliseconds = Math.floor((time % 1000) / 10);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
+    const milliseconds = Math.floor((time % 1000) / 10); // Округляем до двух знаков
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
   };
 
   // Обработчик старта
@@ -51,14 +51,9 @@ const Stopwatch = () => {
   // Обработчик паузы
   const handleStop = () => {
     stop();
-    // Находим последнее событие "старт"
-    const lastStartEvent = history.findLast((event) => event.type === 'start');
-    if (lastStartEvent) {
-      const startTime = lastStartEvent.time;
-      const pauseTime = formatTime(time);
-      const duration = formatTime(time - lastStartEvent.time); // Вычисляем разницу
-      addEvent({ type: 'pause', startTime, pauseTime, duration }); // Добавляем событие "пауза" с разницей
-    }
+    const pauseTime = formatTime(time);
+    const duration = formatTime(time - startTime); // Вычисляем разницу
+    addEvent({ type: 'pause', startTime: formatTime(startTime), pauseTime, duration }); // Добавляем событие "пауза" с разницей
   };
 
   // Обработчик сброса (только времени, не логов)
@@ -79,11 +74,11 @@ const Stopwatch = () => {
       } else if (event.type === 'pause') {
         return (
           <div key={index}>
-            Старт: {event.startTime} --- Пауза: {event.pauseTime} ({event.duration})
+            ▶️ {event.startTime} --- ⏸️ {event.pauseTime} ({event.duration}) — {formData.activityType}
           </div>
         );
       } else if (event.type === 'reset') {
-        return <div key={index}>Сброс: {event.time}</div>;
+        return <div key={index}>⏹️ {event.time}</div>;
       }
       return null;
     });

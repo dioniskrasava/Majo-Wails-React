@@ -63,8 +63,65 @@
   text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.404); /* легкая тень */
 }
 
+/* СТИЛИ ДЛЯ ЛОГОВ*/
 .history {
   margin-top: 1rem;
   font-size: 1rem;
-  color: #666;
+  width: 100%;
+  max-width: 400px; /* Ограничиваем ширину для удобства чтения */
+}
+
+.history div {
+  background: rgba(0, 0, 0, 0.6); /* Полупрозрачный тёмный фон */
+  color: #fff; /* Белый текст */
+  padding: 0.75rem 1rem; /* Отступы внутри каждого лога */
+  margin-bottom: 0.5rem; /* Отступ между логами */
+  border-radius: 8px; /* Скруглённые углы */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Тонкая светлая граница */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Тень для глубины */
+  backdrop-filter: blur(5px); /* Лёгкое размытие фона */
+  transition: all 0.3s ease; /* Плавные анимации */
+
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              linear-gradient(135deg, #00b4db, #0083b0);
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+}
+
+.history div:hover {
+  transform: translateY(-2px); /* Лёгкий подъём при наведении */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Увеличиваем тень при наведении */
+}
+
+/* Стили для иконок и текста */
+.history div::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  background: linear-gradient(135deg, #00b4db, #0083b0); /* Синий градиент для иконок */
+}
+
+.history div span {
+  font-weight: bold;
+  color: #00b4db; /* Синий цвет для акцентов */
+}
+
+/* Анимация для появления новых логов */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history div {
+  animation: fadeIn 0.5s ease; /* Анимация появления */
 }

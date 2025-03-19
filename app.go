@@ -9,8 +9,8 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-var WIDTH int = 670
-var HEIGHT int = 500
+var WIDTH int = 750
+var HEIGHT int = 600
 
 // App struct
 type App struct {

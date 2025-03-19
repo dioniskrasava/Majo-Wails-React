@@ -6,10 +6,11 @@ const useStopwatchStore = create((set) => ({
   time: 0, // Текущее время
   isRunning: false, // Состояние работы таймера
   history: [], // Массив для хранения событий
+  startTime: 0, // Время старта в миллисекундах
 
-  start: () => set({ isRunning: true }), // Запуск таймера
+  start: () => set((state) => ({ isRunning: true, startTime: state.time })), // Запуск таймера
   stop: () => set({ isRunning: false }), // Остановка таймера
-  reset: () => set({ time: 0, isRunning: false }), // Сброс таймера (не затрагивает логи)
+  reset: () => set({ time: 0, isRunning: false }), // Сброс таймера
   incrementTime: () => set((state) => ({ time: state.time + 50 })), // Увеличение времени
   isOpen: false, // Открыт ли секундомер
 
