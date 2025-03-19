@@ -117,13 +117,14 @@ button:hover {
     /*letter-spacing: 0.03em; /* немного увеличить расстояние между буквами */
 }
 
+/*кнопка справки*/
 #referenceButton{
   position: fixed; /* Фиксированное позиционирование */
-  top: 20px;      /* Отступ сверху */
+  top: 10px;      /* Отступ сверху */
   left: 60px;    /* Отступ справа */
   padding: 5px 10px; /* Внутренние отступы */
   font-size: 16px;    /* Размер текста */
-  background-color: #1a73e8; /* Цвет фона */
+  background: linear-gradient(135deg, #1a73e849, #004ba048); /* Градиентный фон */
   color: white;       /* Цвет текста */
   border: none;       /* Убираем границу */
   border-radius: 5px; /* Закругленные углы */
