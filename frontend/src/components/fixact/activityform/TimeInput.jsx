@@ -1,6 +1,10 @@
 // src/components/fixact/activityform/TimeInput.jsx
 import React from 'react';
 
+/*Импорты иконок*/
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 const TimeInput = ({
   label,
   id,
@@ -21,7 +25,7 @@ const TimeInput = ({
         readOnly={readOnly}
       />
       <button type="button" id={`set-${id}`} onClick={onSetCurrentTime} className="button-fixact-support">
-        <i className="fa-solid fa-arrow-left"></i>
+        <FontAwesomeIcon icon={faArrowLeft} size='lg' />
       </button>
     </div>
   );

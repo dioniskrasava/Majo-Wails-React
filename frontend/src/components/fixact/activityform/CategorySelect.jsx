@@ -3,6 +3,10 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl'; // multilanguage
 
+/*Импорты иконок*/
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons';
+
 const CategorySelect = ({
   categories,
   activityType,
@@ -27,7 +31,7 @@ const CategorySelect = ({
         ))}
       </select>
       <button type="button" id="add-activity" onClick={handleAddTypeActivity} className="button-fixact-support">
-        <i className="fa-solid fa-list"></i>
+        <FontAwesomeIcon icon={faList} size='lg' />
       </button>
     </div>
   );

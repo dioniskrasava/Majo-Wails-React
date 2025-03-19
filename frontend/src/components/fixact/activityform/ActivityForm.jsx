@@ -5,17 +5,25 @@ import TimeInput from './TimeInput';
 import Stopwatch from '../../Stopwatch/Stopwatch';
 import { useFormStore } from '../../utils/store';
 
+/*функция подсчета времени*/
 import {calculateTotalTime } from "../utilsFixAct/timeUtils";
 
+/*глобальные состояния для секундомера*/
 import {useStopwatchStore} from '../../utils/store'
 
+/*импорты поддержки мультиязычности*/
 import { FormattedMessage } from 'react-intl'; // multilanguage
 import { useIntl } from 'react-intl';
 
+/*Импорты иконок*/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 import Swal from "sweetalert2";
+
+import './referenceStyle.css'
+
+
 
 
 
@@ -81,8 +89,27 @@ const ActivityForm = ({
     defaultMessage: 'Ваши комментарии',
   });
 
+  const referenceText = intl.formatMessage({
+    id: 'fixact.referenceText',
+    defaultMessage: 'Ваши комментарии',
+  });
+
   const ShowReferenceInfo = () => {
-    Swal.fire("SweetAlert2 is working!");
+    Swal.fire({
+      title: 'Справка о FixAct',
+      html: `<p style="text-align: left;">${referenceText}</p>`, // Используем html вместо text
+      background: '#2d2e30',
+      confirmButtonText: 'Вернуться назад',
+      color: 'white',
+      width: '600px',
+      customClass: {
+        container: 'my-swal-container-reference',
+        popup: 'my-swal-popup-reference',
+        title: 'my-swal-title-reference',
+        confirmButton: 'my-swal-confirm-button-reference'
+      }
+      
+    });
   }
   
 
