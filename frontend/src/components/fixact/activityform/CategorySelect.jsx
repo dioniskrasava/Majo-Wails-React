@@ -7,6 +7,9 @@ import { FormattedMessage } from 'react-intl'; // multilanguage
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 
+// кастомная всплывающая подсказка для кнопок
+import TooltipCustom from '../../auxiliaryComponents/TooltipCustom'
+
 const CategorySelect = ({
   categories,
   activityType,
@@ -30,9 +33,13 @@ const CategorySelect = ({
           </option>
         ))}
       </select>
-      <button type="button" id="add-activity" onClick={handleAddTypeActivity} className="button-fixact-support">
+      <button type="button" id="add-activity" onClick={handleAddTypeActivity} 
+              className="button-fixact-support"
+              data-tooltip-id="add-type-acivity-tooltip"
+          data-tooltip-content="Добавить/редактировать категории">
         <FontAwesomeIcon icon={faList} size='lg' />
       </button>
+      <TooltipCustom id="add-type-acivity-tooltip" styleColor="green"/>
     </div>
   );
 };

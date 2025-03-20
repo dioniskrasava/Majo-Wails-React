@@ -25,6 +25,10 @@ import Swal from "sweetalert2";
 
 import './referenceStyle.css'
 
+// кастомная всплывающая подсказка для кнопок
+import TooltipCustom from '../../auxiliaryComponents/TooltipCustom'
+
+
 
 
 
@@ -118,13 +122,20 @@ const ActivityForm = ({
   return (
     
   <>
-  <button id='referenceButton' onClick={ShowReferenceInfo}>?</button>
+  <button id='referenceButton' onClick={ShowReferenceInfo} 
+          data-tooltip-id="reference-tooltip"
+          data-tooltip-content="Справка">?</button>
+          <TooltipCustom id="reference-tooltip" styleColor="orange"/>
+          
     <form id="form-fix-act">
       <div className="header-container">
         <label id="top-label"><FormattedMessage id="fixact.title" defaultMessage="Добавление активности" /></label>
-        <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button">
+        <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button" 
+          data-tooltip-id="stopwatch-tooltip"
+          data-tooltip-content="Открыть секундомер">
           <FontAwesomeIcon icon={faClock} size='lg' /> 
         </button>
+        <TooltipCustom id="stopwatch-tooltip" styleColor="green"/>
       </div>
 
       {/*Если состояние таймера тру, то рисуем его*/}

@@ -16,6 +16,7 @@
     "react-dom": "^18.2.0",
     "react-intl": "^7.1.6",
     "react-table": "^7.8.0",
+    "react-tooltip": "^5.28.0",
     "sweetalert2": "^11.17.2",
     "zustand": "^5.0.3"
   },
