@@ -33,7 +33,7 @@ const TooltipCustom = ({ id, styleColor }) => {
   return (
     <Tooltip
       id={id}
-      delayShow={2000}
+      delayShow={200} /*ИЗМЕНИТЬ ПОСЛЕ ТЕСТИРОВАНИЯ НА 2000*/
       delayHide={300}
       place="top"
       style={tooltipStyle}

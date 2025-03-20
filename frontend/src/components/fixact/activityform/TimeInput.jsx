@@ -8,6 +8,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 // кастомная всплывающая подсказка для кнопок
 import TooltipCustom from '../../auxiliaryComponents/TooltipCustom'
 
+import { useIntl } from 'react-intl'; // для мультиязычной подсказки
+
+
 const TimeInput = ({
   label,
   id,
@@ -16,6 +19,12 @@ const TimeInput = ({
   readOnly,
   onSetCurrentTime,
 }) => {
+
+const intl = useIntl(); // хук для вытаскивания мультЯз значения и создания переменной
+// мультиязычные переменные
+const supportTimeButtonTextTooltip = intl.formatMessage({ id: 'fixact.supportTimeBitton-tooltip', defaultMessage: 'Вставить время'})
+
+
   return (
     <div className="form-row">
       <label htmlFor={id} className="labelFormFixAct">{label}</label>
@@ -33,7 +42,7 @@ const TimeInput = ({
         onClick={onSetCurrentTime} 
         className="button-fixact-support"
         data-tooltip-id="time-support-tooltip"
-        data-tooltip-content="Вставить время">
+        data-tooltip-content={supportTimeButtonTextTooltip}>
         <FontAwesomeIcon icon={faArrowLeft} size='lg' />
       </button>
       <TooltipCustom id="time-support-tooltip" styleColor="grayBlue"/>

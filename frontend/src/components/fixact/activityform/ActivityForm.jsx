@@ -102,6 +102,10 @@ const ActivityForm = ({
     defaultMessage: 'Текст справки не загрузился!!!!!',
   });
 
+  // мультиязычные переменные
+  const referenceTooltipText = intl.formatMessage({ id: 'fixact.reference-tooltip', defaultMessage: 'Справка'})
+  const stopwatchTooltipText = intl.formatMessage({ id: 'fixact.stopwatch-tooltip', defaultMessage: 'Открыть секундомер'})
+
   // вывод справки о приложении
   const ShowReferenceInfo = () => {
     Swal.fire({
@@ -121,12 +125,11 @@ const ActivityForm = ({
   }
   
 
-  return (
-    
+  return ( 
   <>
   <button id='referenceButton' onClick={ShowReferenceInfo} 
           data-tooltip-id="reference-tooltip"
-          data-tooltip-content="Справка">?</button>
+          data-tooltip-content={referenceTooltipText}>?</button>
           <TooltipCustom id="reference-tooltip" styleColor="grayBlue"/>
           
     <form id="form-fix-act">
@@ -134,7 +137,7 @@ const ActivityForm = ({
         <label id="top-label"><FormattedMessage id="fixact.title" defaultMessage="Добавление активности" /></label>
         <button type="button" onClick={toggleStopwatch} className="toggle-stopwatch-button" 
           data-tooltip-id="stopwatch-tooltip"
-          data-tooltip-content="Открыть секундомер">
+          data-tooltip-content={stopwatchTooltipText}>
           <FontAwesomeIcon icon={faClock} size='lg' /> 
         </button>
         <TooltipCustom id="stopwatch-tooltip" styleColor="grayBlue"/>

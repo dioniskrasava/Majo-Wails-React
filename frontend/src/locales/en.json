@@ -12,5 +12,9 @@
     "fixact.commentAct" : "Comment",
     "fixact.addAct" : "Add an entry",
     "fixact.commentPlaceHolder" : "Your comments",
-    "fixact.referenceText" : "O my God! You crazy fucker-fucker"
+    "fixact.referenceText" : "O my God! You crazy fucker-fucker [ДОРАБОТАТЬ!]", 
+    "fixact.reference-tooltip" : "Reference",
+    "fixact.stopwatch-tooltip" : "Open stopwatch",
+    "fixact.addTypeActivity-tooltip" : "Add/Edit categories",
+    "fixact.supportTimeBitton-tooltip" : "Insert Time" 
 }

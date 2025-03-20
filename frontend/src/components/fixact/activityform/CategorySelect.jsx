@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl'; // multilanguage
+import { useIntl } from 'react-intl';
 
 /*Импорты иконок*/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +17,13 @@ const CategorySelect = ({
   handleActivityTypeChange,
   handleAddTypeActivity,
 }) => {
+
+
+const intl = useIntl(); // хук для вытаскивания мультЯз значения и создания переменной
+// мультиязычные переменные
+const addTypeActivityTooltip = intl.formatMessage({ id: 'fixact.addTypeActivity-tooltip', defaultMessage: 'Добавить/редактировать категории'})
+
+
   return (
     <div className="form-row">
       <label htmlFor="activity-type" className="labelFormFixAct">
@@ -36,7 +44,7 @@ const CategorySelect = ({
       <button type="button" id="add-activity" onClick={handleAddTypeActivity} 
               className="button-fixact-support"
               data-tooltip-id="add-type-acivity-tooltip"
-          data-tooltip-content="Добавить/редактировать категории">
+              data-tooltip-content={addTypeActivityTooltip}>
         <FontAwesomeIcon icon={faList} size='lg' />
       </button>
       <TooltipCustom id="add-type-acivity-tooltip" styleColor="grayBlue"/>
