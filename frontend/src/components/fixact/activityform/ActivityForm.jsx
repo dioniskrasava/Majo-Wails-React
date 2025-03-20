@@ -90,16 +90,19 @@ const ActivityForm = ({
 
   const intl = useIntl(); // хук для вставки мультиязычного значения в placeholder комментария
 
+  // мультиязычность текста подсказки в поле комментов
   const placeholderText = intl.formatMessage({
     id: 'fixact.commentPlaceHolder',
     defaultMessage: 'Ваши комментарии',
   });
 
+  // мультиязычность для текста справки
   const referenceText = intl.formatMessage({
     id: 'fixact.referenceText',
-    defaultMessage: 'Ваши комментарии',
+    defaultMessage: 'Текст справки не загрузился!!!!!',
   });
 
+  // вывод справки о приложении
   const ShowReferenceInfo = () => {
     Swal.fire({
       title: 'Справка о FixAct',
@@ -114,7 +117,6 @@ const ActivityForm = ({
         title: 'my-swal-title-reference',
         confirmButton: 'my-swal-confirm-button-reference'
       }
-      
     });
   }
   
@@ -125,7 +127,7 @@ const ActivityForm = ({
   <button id='referenceButton' onClick={ShowReferenceInfo} 
           data-tooltip-id="reference-tooltip"
           data-tooltip-content="Справка">?</button>
-          <TooltipCustom id="reference-tooltip" styleColor="orange"/>
+          <TooltipCustom id="reference-tooltip" styleColor="grayBlue"/>
           
     <form id="form-fix-act">
       <div className="header-container">
@@ -135,7 +137,7 @@ const ActivityForm = ({
           data-tooltip-content="Открыть секундомер">
           <FontAwesomeIcon icon={faClock} size='lg' /> 
         </button>
-        <TooltipCustom id="stopwatch-tooltip" styleColor="green"/>
+        <TooltipCustom id="stopwatch-tooltip" styleColor="grayBlue"/>
       </div>
 
       {/*Если состояние таймера тру, то рисуем его*/}

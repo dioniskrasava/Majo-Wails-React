@@ -39,7 +39,7 @@ const CategorySelect = ({
           data-tooltip-content="Добавить/редактировать категории">
         <FontAwesomeIcon icon={faList} size='lg' />
       </button>
-      <TooltipCustom id="add-type-acivity-tooltip" styleColor="green"/>
+      <TooltipCustom id="add-type-acivity-tooltip" styleColor="grayBlue"/>
     </div>
   );
 };

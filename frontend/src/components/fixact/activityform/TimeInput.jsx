@@ -36,7 +36,7 @@ const TimeInput = ({
         data-tooltip-content="Вставить время">
         <FontAwesomeIcon icon={faArrowLeft} size='lg' />
       </button>
-      <TooltipCustom id="time-support-tooltip" styleColor="blue"/>
+      <TooltipCustom id="time-support-tooltip" styleColor="grayBlue"/>
     </div>
   );
 };

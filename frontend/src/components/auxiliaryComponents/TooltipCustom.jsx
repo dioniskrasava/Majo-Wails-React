@@ -10,16 +10,8 @@ const tooltipStyles = {
     fontSize: '14px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   },
-  green: {
-    background: 'linear-gradient(135deg, rgb(102, 231, 102), rgb(26, 155, 0))',
-    color: '#fff',
-    borderRadius: '8px',
-    padding: '10px',
-    fontSize: '14px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  },
-  blue: {
-    background: 'linear-gradient(135deg, rgb(102, 121, 231), rgb(0, 23, 155))',
+  grayBlue: {
+    background: 'linear-gradient(135deg, rgb(105, 111, 148), rgb(59, 72, 146))',
     color: '#fff',
     borderRadius: '8px',
     padding: '10px',
@@ -41,7 +33,7 @@ const TooltipCustom = ({ id, styleColor }) => {
   return (
     <Tooltip
       id={id}
-      delayShow={1500}
+      delayShow={2000}
       delayHide={300}
       place="top"
       style={tooltipStyle}
