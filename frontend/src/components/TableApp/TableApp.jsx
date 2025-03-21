@@ -1,7 +1,10 @@
 import React from 'react';
 import TableComponent from './TableComponent';
 
-const App = () => {
+const TableApp = () => {
+
+  // создание данных для таблицы
+  // useMemo - хук для запоминания значений
   const data = React.useMemo(
     () => [
       { firstName: 'John', lastName: 'Doe', age: 30 },
@@ -11,11 +14,12 @@ const App = () => {
     []
   );
 
+  // создание колонок для таблицы
   const columns = React.useMemo(
     () => [
       {
-        Header: 'First Name',
-        accessor: 'firstName', // accessor is the "key" in the data
+        Header: 'First Name', // заголовок колонки
+        accessor: 'firstName', // ключ данных, который будет отображаться в этой колонке
       },
       {
         Header: 'Last Name',
@@ -29,12 +33,14 @@ const App = () => {
     []
   );
 
+  // рендер компонента
   return (
     <div>
       <h1>My Table</h1>
+      {/* Передача данных и колонок в TableComponent */}
       <TableComponent columns={columns} data={data} />
     </div>
   );
 };
 
-export default App;
+export default TableApp;
