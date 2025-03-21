@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 
 // кастомная всплывающая подсказка для кнопок
-import TooltipCustom from '../../auxiliaryComponents/TooltipCustom'
+import { TooltipCustom} from '../../auxiliaryComponents/TooltipCustom';
 
 const CategorySelect = ({
   categories,

@@ -26,8 +26,7 @@ import Swal from "sweetalert2";
 import './referenceStyle.css'
 
 // кастомная всплывающая подсказка для кнопок
-import TooltipCustom from '../../auxiliaryComponents/TooltipCustom'
-
+import { TooltipCustom, TooltipReferenceCustom } from '../../auxiliaryComponents/TooltipCustom';
 
 
 
@@ -130,7 +129,7 @@ const ActivityForm = ({
   <button id='referenceButton' onClick={ShowReferenceInfo} 
           data-tooltip-id="reference-tooltip"
           data-tooltip-content={referenceTooltipText}>?</button>
-          <TooltipCustom id="reference-tooltip" styleColor="grayBlue"/>
+          <TooltipReferenceCustom id="reference-tooltip" styleColor="grayBlue"/>
           
     <form id="form-fix-act">
       <div className="header-container">

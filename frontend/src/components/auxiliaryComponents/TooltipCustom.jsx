@@ -20,8 +20,29 @@ const tooltipStyles = {
   },
 };
 
-// Функциональный компонент с двумя пропсами
-const TooltipCustom = ({ id, styleColor }) => {
+// Всплывающая подсказка
+export const TooltipCustom = ({ id, styleColor }) => {
+  // Получаем стиль для выбранного цвета
+  const tooltipStyle = tooltipStyles[styleColor];
+
+  // Если стиль не найден, возвращаем null
+  if (!tooltipStyle) {
+    return null;
+  }
+
+  return (
+    <Tooltip
+      id={id}
+      delayShow={2000} /*ИЗМЕНИТЬ ПОСЛЕ ТЕСТИРОВАНИЯ НА 2000*/
+      delayHide={300}
+      place="top"
+      style={tooltipStyle}
+    />
+  );
+};
+
+// Всплывающая подсказка для справки (быстрая)
+export const TooltipReferenceCustom = ({ id, styleColor }) => {
   // Получаем стиль для выбранного цвета
   const tooltipStyle = tooltipStyles[styleColor];
 
@@ -40,7 +61,5 @@ const TooltipCustom = ({ id, styleColor }) => {
     />
   );
 };
-
-export default TooltipCustom;
 
 
