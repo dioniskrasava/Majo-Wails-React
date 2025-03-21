@@ -23,7 +23,7 @@ import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 import Swal from "sweetalert2";
 
-import './referenceStyle.css'
+import './styles/referenceStyle.css'
 
 // кастомная всплывающая подсказка для кнопок
 import { TooltipCustom, TooltipReferenceCustom } from '../../auxiliaryComponents/TooltipCustom';

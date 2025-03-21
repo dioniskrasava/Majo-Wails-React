@@ -1,5 +1,6 @@
 /* Стили для контейнера Select */
 .react-select-container {
+  flex: 1;
   width: 100%;
   color: rgb(0, 0, 0);
   transition: all 0.3s ease; /* Плавные переходы для всех свойств */

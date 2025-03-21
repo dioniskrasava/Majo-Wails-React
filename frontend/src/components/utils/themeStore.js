@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 // Создаем хранилище для темы
 const useThemeStore = create((set) => ({
-  isDarkMode: localStorage.getItem('theme') === 'dark', // Получаем тему из localStorage
+  isDarkMode: localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : true, // Получаем тему из localStorage
   toggleTheme: () => {
     set((state) => {
       const newTheme = !state.isDarkMode;

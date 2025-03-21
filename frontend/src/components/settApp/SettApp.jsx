@@ -8,6 +8,7 @@ const SettApp = ({ setLocale, locale }) => {
 
   // Применяем тему при загрузке компонента
   useEffect(() => {
+    console.log('Applying theme:', isDarkMode ? 'Dark' : 'Light'); // Логирование
     const rootElement = document.documentElement;
     if (isDarkMode) {
       rootElement.style.backgroundColor = '#2d2e30';
