@@ -18,6 +18,7 @@ const CategorySelect = ({
     id: 'fixact.addTypeActivity-tooltip',
     defaultMessage: 'Добавить/редактировать категории',
   });
+  const placeholderSelectText = intl.formatMessage({id:"fixact.typeSelectPlaceHolder", defaultMessage:"Выберите категорию"})
 
   // Преобразуем categories в формат для react-select
   const options = categories.map((category) => ({
@@ -44,7 +45,7 @@ const CategorySelect = ({
         value={selectedOption}
         onChange={handleSelectChange}
         options={options}
-        placeholder="Выберите категорию"
+        placeholder={placeholderSelectText}
         classNamePrefix="react-select"
       />
       <button

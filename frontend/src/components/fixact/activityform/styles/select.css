@@ -1,29 +1,95 @@
+/* Стили для контейнера Select */
 .react-select-container {
   width: 100%;
-  color: black;
+  color: rgb(0, 0, 0);
+  transition: all 0.3s ease; /* Плавные переходы для всех свойств */
 }
 
+/* Стили для основного элемента управления (поле выбора) */
 .react-select__control {
   border-radius: 8px;
   border: 1px solid #ccc;
   box-shadow: none;
+  transition: all 0.3s ease; /* Плавные переходы для всех свойств */
+  background-color: #f9f9f9; /* Легкий фон для поля */
 }
 
+/* Стили для состояния фокуса */
 .react-select__control--is-focused {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  background-color: #fff; /* Белый фон при фокусе */
 }
 
+/* Стили для выпадающего меню */
 .react-select__menu {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease; /* Анимация появления меню */
 }
 
-.select-field {
-  transition: all 0.3s ease;
+/* Анимация появления меню */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.select-field:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Стили для опций в выпадающем меню */
+.react-select__option {
+  padding: 8px 12px;
+  transition: background-color 0.2s ease, color 0.2s ease; /* Плавные переходы */
+}
+
+/* Стили для опции при наведении */
+.react-select__option:hover {
+  background-color: #007bff; /* Синий фон при наведении */
+  color: #fff; /* Белый текст при наведении */
+}
+
+/* Стили для выбранной опции */
+.react-select__option--is-selected {
+  background-color: #0056b3; /* Темно-синий фон для выбранной опции */
+  color: #fff; /* Белый текст для выбранной опции */
+}
+
+/* Стили для индикатора выпадающего меню (стрелка) */
+.react-select__indicator {
+  color: #666; /* Цвет стрелки */
+  transition: color 0.2s ease; /* Плавное изменение цвета */
+}
+
+/* Стили для индикатора при наведении */
+.react-select__indicator:hover {
+  color: #007bff; /* Синий цвет стрелки при наведении */
+}
+
+/* Стили для плейсхолдера */
+.react-select__placeholder {
+  color: #999; /* Серый цвет плейсхолдера */
+}
+
+/* Стили для инпута */
+.react-select__input {
+  color: #333; /* Цвет текста в инпуте */
+}
+
+/* Стили для анимации при изменении значения */
+.react-select__single-value {
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Плавные переходы */
+}
+
+.react-select__single-value--is-disabled {
+  opacity: 0.5; /* Полупрозрачный текст, если поле отключено */
+}
+
+/* Стили для анимации при наведении на контейнер */
+.react-select-container:hover .react-select__control {
+  transform: scale(1.01); /* Легкое увеличение при наведении */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень при наведении */
 }
