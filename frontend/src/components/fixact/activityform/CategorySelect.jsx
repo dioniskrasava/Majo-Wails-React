@@ -45,6 +45,7 @@ const CategorySelect = ({
         onChange={handleSelectChange}
         options={options}
         placeholder="Выберите категорию"
+        classNamePrefix="react-select"
       />
       <button
         type="button"
