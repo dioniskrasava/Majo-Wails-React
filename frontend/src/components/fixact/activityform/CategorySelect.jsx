@@ -1,53 +1,62 @@
-// src/components/fixact/activityform/CategorySelect.jsx
 import React from 'react';
-
-import { FormattedMessage } from 'react-intl'; // multilanguage
+import { FormattedMessage } from 'react-intl';
 import { useIntl } from 'react-intl';
-
-/*Импорты иконок*/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
-
-// кастомная всплывающая подсказка для кнопок
-import { TooltipCustom} from '../../auxiliaryComponents/TooltipCustom';
+import { TooltipCustom } from '../../auxiliaryComponents/TooltipCustom';
+import Select from 'react-select';
+import './styles/select.css'
 
 const CategorySelect = ({
-  categories,
+  categories = [], // Значение по умолчанию
   activityType,
   handleActivityTypeChange,
   handleAddTypeActivity,
 }) => {
+  const intl = useIntl();
+  const addTypeActivityTooltip = intl.formatMessage({
+    id: 'fixact.addTypeActivity-tooltip',
+    defaultMessage: 'Добавить/редактировать категории',
+  });
 
+  // Преобразуем categories в формат для react-select
+  const options = categories.map((category) => ({
+    value: category,
+    label: category,
+  }));
 
-const intl = useIntl(); // хук для вытаскивания мультЯз значения и создания переменной
-// мультиязычные переменные
-const addTypeActivityTooltip = intl.formatMessage({ id: 'fixact.addTypeActivity-tooltip', defaultMessage: 'Добавить/редактировать категории'})
+  // Обработчик для react-select
+  const handleSelectChange = (selectedOption) => {
+    handleActivityTypeChange({ target: { value: selectedOption.value } });
+  };
 
+  // Находим текущее значение для react-select
+  const selectedOption = options.find((opt) => opt.value === activityType);
 
   return (
     <div className="form-row">
       <label htmlFor="activity-type" className="labelFormFixAct">
         <FormattedMessage id="fixact.typeAct" defaultMessage="Тип" />
       </label>
-      <select
+      <Select
         id="activity-type"
-        className="select-field"
-        value={activityType}
-        onChange={handleActivityTypeChange}
+        className="react-select-container"
+        value={selectedOption}
+        onChange={handleSelectChange}
+        options={options}
+        placeholder="Выберите категорию"
+      />
+      <button
+        type="button"
+        id="add-activity"
+        onClick={handleAddTypeActivity}
+        className="button-fixact-support"
+        data-tooltip-id="add-type-acivity-tooltip"
+        data-tooltip-content={addTypeActivityTooltip}
       >
-        {categories.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
-      <button type="button" id="add-activity" onClick={handleAddTypeActivity} 
-              className="button-fixact-support"
-              data-tooltip-id="add-type-acivity-tooltip"
-              data-tooltip-content={addTypeActivityTooltip}>
-        <FontAwesomeIcon icon={faList} size='lg' />
+        <FontAwesomeIcon icon={faList} size="lg" />
       </button>
-      <TooltipCustom id="add-type-acivity-tooltip" styleColor="grayBlue"/>
+      <TooltipCustom id="add-type-acivity-tooltip" styleColor="grayBlue" />
     </div>
   );
 };
