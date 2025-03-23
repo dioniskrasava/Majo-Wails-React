@@ -57,3 +57,27 @@ table {
   tr:hover {
     background-color: rgba(26, 115, 232, 0.05); /* Легкий синий фон при наведении на строку */
   }
+
+
+  /*СТИЛИ ДЛЯ КОМПОНЕНТА ДОБАВЛЕНИЯ СТРОКИ*/
+
+  .add-data-form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+  
+  .add-data-form input {
+    margin-left: 5px !important;
+    width: 100px !important;
+  }
+  
+  .add-data-form button {
+    padding: 5px 10px !important;
+    background-color: #007bff !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+  }

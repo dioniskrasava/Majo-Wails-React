@@ -8,7 +8,6 @@ const AddDataForm = ({ onAdd }) => {
     age: '',
   });
 
-  // Обработчик изменения полей формы
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -17,21 +16,11 @@ const AddDataForm = ({ onAdd }) => {
     });
   };
 
-  // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Вызов метода onAdd, переданного из родительского компонента
       await onAdd(formData.firstName, formData.lastName, parseInt(formData.age, 10));
-
-      // Очистка формы после успешного добавления
-      setFormData({
-        firstName: '',
-        lastName: '',
-        age: '',
-      });
-
+      setFormData({ firstName: '', lastName: '', age: '' });
       console.log('Данные успешно добавлены!');
     } catch (error) {
       console.error('Ошибка при добавлении данных:', error);
@@ -39,7 +28,16 @@ const AddDataForm = ({ onAdd }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+    <form
+      className="add-data-form"
+      onSubmit={handleSubmit}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        marginTop: '20px',
+      }}
+    >
       <div>
         <label>
           First Name:
@@ -49,7 +47,7 @@ const AddDataForm = ({ onAdd }) => {
             value={formData.firstName}
             onChange={handleInputChange}
             required
-            style={{ marginLeft: '5px' }}
+            style={{ marginLeft: '5px', width: '100px' }}
           />
         </label>
       </div>
@@ -62,7 +60,7 @@ const AddDataForm = ({ onAdd }) => {
             value={formData.lastName}
             onChange={handleInputChange}
             required
-            style={{ marginLeft: '5px' }}
+            style={{ marginLeft: '5px', width: '100px' }}
           />
         </label>
       </div>
@@ -75,11 +73,23 @@ const AddDataForm = ({ onAdd }) => {
             value={formData.age}
             onChange={handleInputChange}
             required
-            style={{ marginLeft: '5px' }}
+            style={{ marginLeft: '5px', width: '50px' }}
           />
         </label>
       </div>
-      <button type="submit" style={{ padding: '5px 10px' }}>Добавить</button>
+      <button
+        type="submit"
+        style={{
+          padding: '5px 10px',
+          backgroundColor: '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+        }}
+      >
+        Добавить
+      </button>
     </form>
   );
 };
