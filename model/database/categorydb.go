@@ -15,8 +15,38 @@ func InitDB() (*sql.DB, error) {
 	createCategoryTable(db)     // создаем таблицу категорий активностей (если не создана)
 	createTableActivityInDB(db) // создаем таблицу активностей (если не создана)
 	createTestDataTable(db)     // создаем таблицу test_data (если не создана)
+	createColumnNamesTable(db)  // создаем таблицу для пользовательских названий столбцов
 
 	return db, nil
+}
+
+// Создание таблицы column_names
+func createColumnNamesTable(db *sql.DB) {
+	query := `
+	CREATE TABLE IF NOT EXISTS column_names (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		column_name TEXT NOT NULL UNIQUE,
+		display_name TEXT NOT NULL
+	);`
+	_, err := db.Exec(query)
+	if err != nil {
+		log.Fatalf("Ошибка при создании таблицы column_names: %v", err)
+	}
+
+	// Заполняем таблицу начальными данными
+	initialColumns := map[string]string{
+		"first_name": "Имя",
+		"last_name":  "Фамилия",
+		"age":        "Возраст",
+	}
+
+	for columnName, displayName := range initialColumns {
+		query := `INSERT OR IGNORE INTO column_names (column_name, display_name) VALUES (?, ?)`
+		_, err := db.Exec(query, columnName, displayName)
+		if err != nil {
+			log.Fatalf("Ошибка при заполнении таблицы column_names: %v", err)
+		}
+	}
 }
 
 func createCategoryTable(db *sql.DB) {

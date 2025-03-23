@@ -149,3 +149,34 @@ func (a *App) DeleteRow(id int) error {
 	}
 	return nil
 }
+
+// GetColumnNames возвращает пользовательские названия столбцов
+func (a *App) GetColumnNames() (map[string]string, error) {
+	rows, err := a.db.Query("SELECT column_name, display_name FROM column_names")
+	if err != nil {
+		return nil, fmt.Errorf("ошибка при загрузке названий столбцов: %v", err)
+	}
+	defer rows.Close()
+
+	columnNames := make(map[string]string)
+	for rows.Next() {
+		var columnName, displayName string
+		if err := rows.Scan(&columnName, &displayName); err != nil {
+			return nil, fmt.Errorf("ошибка при сканировании данных: %v", err)
+		}
+		columnNames[columnName] = displayName
+	}
+
+	fmt.Println("Загруженные названия столбцов:", columnNames) // Отладка
+	return columnNames, nil
+}
+
+// UpdateColumnName обновляет пользовательское название столбца
+func (a *App) UpdateColumnName(columnName, newDisplayName string) error {
+	query := `UPDATE column_names SET display_name = ? WHERE column_name = ?`
+	_, err := a.db.Exec(query, newDisplayName, columnName)
+	if err != nil {
+		return fmt.Errorf("ошибка при обновлении названия столбца: %v", err)
+	}
+	return nil
+}

@@ -2,13 +2,16 @@
 import React, { useState } from 'react';
 import { useTable } from 'react-table';
 import EditModal from './EditModal';
-import DeleteModal from './DeleteModal'; // Новый компонент для удаления
+import DeleteModal from './DeleteModal';
+import ColumnEditModal from './ColumnEditModal'; // Новый компонент для редактирования столбцов
 import './stylesTable.css';
 
-const TableComponent = ({ columns, data, onSave, onDelete }) => {
+const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => {
   const [selectedCell, setSelectedCell] = useState(null);
-  const [selectedRow, setSelectedRow] = useState(null); // Состояние для выбранной строки
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // Состояние для модального окна удаления
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState(null); // Состояние для выбранного столбца
+  const [showColumnEditModal, setShowColumnEditModal] = useState(false); // Состояние для модального окна редактирования столбца
 
   const {
     getTableProps,
@@ -28,9 +31,15 @@ const TableComponent = ({ columns, data, onSave, onDelete }) => {
 
   // Обработчик правого клика по строке
   const handleRightClick = (row, event) => {
-    event.preventDefault(); // Отключаем стандартное контекстное меню
-    setSelectedRow(row); // Сохраняем выбранную строку
-    setShowDeleteModal(true); // Показываем модальное окно удаления
+    event.preventDefault();
+    setSelectedRow(row);
+    setShowDeleteModal(true);
+  };
+
+  // Обработчик двойного клика по заголовку столбца
+  const handleColumnDoubleClick = (column) => {
+    setSelectedColumn(column);
+    setShowColumnEditModal(true);
   };
 
   // Закрытие модального окна редактирования
@@ -44,15 +53,31 @@ const TableComponent = ({ columns, data, onSave, onDelete }) => {
     setSelectedRow(null);
   };
 
+  // Закрытие модального окна редактирования столбца
+  const closeColumnEditModal = () => {
+    setShowColumnEditModal(false);
+    setSelectedColumn(null);
+  };
+
   // Обработчик удаления строки
   const handleDeleteRow = async () => {
     if (selectedRow) {
       try {
-        await onDelete(selectedRow.original.id); // Вызов метода удаления
-        closeDeleteModal(); // Закрываем модальное окно
+        await onDelete(selectedRow.original.id);
+        closeDeleteModal();
       } catch (error) {
         console.error('Ошибка при удалении строки:', error);
       }
+    }
+  };
+
+  // Обработчик обновления названия столбца
+  const handleUpdateColumn = async (oldName, newName) => {
+    try {
+      await onUpdateColumn(oldName, newName);
+      closeColumnEditModal();
+    } catch (error) {
+      console.error('Ошибка при обновлении названия столбца:', error);
     }
   };
 
@@ -63,7 +88,11 @@ const TableComponent = ({ columns, data, onSave, onDelete }) => {
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th className='thClass' {...column.getHeaderProps()}>
+                <th
+                  className='thClass'
+                  {...column.getHeaderProps()}
+                  onDoubleClick={() => handleColumnDoubleClick(column)} // Обработчик двойного клика
+                >
                   {column.render('Header')}
                 </th>
               ))}
@@ -76,7 +105,7 @@ const TableComponent = ({ columns, data, onSave, onDelete }) => {
             return (
               <tr
                 {...row.getRowProps()}
-                onContextMenu={(e) => handleRightClick(row, e)} // Обработчик правого клика
+                onContextMenu={(e) => handleRightClick(row, e)}
               >
                 {row.cells.map(cell => {
                   return (
@@ -109,6 +138,15 @@ const TableComponent = ({ columns, data, onSave, onDelete }) => {
         <DeleteModal
           onConfirm={handleDeleteRow}
           onClose={closeDeleteModal}
+        />
+      )}
+
+      {/* Модальное окно для редактирования столбца */}
+      {showColumnEditModal && (
+        <ColumnEditModal
+          column={selectedColumn}
+          onSave={handleUpdateColumn}
+          onClose={closeColumnEditModal}
         />
       )}
     </>

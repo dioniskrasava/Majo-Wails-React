@@ -7,6 +7,8 @@ export function AddTestData(arg1:string,arg2:string,arg3:number):Promise<void>;
 
 export function DeleteRow(arg1:number):Promise<void>;
 
+export function GetColumnNames():Promise<Record<string, string>>;
+
 export function GetTestData():Promise<Array<Record<string, any>>>;
 
 export function GetWindowSize():Promise<number|number>;
@@ -20,3 +22,5 @@ export function SaveCategory(arg1:string):Promise<void>;
 export function SetSettings(arg1:string,arg2:number):Promise<void>;
 
 export function UpdateCellValue(arg1:number,arg2:string,arg3:string):Promise<void>;
+
+export function UpdateColumnName(arg1:string,arg2:string):Promise<void>;

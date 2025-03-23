@@ -14,6 +14,10 @@ export function DeleteRow(arg1) {
   return window['go']['main']['App']['DeleteRow'](arg1);
 }
 
+export function GetColumnNames() {
+  return window['go']['main']['App']['GetColumnNames']();
+}
+
 export function GetTestData() {
   return window['go']['main']['App']['GetTestData']();
 }
@@ -40,4 +44,8 @@ export function SetSettings(arg1, arg2) {
 
 export function UpdateCellValue(arg1, arg2, arg3) {
   return window['go']['main']['App']['UpdateCellValue'](arg1, arg2, arg3);
+}
+
+export function UpdateColumnName(arg1, arg2) {
+  return window['go']['main']['App']['UpdateColumnName'](arg1, arg2);
 }

@@ -6,10 +6,12 @@ import AddDataForm from './AddDataForm';
 const TableApp = () => {
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [columnNames, setColumnNames] = useState({}); // Состояние для пользовательских названий
 
   // Загрузка данных из базы данных при монтировании компонента
   useEffect(() => {
     loadData();
+    loadColumnNames(); // Загружаем пользовательские названия столбцов
   }, []);
 
   // Функция для загрузки данных
@@ -18,19 +20,51 @@ const TableApp = () => {
       const response = await window.go.main.App.GetTestData();
       setData(response);
 
-      // Создаем колонки на основе данных, исключая поле "id"
+      // Создаем колонки на основе данных и пользовательских названий
       if (response.length > 0) {
         const keys = Object.keys(response[0]).filter(key => key !== 'id'); // Исключаем "id"
         const columns = keys.map(key => ({
-          Header: key.charAt(0).toUpperCase() + key.slice(1),
+          Header: columnNames[key] || key.charAt(0).toUpperCase() + key.slice(1), // Используем пользовательское название, если оно есть
           accessor: key,
         }));
+        console.log("Созданные колонки:", columns); // Отладка
         setColumns(columns);
       }
     } catch (error) {
       console.error("Ошибка при загрузке данных:", error);
     }
   };
+
+ // Функция для загрузки пользовательских названий столбцов
+const loadColumnNames = async () => {
+  try {
+    const response = await window.go.main.App.GetColumnNames();
+    console.log("Загруженные названия столбцов:", response); // Отладка
+
+    // Преобразуем ключи из snake_case в camelCase
+    const formattedColumnNames = {};
+    for (const [key, value] of Object.entries(response)) {
+      const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+      formattedColumnNames[camelCaseKey] = value;
+    }
+
+    console.log("Преобразованные названия столбцов:", formattedColumnNames); // Отладка
+    setColumnNames(formattedColumnNames);
+
+    // После загрузки названий обновляем колонки
+    if (data.length > 0) {
+      const keys = Object.keys(data[0]).filter(key => key !== 'id'); // Исключаем "id"
+      const columns = keys.map(key => ({
+        Header: formattedColumnNames[key] || key.charAt(0).toUpperCase() + key.slice(1), // Используем пользовательское название, если оно есть
+        accessor: key,
+      }));
+      console.log("Созданные колонки:", columns); // Отладка
+      setColumns(columns);
+    }
+  } catch (error) {
+    console.error("Ошибка при загрузке названий столбцов:", error);
+  }
+};
 
   // Обработчик добавления данных
   const handleAddData = async (firstName, lastName, age) => {
@@ -64,9 +98,20 @@ const TableApp = () => {
   const handleDelete = async (id) => {
     try {
       await window.go.main.App.DeleteRow(id);
-      await loadData(); // Обновляем данные после удаления
+      await loadData();
     } catch (error) {
       console.error('Ошибка при удалении строки:', error);
+    }
+  };
+
+  // Обработчик обновления названия столбца
+  const handleUpdateColumn = async (columnName, newDisplayName) => {
+    try {
+      await window.go.main.App.UpdateColumnName(columnName, newDisplayName);
+      await loadColumnNames(); // Обновляем пользовательские названия
+      await loadData(); // Обновляем данные, чтобы применить новые названия
+    } catch (error) {
+      console.error('Ошибка при обновлении названия столбца:', error);
     }
   };
 
@@ -80,6 +125,7 @@ const TableApp = () => {
         data={data}
         onSave={handleSave}
         onDelete={handleDelete}
+        onUpdateColumn={handleUpdateColumn}
       />
 
       {/* Форма для добавления данных */}
