@@ -139,3 +139,13 @@ func (a *App) UpdateCellValue(id int, columnName string, newValue string) error 
 	}
 	return nil
 }
+
+// EDR
+func (a *App) DeleteRow(id int) error {
+	query := `DELETE FROM test_data WHERE id = ?`
+	_, err := a.db.Exec(query, id)
+	if err != nil {
+		return fmt.Errorf("ошибка при удалении строки: %v", err)
+	}
+	return nil
+}

@@ -10,6 +10,10 @@ export function AddTestData(arg1, arg2, arg3) {
   return window['go']['main']['App']['AddTestData'](arg1, arg2, arg3);
 }
 
+export function DeleteRow(arg1) {
+  return window['go']['main']['App']['DeleteRow'](arg1);
+}
+
 export function GetTestData() {
   return window['go']['main']['App']['GetTestData']();
 }

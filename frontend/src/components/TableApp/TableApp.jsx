@@ -35,10 +35,7 @@ const TableApp = () => {
   // Обработчик добавления данных
   const handleAddData = async (firstName, lastName, age) => {
     try {
-      // Вызов метода Go для добавления данных
       await window.go.main.App.AddTestData(firstName, lastName, age);
-
-      // Обновление данных таблицы после добавления новой строки
       await loadData();
     } catch (error) {
       console.error('Ошибка при добавлении данных:', error);
@@ -48,7 +45,6 @@ const TableApp = () => {
   // Обработчик обновления данных
   const handleSave = async (id, columnName, newValue) => {
     try {
-      // Преобразуем имя столбца в формат, используемый в базе данных
       const dbColumnName = columnName === 'firstName' ? 'first_name' :
                           columnName === 'lastName' ? 'last_name' :
                           columnName === 'age' ? 'age' : null;
@@ -57,19 +53,20 @@ const TableApp = () => {
         throw new Error('Недопустимое имя столбца');
       }
 
-      console.log('Передаваемые данные:', {
-        id: id,
-        columnName: dbColumnName,
-        newValue: newValue,
-      }); // Отладка
-
-      // Вызов метода Go для обновления данных
       await window.go.main.App.UpdateCellValue(id, dbColumnName, newValue);
-
-      // Обновляем данные в таблице
       await loadData();
     } catch (error) {
       console.error('Ошибка при обновлении данных:', error);
+    }
+  };
+
+  // Обработчик удаления строки
+  const handleDelete = async (id) => {
+    try {
+      await window.go.main.App.DeleteRow(id);
+      await loadData(); // Обновляем данные после удаления
+    } catch (error) {
+      console.error('Ошибка при удалении строки:', error);
     }
   };
 
@@ -78,7 +75,12 @@ const TableApp = () => {
       <h1>My Table</h1>
 
       {/* Таблица с данными */}
-      <TableComponent columns={columns} data={data} onSave={handleSave} />
+      <TableComponent
+        columns={columns}
+        data={data}
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
 
       {/* Форма для добавления данных */}
       <AddDataForm onAdd={handleAddData} />

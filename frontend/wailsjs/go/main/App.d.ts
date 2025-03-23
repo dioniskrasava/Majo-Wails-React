@@ -5,6 +5,8 @@ export function AddActivityWithDB(arg1:string,arg2:string,arg3:string,arg4:strin
 
 export function AddTestData(arg1:string,arg2:string,arg3:number):Promise<void>;
 
+export function DeleteRow(arg1:number):Promise<void>;
+
 export function GetTestData():Promise<Array<Record<string, any>>>;
 
 export function GetWindowSize():Promise<number|number>;
