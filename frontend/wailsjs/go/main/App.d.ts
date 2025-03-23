@@ -16,3 +16,5 @@ export function ResizeWindow(arg1:number,arg2:number):Promise<void>;
 export function SaveCategory(arg1:string):Promise<void>;
 
 export function SetSettings(arg1:string,arg2:number):Promise<void>;
+
+export function UpdateCellValue(arg1:number,arg2:string,arg3:string):Promise<void>;

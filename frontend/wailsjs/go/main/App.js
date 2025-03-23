@@ -33,3 +33,7 @@ export function SaveCategory(arg1) {
 export function SetSettings(arg1, arg2) {
   return window['go']['main']['App']['SetSettings'](arg1, arg2);
 }
+
+export function UpdateCellValue(arg1, arg2, arg3) {
+  return window['go']['main']['App']['UpdateCellValue'](arg1, arg2, arg3);
+}

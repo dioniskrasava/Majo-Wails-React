@@ -18,9 +18,9 @@ const TableApp = () => {
       const response = await window.go.main.App.GetTestData();
       setData(response);
 
-      // Создание колонок на основе данных
+      // Создаем колонки на основе данных, исключая поле "id"
       if (response.length > 0) {
-        const keys = Object.keys(response[0]);
+        const keys = Object.keys(response[0]).filter(key => key !== 'id'); // Исключаем "id"
         const columns = keys.map(key => ({
           Header: key.charAt(0).toUpperCase() + key.slice(1),
           accessor: key,
@@ -45,12 +45,40 @@ const TableApp = () => {
     }
   };
 
+  // Обработчик обновления данных
+  const handleSave = async (id, columnName, newValue) => {
+    try {
+      // Преобразуем имя столбца в формат, используемый в базе данных
+      const dbColumnName = columnName === 'firstName' ? 'first_name' :
+                          columnName === 'lastName' ? 'last_name' :
+                          columnName === 'age' ? 'age' : null;
+
+      if (!dbColumnName) {
+        throw new Error('Недопустимое имя столбца');
+      }
+
+      console.log('Передаваемые данные:', {
+        id: id,
+        columnName: dbColumnName,
+        newValue: newValue,
+      }); // Отладка
+
+      // Вызов метода Go для обновления данных
+      await window.go.main.App.UpdateCellValue(id, dbColumnName, newValue);
+
+      // Обновляем данные в таблице
+      await loadData();
+    } catch (error) {
+      console.error('Ошибка при обновлении данных:', error);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <h1>My Table</h1>
 
       {/* Таблица с данными */}
-      <TableComponent columns={columns} data={data} />
+      <TableComponent columns={columns} data={data} onSave={handleSave} />
 
       {/* Форма для добавления данных */}
       <AddDataForm onAdd={handleAddData} />

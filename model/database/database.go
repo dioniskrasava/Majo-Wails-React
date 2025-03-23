@@ -8,48 +8,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-/*
-// InitDBWithTestData инициализирует базу данных и добавляет тестовые данные, если их нет (EDR)
-func InitDBWithTestData() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "./activities.db")
-	if err != nil {
-		return nil, err
-	}
-
-	// Создаем таблицу, если она не существует
-	createTableSQL := `CREATE TABLE IF NOT EXISTS test_data (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		first_name TEXT,
-		last_name TEXT,
-		age INTEGER
-	);`
-	_, err = db.Exec(createTableSQL)
-	if err != nil {
-		return nil, err
-	}
-
-	// Проверяем, есть ли уже тестовые данные
-	var count int
-	err = db.QueryRow("SELECT COUNT(*) FROM test_data").Scan(&count)
-	if err != nil {
-		return nil, err
-	}
-
-	// Если данных нет, добавляем тестовые данные
-	if count == 0 {
-		insertSQL := `INSERT INTO test_data (first_name, last_name, age) VALUES
-			('John', 'Doe', 30),
-			('Jane', 'Smith', 25),
-			('Bob', 'Johnson', 40);`
-		_, err = db.Exec(insertSQL)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return db, nil
-}*/
-
 // Создание таблицы test_data
 func createTestDataTable(db *sql.DB) {
 	query := `
