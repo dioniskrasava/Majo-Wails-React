@@ -1,3 +1,4 @@
+// app.go
 package main
 
 import (
@@ -75,4 +76,39 @@ func (a *App) SetSettings(command string, parametr int) {
 		fmt.Println("WINDOWS SIZE ---> ", widthFact, HEIGHT)
 	}
 
+}
+
+// GetTestData возвращает тестовые данные из базы данных
+func (a *App) GetTestData() ([]map[string]interface{}, error) {
+	rows, err := a.db.Query("SELECT first_name, last_name, age FROM test_data")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var data []map[string]interface{}
+	for rows.Next() {
+		var firstName, lastName string
+		var age int
+		if err := rows.Scan(&firstName, &lastName, &age); err != nil {
+			return nil, err
+		}
+		data = append(data, map[string]interface{}{
+			"firstName": firstName,
+			"lastName":  lastName,
+			"age":       age,
+		})
+	}
+
+	return data, nil
+}
+
+// AddTestData добавляет строку в таблицу test_data (EDR)
+func (a *App) AddTestData(firstName, lastName string, age int) error {
+	query := `INSERT INTO test_data (first_name, last_name, age) VALUES (?, ?, ?)`
+	_, err := a.db.Exec(query, firstName, lastName, age)
+	if err != nil {
+		return fmt.Errorf("ошибка при добавлении данных в таблицу test_data: %v", err)
+	}
+	return nil
 }

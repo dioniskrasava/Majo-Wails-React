@@ -6,6 +6,14 @@ export function AddActivityWithDB(arg1, arg2, arg3, arg4, arg5) {
   return window['go']['main']['App']['AddActivityWithDB'](arg1, arg2, arg3, arg4, arg5);
 }
 
+export function AddTestData(arg1, arg2, arg3) {
+  return window['go']['main']['App']['AddTestData'](arg1, arg2, arg3);
+}
+
+export function GetTestData() {
+  return window['go']['main']['App']['GetTestData']();
+}
+
 export function GetWindowSize() {
   return window['go']['main']['App']['GetWindowSize']();
 }

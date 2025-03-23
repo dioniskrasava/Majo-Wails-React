@@ -3,6 +3,10 @@
 
 export function AddActivityWithDB(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string):Promise<void>;
 
+export function AddTestData(arg1:string,arg2:string,arg3:number):Promise<void>;
+
+export function GetTestData():Promise<Array<Record<string, any>>>;
+
 export function GetWindowSize():Promise<number|number>;
 
 export function LoadCategories():Promise<Array<string>>;

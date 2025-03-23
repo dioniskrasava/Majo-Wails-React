@@ -1,3 +1,4 @@
+// frontend/src/components/TableApp/TableComponent.jsx
 import React, { useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import './stylesTable.css';

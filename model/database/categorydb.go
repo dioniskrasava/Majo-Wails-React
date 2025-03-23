@@ -1,3 +1,4 @@
+// model/database/categorydb.go
 package database
 
 import (
@@ -10,10 +11,10 @@ import (
 
 // Инициализация базы данных
 func InitDB() (*sql.DB, error) {
-
 	db := createDB()
 	createCategoryTable(db)     // создаем таблицу категорий активностей (если не создана)
 	createTableActivityInDB(db) // создаем таблицу активностей (если не создана)
+	createTestDataTable(db)     // создаем таблицу test_data (если не создана)
 
 	return db, nil
 }
