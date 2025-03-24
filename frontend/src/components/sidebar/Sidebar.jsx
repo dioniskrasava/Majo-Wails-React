@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Sidebar.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbTack, faPen, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faThumbTack, faTable, faGear } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ onButtonClick }) => {
   return (
@@ -12,7 +12,7 @@ const Sidebar = ({ onButtonClick }) => {
         <FontAwesomeIcon icon={faThumbTack} size='lg' className='iconsSideBar'/>
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('TableApp')}>
-        <FontAwesomeIcon icon={faPen} size='lg' /> 
+        <FontAwesomeIcon icon={faTable} />
       </button>
       <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
         β

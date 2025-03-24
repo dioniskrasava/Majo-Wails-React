@@ -14,7 +14,7 @@ const TableApp = () => {
     loadColumnNames(); // Загружаем пользовательские названия столбцов
   }, []);
 
-  // Функция для загрузки данных
+  // Функция для загрузки данных ТАБЛИЦЫ EDR
   const loadData = async () => {
     try {
       const response = await window.go.main.App.GetTestData();
@@ -35,36 +35,40 @@ const TableApp = () => {
     }
   };
 
- // Функция для загрузки пользовательских названий столбцов
-const loadColumnNames = async () => {
-  try {
-    const response = await window.go.main.App.GetColumnNames();
-    console.log("Загруженные названия столбцов:", response); // Отладка
-
-    // Преобразуем ключи из snake_case в camelCase
-    const formattedColumnNames = {};
-    for (const [key, value] of Object.entries(response)) {
-      const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
-      formattedColumnNames[camelCaseKey] = value;
+  // Функция для загрузки пользовательских названий столбцов
+  const loadColumnNames = async () => {
+    try {
+      const response = await window.go.main.App.GetColumnNames();
+      console.log("Загруженные названия столбцов:", response); // Отладка
+  
+      // Преобразуем ключи из snake_case в camelCase
+      const formattedColumnNames = {};
+      for (const [key, value] of Object.entries(response)) {
+        const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+        formattedColumnNames[camelCaseKey] = value;
+      }
+  
+      console.log("Преобразованные названия столбцов:", formattedColumnNames); // Отладка
+      setColumnNames(formattedColumnNames);
+  
+      // После загрузки названий обновляем колонки
+      if (data.length > 0) {
+        const keys = Object.keys(data[0]).filter(key => key !== 'id'); // Исключаем "id"
+  
+        const columns = keys.map(key => {
+          const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+          return {
+            Header: formattedColumnNames[camelCaseKey] || key.charAt(0).toUpperCase() + key.slice(1), // Используем пользовательское название, если оно есть
+            accessor: key,
+          };
+        });
+        console.log("Созданные колонки:", columns); // Отладка
+        setColumns(columns);
+      }
+    } catch (error) {
+      console.error("MY-ERR: Ошибка при загрузке названий столбцов:", error);
     }
-
-    console.log("Преобразованные названия столбцов:", formattedColumnNames); // Отладка
-    setColumnNames(formattedColumnNames);
-
-    // После загрузки названий обновляем колонки
-    if (data.length > 0) {
-      const keys = Object.keys(data[0]).filter(key => key !== 'id'); // Исключаем "id"
-      const columns = keys.map(key => ({
-        Header: formattedColumnNames[key] || key.charAt(0).toUpperCase() + key.slice(1), // Используем пользовательское название, если оно есть
-        accessor: key,
-      }));
-      console.log("Созданные колонки:", columns); // Отладка
-      setColumns(columns);
-    }
-  } catch (error) {
-    console.error("Ошибка при загрузке названий столбцов:", error);
-  }
-};
+  };
 
   // Обработчик добавления данных
   const handleAddData = async (firstName, lastName, age) => {
@@ -107,7 +111,9 @@ const loadColumnNames = async () => {
   // Обработчик обновления названия столбца
   const handleUpdateColumn = async (columnName, newDisplayName) => {
     try {
-      await window.go.main.App.UpdateColumnName(columnName, newDisplayName);
+      // Преобразуем ключ из camelCase в snake_case
+      const snakeCaseKey = columnName.replace(/([A-Z])/g, '_$1').toLowerCase();
+      await window.go.main.App.UpdateColumnName(snakeCaseKey, newDisplayName);
       await loadColumnNames(); // Обновляем пользовательские названия
       await loadData(); // Обновляем данные, чтобы применить новые названия
     } catch (error) {
