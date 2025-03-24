@@ -34,7 +34,10 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
   };
 
   const handleColumnDoubleClick = (column) => {
-    setSelectedColumn(column);
+    setSelectedColumn({
+      id: column.id,  // или column.accessor
+      Header: column.Header
+    });
     setShowColumnEditModal(true);
   };
 
