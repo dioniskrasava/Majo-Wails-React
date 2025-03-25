@@ -1,50 +1,27 @@
 // frontend/src/components/TableApp/DeleteModal.jsx
 import React from 'react';
+import Modal from './Modal';
+import './modalStyles.css';
 
 const DeleteModal = ({ onConfirm, onClose }) => {
   return (
-    <div style={{
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: '#2a2a2a',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
-      color: '#ffffff',
-      zIndex: 1000,
-    }}>
-      <h3>Вы уверены, что хотите удалить строку?</h3>
-      <div style={{ display: 'flex', gap: '10px' }}>
+    <Modal title="Подтверждение удаления" onClose={onClose}>
+      <p>Вы уверены, что хотите удалить строку?</p>
+      <div className="modal-buttons">
         <button
           onClick={onConfirm}
-          style={{
-            backgroundColor: '#ff4d4d',
-            color: '#ffffff',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className="modal-button modal-button-danger"
         >
           Удалить
         </button>
         <button
           onClick={onClose}
-          style={{
-            backgroundColor: '#1a73e8',
-            color: '#ffffff',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className="modal-button modal-button-primary"
         >
           Отмена
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
