@@ -18,14 +18,10 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({
-    columns,
-    data,
-  });
+  } = useTable({ columns, data });
 
-  const handleCellClick = (cell) => {
-    setSelectedCell(cell);
-  };
+  // Обработчики событий
+  const handleCellClick = (cell) => setSelectedCell(cell);
 
   const handleRightClick = (row, event) => {
     event.preventDefault();
@@ -35,34 +31,32 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
 
   const handleColumnDoubleClick = (column) => {
     setSelectedColumn({
-      id: column.id,  // или column.accessor
+      id: column.id,
       Header: column.Header
     });
     setShowColumnEditModal(true);
   };
 
-  const closeModal = () => {
-    setSelectedCell(null);
-  };
-
+  // Закрытие модальных окон
+  const closeModal = () => setSelectedCell(null);
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
     setSelectedRow(null);
   };
-
   const closeColumnEditModal = () => {
     setShowColumnEditModal(false);
     setSelectedColumn(null);
   };
 
+  // Обработка действий
   const handleDeleteRow = async () => {
-    if (selectedRow) {
-      try {
-        await onDelete(selectedRow.original.id);
-        closeDeleteModal();
-      } catch (error) {
-        console.error('Ошибка при удалении строки:', error);
-      }
+    if (!selectedRow) return;
+    
+    try {
+      await onDelete(selectedRow.original.id);
+      closeDeleteModal();
+    } catch (error) {
+      console.error('Ошибка при удалении строки:', error);
     }
   };
 
@@ -75,58 +69,66 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
     }
   };
 
+  // Рендер ячейки
+  const renderCell = (cell) => {
+    const { key, ...cellProps } = cell.getCellProps();
+    return (
+      <td
+        key={key}
+        className="cellTable"
+        {...cellProps}
+        onClick={() => handleCellClick(cell)}
+      >
+        {cell.render('Cell')}
+      </td>
+    );
+  };
+
+  // Рендер строки
+  const renderRow = (row) => {
+    prepareRow(row);
+    const { key, ...rowProps } = row.getRowProps();
+    return (
+      <tr
+        key={key}
+        {...rowProps}
+        onContextMenu={(e) => handleRightClick(row, e)}
+      >
+        {row.cells.map(renderCell)}
+      </tr>
+    );
+  };
+
+  // Рендер заголовка столбца
+  const renderHeader = (column) => {
+    const { key, ...headerProps } = column.getHeaderProps();
+    return (
+      <th
+        key={key}
+        className="thClass"
+        {...headerProps}
+        onDoubleClick={() => handleColumnDoubleClick(column)}
+      >
+        {column.render('Header')}
+      </th>
+    );
+  };
+
+  // Рендер группы заголовков
+  const renderHeaderGroup = (headerGroup) => {
+    const { key, ...headerGroupProps } = headerGroup.getHeaderGroupProps();
+    return (
+      <tr key={key} {...headerGroupProps}>
+        {headerGroup.headers.map(renderHeader)}
+      </tr>
+    );
+  };
+
   return (
     <>
-      <table {...getTableProps()} style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          {headerGroups.map((headerGroup) => {
-            const { key, ...headerGroupProps } = headerGroup.getHeaderGroupProps();
-            return (
-              <tr key={key} {...headerGroupProps}>
-                {headerGroup.headers.map((column) => {
-                  const { key, ...headerProps } = column.getHeaderProps();
-                  return (
-                    <th
-                      key={key}
-                      className='thClass'
-                      {...headerProps}
-                      onDoubleClick={() => handleColumnDoubleClick(column)}
-                    >
-                      {column.render('Header')}
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            const { key, ...rowProps } = row.getRowProps();
-            return (
-              <tr
-                key={key}
-                {...rowProps}
-                onContextMenu={(e) => handleRightClick(row, e)}
-              >
-                {row.cells.map((cell) => {
-                  const { key, ...cellProps } = cell.getCellProps();
-                  return (
-                    <td
-                      key={key}
-                      className='cellTable'
-                      {...cellProps}
-                      onClick={() => handleCellClick(cell)}
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
+      <table {...getTableProps()} className="table">
+        <thead>{headerGroups.map(renderHeaderGroup)}</thead>
+        <tbody {...getTableBodyProps()}>{rows.map(renderRow)}</tbody>
       </table>
 
       {selectedCell && (
