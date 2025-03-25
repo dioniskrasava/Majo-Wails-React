@@ -1,7 +1,9 @@
 // frontend/src/components/TableApp/AddDataForm.jsx
 import React, { useState } from 'react';
+import Modal from './Modal';
+import './modalStyles.css';
 
-const AddDataForm = ({ onAdd }) => {
+const AddDataForm = ({ onAdd, onClose }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,78 +21,81 @@ const AddDataForm = ({ onAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await onAdd(formData.firstName, formData.lastName, parseInt(formData.age, 10));
+      await onAdd(
+        formData.firstName, 
+        formData.lastName, 
+        parseInt(formData.age, 10)
+      );
       setFormData({ firstName: '', lastName: '', age: '' });
-      console.log('Данные успешно добавлены!');
+      onClose(); // Закрываем модалку после успешного добавления
     } catch (error) {
       console.error('Ошибка при добавлении данных:', error);
     }
   };
 
   return (
-    <form
-      className="add-data-form"
-      onSubmit={handleSubmit}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        marginTop: '20px',
-      }}
-    >
-      <div>
-        <label>
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleInputChange}
-            required
-            style={{ marginLeft: '5px', width: '100px' }}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Last Name:
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
-            required
-            style={{ marginLeft: '5px', width: '100px' }}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Age:
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleInputChange}
-            required
-            style={{ marginLeft: '5px', width: '50px' }}
-          />
-        </label>
-      </div>
-      <button
-        type="submit"
-        style={{
-          padding: '5px 10px',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Добавить
-      </button>
-    </form>
+    <Modal title="Добавление новых данных" onClose={onClose}>
+      <form onSubmit={handleSubmit} className="modal-form">
+        <div className="modal-form-group">
+          <label className="modal-label">
+            First Name:
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
+              required
+              className="modal-input"
+            />
+          </label>
+        </div>
+        
+        <div className="modal-form-group">
+          <label className="modal-label">
+            Last Name:
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
+              required
+              className="modal-input"
+            />
+          </label>
+        </div>
+        
+        <div className="modal-form-group">
+          <label className="modal-label">
+            Age:
+            <input
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleInputChange}
+              required
+              className="modal-input"
+              min="1"
+            />
+          </label>
+        </div>
+        
+        <div className="modal-buttons">
+          <button
+            type="submit"
+            className="modal-button modal-button-primary"
+          >
+            Добавить
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="modal-button modal-button-danger"
+          >
+            Отмена
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

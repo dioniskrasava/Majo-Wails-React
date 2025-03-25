@@ -4,6 +4,9 @@ import AddDataForm from './AddDataForm';
 import useTableStore from '../utils/edrTableStore';
 import { toCamelCase } from './utilsEDR/stringUtils';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus} from '@fortawesome/free-solid-svg-icons';
+
 const TableApp = () => {
   const {
     data,
@@ -16,6 +19,8 @@ const TableApp = () => {
     isLoading,
     setIsLoading
   } = useTableStore();
+
+  const [showAddModal, setShowAddModal] = useState(false); // окно добавления строки (Состояние)
 
   // Инициализация таблицы
   useEffect(() => {
@@ -151,18 +156,33 @@ const TableApp = () => {
 
   return (
     <div className="table-app-container">
-      <h1>My Table</h1>
-      
-      <TableComponent
-        columns={columns}
-        data={data}
-        onSave={handleSave}
-        onDelete={handleDelete}
-        onUpdateColumn={handleUpdateColumn}
-      />
+    <h1>Every Day Routines</h1>
+    
 
-      <AddDataForm onAdd={handleAddData} />
-    </div>
+    
+    <TableComponent
+      columns={columns}
+      data={data}
+      onSave={handleSave}
+      onDelete={handleDelete}
+      onUpdateColumn={handleUpdateColumn}
+    />
+
+    <button 
+      onClick={() => setShowAddModal(true)}
+      className="modal-button modal-button-primary"
+      style={{ marginTop: '20px' }}
+    >
+      <FontAwesomeIcon icon={faPlus} size='xl' className='iconsSideBar'/>
+    </button>
+
+    {showAddModal && (
+      <AddDataForm 
+        onAdd={handleAddData} 
+        onClose={() => setShowAddModal(false)} 
+      />
+    )}
+  </div>
   );
 };
 
