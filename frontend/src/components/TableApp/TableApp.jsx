@@ -1,6 +1,7 @@
+//frontend/src/components/TableApp/TableApp.jsx
 import React, { useState, useEffect } from 'react';
 import TableComponent from './TableComponent';
-import AddDataForm from './AddDataForm';
+import AddDataForm from './modal/AddDataForm';
 import useTableStore from '../utils/edrTableStore';
 import { toCamelCase } from './utilsEDR/stringUtils';
 

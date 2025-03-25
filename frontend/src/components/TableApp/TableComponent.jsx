@@ -1,8 +1,9 @@
+//frontend/src/components/TableApp/TableComponent.jsx
 import React, { useState } from 'react';
 import { useTable } from 'react-table';
-import EditModal from './EditModal';
-import DeleteModal from './DeleteModal';
-import ColumnEditModal from './ColumnEditModal';
+import EditModal from './modal/EditModal';
+import DeleteModal from './modal/DeleteModal';
+import ColumnEditModal from './modal/ColumnEditModal';
 import './stylesTable.css';
 
 const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => {
