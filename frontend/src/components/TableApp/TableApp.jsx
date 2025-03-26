@@ -109,10 +109,13 @@ const handleAddColumn = async (columnName, columnType) => {
   const loadData = async () => {
     try {
       const response = await window.go.main.App.GetTableData('test_data');
-      setData(response);
       
-      if (response.length > 0) {
-        // Получаем актуальные названия столбцов
+      // Гарантируем массив
+      const tableData = Array.isArray(response) ? response : [];
+      
+      setData(tableData);
+      
+      if (tableData.length > 0) {
         const namesResponse = await window.go.main.App.GetColumnNames('test_data');
         const formattedNames = Object.entries(namesResponse).reduce((acc, [key, value]) => {
           acc[toCamelCase(key)] = value;
@@ -120,10 +123,11 @@ const handleAddColumn = async (columnName, columnType) => {
         }, {});
         
         setColumnNames(formattedNames);
-        updateColumns(response, formattedNames);
+        updateColumns(tableData, formattedNames);
       }
     } catch (error) {
       console.error("Ошибка загрузки:", error);
+      setData([]); // Сбрасываем на пустой массив при ошибке
     }
   };
 
@@ -163,19 +167,23 @@ const handleAddColumn = async (columnName, columnType) => {
 
   const handleSave = async (id, columnName, newValue) => {
     try {
-      const columnMapping = {
-        firstName: 'first_name',
-        lastName: 'last_name',
-        age: 'age'
-      };
-
-      const dbColumnName = columnMapping[columnName];
-      if (!dbColumnName) throw new Error('Недопустимое имя столбца');
-
-      await window.go.main.App.UpdateCellValue(id, dbColumnName, newValue);
-      await loadData();
+      const dbColumnName = columnName.replace(/([A-Z])/g, '_$1').toLowerCase();
+      
+      await window.go.main.App.UpdateCellValue(id, dbColumnName, newValue === '' ? null : newValue);
+      
+      // Гарантируем, что обновляем массив
+      setData(prev => {
+        if (!Array.isArray(prev)) return prev; // Защита
+        return prev.map(row => {
+          if (row.id === id) {
+            return { ...row, [columnName]: newValue };
+          }
+          return row;
+        });
+      });
+      
     } catch (error) {
-      console.error('Ошибка при обновлении данных:', error);
+      console.error('Ошибка сохранения:', error);
       throw error;
     }
   };

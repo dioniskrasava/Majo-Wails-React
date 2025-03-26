@@ -21,6 +21,9 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
     }
   }, [data]);
 
+  // Защитная проверка
+  const tableData = Array.isArray(data) ? data : [];
+
   const {
     getTableProps,
     getTableBodyProps,

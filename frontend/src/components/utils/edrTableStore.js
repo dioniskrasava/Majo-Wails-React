@@ -8,7 +8,9 @@ const useTableStore = create((set) => ({
     isLoading: false,
     
     // Действия
-    setData: (data) => set({ data }),
+    setData: (newData) => set({ 
+      data: Array.isArray(newData) ? newData : [] 
+    }),
     setColumns: (columns) => set({ columns }),
     setColumnNames: (columnNames) => set({ columnNames }),
     setIsLoading: (isLoading) => set({ isLoading }),

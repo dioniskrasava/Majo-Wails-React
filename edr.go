@@ -48,6 +48,11 @@ func (a *App) GetTableData(tableName string) ([]map[string]interface{}, error) {
 		}
 		result = append(result, entry)
 	}
+
+	if result == nil {
+		return []map[string]interface{}{}, nil // Возвращаем пустой массив
+	}
+
 	return result, nil
 }
 
@@ -157,28 +162,43 @@ func (a *App) AddTestData(firstName, lastName string, age interface{}) error {
 }
 
 // UpdateCellValue обновляет значение ячейки в таблице test_data
-func (a *App) UpdateCellValue(id int, columnName string, newValue string) error {
-	// Проверяем, что columnName соответствует допустимым столбцам
-	validColumns := map[string]bool{
-		"first_name": true,
-		"last_name":  true,
-		"age":        true,
-	}
-
-	fmt.Printf("Полученное имя столбца: %s\n", columnName) // Отладка
-	fmt.Printf("Допустимые столбцы: %v\n", validColumns)   // Отладка
-
-	if !validColumns[columnName] {
-		return fmt.Errorf("недопустимое имя столбца: %s", columnName)
-	}
-
-	// Формируем SQL-запрос
-	query := fmt.Sprintf("UPDATE test_data SET %s = ? WHERE id = ?", columnName)
-	_, err := a.db.Exec(query, newValue, id)
+func (a *App) UpdateCellValue(id int, columnName string, value interface{}) error {
+	// Проверяем существование столбца
+	exists, err := a.columnExists("test_data", columnName)
 	if err != nil {
-		return fmt.Errorf("ошибка при обновлении ячейки: %v", err)
+		return fmt.Errorf("проверка столбца: %v", err)
+	}
+	if !exists {
+		return fmt.Errorf("столбец %s не существует", columnName)
+	}
+
+	// Обрабатываем nil значения
+	var val interface{}
+	if value == nil {
+		val = nil
+	} else {
+		val = value
+	}
+
+	query := fmt.Sprintf("UPDATE test_data SET %s = ? WHERE id = ?", columnName)
+	_, err = a.db.Exec(query, val, id)
+	if err != nil {
+		return fmt.Errorf("ошибка обновления: %v", err)
 	}
 	return nil
+}
+
+func (a *App) columnExists(table, column string) (bool, error) {
+	columns, err := a.getTableColumns(table)
+	if err != nil {
+		return false, err
+	}
+	for _, col := range columns {
+		if col == column {
+			return true, nil
+		}
+	}
+	return false, nil
 }
 
 // DeleteRow - удаляет строку из таблицы
