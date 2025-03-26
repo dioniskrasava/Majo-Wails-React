@@ -8,37 +8,15 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// Создание таблицы test_data
+// Создание таблицы test_data (приложения EDR)
 func createTestDataTable(db *sql.DB) {
 	query := `
-	CREATE TABLE IF NOT EXISTS test_data (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		first_name TEXT,
-		last_name TEXT,
-		age INTEGER
-	);`
+    CREATE TABLE IF NOT EXISTS test_data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT
+    );`
 	_, err := db.Exec(query)
 	if err != nil {
 		log.Fatalf("Ошибка при создании таблицы test_data: %v", err)
-	}
-
-	// Проверяем, есть ли данные в таблице
-	var count int
-	err = db.QueryRow("SELECT COUNT(*) FROM test_data").Scan(&count)
-	if err != nil {
-		log.Fatalf("Ошибка при проверке данных в таблице test_data: %v", err)
-	}
-
-	// Если данных нет, добавляем тестовые данные
-	if count == 0 {
-		insertSQL := `INSERT INTO test_data (first_name, last_name, age) VALUES 
-			('John', 'Doe', 30),
-			('Jane', 'Smith', 25),
-			('Bob', 'Johnson', 40);`
-		_, err = db.Exec(insertSQL)
-		if err != nil {
-			log.Fatalf("Ошибка при добавлении тестовых данных: %v", err)
-		}
 	}
 }
 

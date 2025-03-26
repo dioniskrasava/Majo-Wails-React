@@ -1,5 +1,5 @@
 //frontend/src/components/TableApp/TableComponent.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Добавьте useEffect
 import { useTable } from 'react-table';
 import EditModal from './modal/EditModal';
 import DeleteModal from './modal/DeleteModal';
@@ -12,6 +12,14 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [showColumnEditModal, setShowColumnEditModal] = useState(false);
+
+  useEffect(() => {
+    if (data.length > 0 && data[data.length - 1].id === 'new') {
+      // Найти первую редактируемую ячейку в последней строке
+      const firstCell = document.querySelector(`tr:last-child td:first-child`);
+      firstCell?.click();
+    }
+  }, [data]);
 
   const {
     getTableProps,

@@ -3,11 +3,17 @@
 
 export function AddActivityWithDB(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string):Promise<void>;
 
-export function AddTestData(arg1:string,arg2:string,arg3:number):Promise<void>;
+export function AddColumn(arg1:string,arg2:string,arg3:string):Promise<void>;
+
+export function AddEmptyRow(arg1:string):Promise<void>;
+
+export function AddTestData(arg1:string,arg2:string,arg3:any):Promise<void>;
 
 export function DeleteRow(arg1:number):Promise<void>;
 
-export function GetColumnNames():Promise<Record<string, string>>;
+export function GetColumnNames(arg1:string):Promise<Record<string, string>>;
+
+export function GetTableData(arg1:string):Promise<Array<Record<string, any>>>;
 
 export function GetTestData():Promise<Array<Record<string, any>>>;
 

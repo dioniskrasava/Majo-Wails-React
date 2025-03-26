@@ -6,6 +6,14 @@ export function AddActivityWithDB(arg1, arg2, arg3, arg4, arg5) {
   return window['go']['main']['App']['AddActivityWithDB'](arg1, arg2, arg3, arg4, arg5);
 }
 
+export function AddColumn(arg1, arg2, arg3) {
+  return window['go']['main']['App']['AddColumn'](arg1, arg2, arg3);
+}
+
+export function AddEmptyRow(arg1) {
+  return window['go']['main']['App']['AddEmptyRow'](arg1);
+}
+
 export function AddTestData(arg1, arg2, arg3) {
   return window['go']['main']['App']['AddTestData'](arg1, arg2, arg3);
 }
@@ -14,8 +22,12 @@ export function DeleteRow(arg1) {
   return window['go']['main']['App']['DeleteRow'](arg1);
 }
 
-export function GetColumnNames() {
-  return window['go']['main']['App']['GetColumnNames']();
+export function GetColumnNames(arg1) {
+  return window['go']['main']['App']['GetColumnNames'](arg1);
+}
+
+export function GetTableData(arg1) {
+  return window['go']['main']['App']['GetTableData'](arg1);
 }
 
 export function GetTestData() {
