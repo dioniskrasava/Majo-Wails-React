@@ -18,6 +18,10 @@ export function AddTestData(arg1, arg2, arg3) {
   return window['go']['main']['App']['AddTestData'](arg1, arg2, arg3);
 }
 
+export function ColumnExists(arg1, arg2) {
+  return window['go']['main']['App']['ColumnExists'](arg1, arg2);
+}
+
 export function DeleteRow(arg1) {
   return window['go']['main']['App']['DeleteRow'](arg1);
 }
