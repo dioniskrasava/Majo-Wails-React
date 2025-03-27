@@ -18,6 +18,7 @@ const TableApp = () => {
     setColumns,
     setColumnNames,
     updateColumnName,
+    updateCellValue,
     isLoading,
     setIsLoading
   } = useTableStore();
@@ -171,16 +172,8 @@ const handleAddColumn = async (columnName, columnType) => {
       
       await window.go.main.App.UpdateCellValue(id, dbColumnName, newValue === '' ? null : newValue);
       
-      // Гарантируем, что обновляем массив
-      setData(prev => {
-        if (!Array.isArray(prev)) return prev; // Защита
-        return prev.map(row => {
-          if (row.id === id) {
-            return { ...row, [columnName]: newValue };
-          }
-          return row;
-        });
-      });
+      // Обновляем только нужную ячейку через хранилище
+      updateCellValue(id, columnName, newValue);
       
     } catch (error) {
       console.error('Ошибка сохранения:', error);

@@ -21,6 +21,10 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log('Data changed:', data);
+  }, [data]);
+
   // Защитная проверка
   const tableData = Array.isArray(data) ? data : [];
 
