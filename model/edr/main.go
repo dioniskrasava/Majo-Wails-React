@@ -7,89 +7,89 @@ import (
 	"unicode"
 )
 
-// Ошибки базы данных
+// Определения ошибок
 var (
-	ErrInvalidTableName   = fmt.Errorf("недопустимое имя таблицы")
-	ErrInvalidColumnName  = fmt.Errorf("недопустимое имя столбца")
-	ErrInvalidColumnType  = fmt.Errorf("недопустимый тип столбца")
+	ErrInvalidTableName   = fmt.Errorf("некорректное имя таблицы")
+	ErrInvalidColumnName  = fmt.Errorf("некорректное имя столбца")
+	ErrInvalidColumnType  = fmt.Errorf("некорректный тип столбца")
 	ErrColumnAlreadyExist = fmt.Errorf("столбец уже существует")
+	ErrEmptyTableName     = fmt.Errorf("имя таблицы не может быть пустым")
 )
 
-// AddTestData добавляет строку в таблицу test_data (EDR)
+// TestData представляет запись в таблице test_data
+type TestData struct {
+	ID        int    `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Age       int    `json:"age"`
+}
+
+// ColumnInfo содержит метаданные о столбце
+type ColumnInfo struct {
+	Name     string
+	Type     string
+	Nullable bool
+}
+
+/******************************
+* Основные методы работы с БД *
+******************************/
+
+// AddTestData добавляет новую запись в таблицу test_data
 func AddTestData(db *sql.DB, firstName, lastName string, age interface{}) error {
-	var ageVal *int
-	if age != nil {
-		if v, ok := age.(int); ok {
-			ageVal = &v
-		}
+	ageVal, err := parseAge(age)
+	if err != nil {
+		return err
 	}
 
-	query := `INSERT INTO test_data (first_name, last_name, age) VALUES (?, ?, ?)`
-	_, err := db.Exec(query, firstName, lastName, ageVal)
+	const query = `INSERT INTO test_data (first_name, last_name, age) VALUES (?, ?, ?)`
+	_, err = db.Exec(query, firstName, lastName, ageVal)
 	return err
 }
 
-// GetTestData возвращает тестовые данные из базы данных
+// GetTestData получает данные из таблицы test_data
 func GetTestData(db *sql.DB) ([]map[string]interface{}, error) {
-	rows, err := db.Query(`
-        SELECT 
-            id, 
-            COALESCE(first_name, '') as first_name,
-            COALESCE(last_name, '') as last_name,
-            COALESCE(age, 0) as age
-        FROM test_data
-        ORDER BY id DESC
-    `)
+	const query = `
+		SELECT id, COALESCE(first_name, '') as first_name,
+		COALESCE(last_name, '') as last_name,
+		COALESCE(age, 0) as age
+		FROM test_data ORDER BY id DESC`
+
+	rows, err := db.Query(query)
 	if err != nil {
-		return nil, fmt.Errorf("ошибка при загрузке данных: %v", err)
+		return nil, fmt.Errorf("ошибка запроса: %w", err)
 	}
 	defer rows.Close()
 
-	var data []map[string]interface{}
-	for rows.Next() {
-		var id int
-		var firstName, lastName string
-		var age int
-
-		if err := rows.Scan(&id, &firstName, &lastName, &age); err != nil {
-			return nil, fmt.Errorf("ошибка при сканировании данных: %v", err)
-		}
-
-		data = append(data, map[string]interface{}{
-			"id":        id,
-			"firstName": firstName,
-			"lastName":  lastName,
-			"age":       age,
-		})
-	}
-	return data, nil
+	columns := []string{"id", "first_name", "last_name", "age"}
+	return scanRowsToMap(rows, columns)
 }
 
-// GetTableData возвращает все данные из указанной таблицы
+// GetTableData получает данные из произвольной таблицы
 func GetTableData(db *sql.DB, tableName string) ([]map[string]interface{}, error) {
-	if !isValidTableName(tableName) {
-		return nil, ErrInvalidTableName
+	if err := validateTableName(tableName); err != nil {
+		return nil, err
 	}
 
 	columns, err := getTableColumns(db, tableName)
 	if err != nil {
-		return nil, fmt.Errorf("получение столбцов: %v", err)
+		return nil, fmt.Errorf("ошибка получения столбцов: %w", err)
 	}
 
 	query := fmt.Sprintf("SELECT %s FROM %s", strings.Join(columns, ", "), tableName)
 	rows, err := db.Query(query)
 	if err != nil {
-		return nil, fmt.Errorf("выполнение запроса: %v", err)
+		return nil, fmt.Errorf("ошибка запроса: %w", err)
 	}
 	defer rows.Close()
 
 	return scanRowsToMap(rows, columns)
 }
 
-// AddColumn добавляет новый столбец в таблицу
+// AddColumn добавляет столбец в таблицу
 func AddColumn(db *sql.DB, tableName, columnName, columnType string) error {
-	if !isValidTableName(tableName) {
-		return ErrInvalidTableName
+	if err := validateTableName(tableName); err != nil {
+		return err
 	}
 
 	columnName = sanitizeColumnName(columnName)
@@ -101,148 +101,98 @@ func AddColumn(db *sql.DB, tableName, columnName, columnType string) error {
 		return ErrInvalidColumnType
 	}
 
-	// Проверяем, существует ли столбец
-	exists, err := columnExists(db, tableName, columnName)
+	exists, err := ColumnExists(db, tableName, columnName)
 	if err != nil {
-		return fmt.Errorf("проверка столбца: %v", err)
+		return fmt.Errorf("ошибка проверки столбца: %w", err)
 	}
 	if exists {
 		return ErrColumnAlreadyExist
 	}
 
-	query := fmt.Sprintf(
-		"ALTER TABLE %s ADD COLUMN %s %s",
-		tableName,
-		columnName,
-		columnType,
-	)
-
+	// Добавляем столбец в таблицу
+	query := fmt.Sprintf("ALTER TABLE %s ADD COLUMN %s %s", tableName, columnName, columnType)
 	_, err = db.Exec(query)
 	if err != nil {
-		return fmt.Errorf("добавление столбца: %v", err)
+		return fmt.Errorf("ошибка добавления столбца: %w", err)
+	}
+
+	// Добавляем запись о столбце в таблицу column_names
+	_, err = db.Exec(
+		"INSERT OR IGNORE INTO column_names (column_name, display_name) VALUES (?, ?)",
+		columnName,
+		columnName, // Используем columnName как начальное display_name
+	)
+	if err != nil {
+		return fmt.Errorf("ошибка добавления имени столбца: %w", err)
 	}
 
 	return nil
 }
 
-// Вспомогательные функции
-func getTableColumns(db *sql.DB, tableName string) ([]string, error) {
-	rows, err := db.Query(fmt.Sprintf("PRAGMA table_info(%s)", tableName))
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var columns []string
-	for rows.Next() {
-		var cid int
-		var name string
-		var notUsed interface{} // Пропускаем остальные поля PRAGMA
-		if err := rows.Scan(&cid, &name, &notUsed, &notUsed, &notUsed, &notUsed); err != nil {
-			return nil, err
-		}
-		columns = append(columns, name)
-	}
-	return columns, nil
-}
-
-func columnExists(db *sql.DB, table, column string) (bool, error) {
-	columns, err := getTableColumns(db, table)
-	if err != nil {
-		return false, err
-	}
-	for _, col := range columns {
-		if col == column {
-			return true, nil
-		}
-	}
-	return false, nil
-}
-
-func scanRowsToMap(rows *sql.Rows, columns []string) ([]map[string]interface{}, error) {
-	var result []map[string]interface{}
-	for rows.Next() {
-		values := make([]interface{}, len(columns))
-		valuePtrs := make([]interface{}, len(columns))
-		for i := range columns {
-			valuePtrs[i] = &values[i]
-		}
-
-		if err := rows.Scan(valuePtrs...); err != nil {
-			return nil, err
-		}
-
-		entry := make(map[string]interface{})
-		for i, col := range columns {
-			val := values[i]
-			if b, ok := val.([]byte); ok {
-				entry[col] = string(b)
-			} else {
-				entry[col] = val
-			}
-		}
-		result = append(result, entry)
-	}
-	return result, nil
-}
-
-func isValidTableName(name string) bool {
-	return name != "" && !strings.ContainsAny(name, " ;'\"")
-}
-
-func sanitizeColumnName(name string) string {
-	return strings.Map(func(r rune) rune {
-		if unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_' {
-			return r
-		}
-		return -1
-	}, name)
-}
-
-func isValidColumnType(t string) bool {
-	validTypes := map[string]bool{
-		"TEXT":    true,
-		"INTEGER": true,
-		"REAL":    true,
-		"NUMERIC": true,
-		"BLOB":    true,
-	}
-	return validTypes[strings.ToUpper(t)]
-}
-
-// DeleteRow удаляет строку по ID из указанной таблицы
+// DeleteRow удаляет строку из таблицы
 func DeleteRow(db *sql.DB, tableName string, id int) error {
+	if err := validateTableName(tableName); err != nil {
+		return err
+	}
+
+	// Проверяем существование строки
+	exists, err := rowExists(db, tableName, id)
+	if err != nil {
+		return fmt.Errorf("ошибка проверки строки: %w", err)
+	}
+	if !exists {
+		return fmt.Errorf("строка с id %d не существует", id)
+	}
+
 	query := fmt.Sprintf("DELETE FROM %s WHERE id = ?", tableName)
-	_, err := db.Exec(query, id)
-	return err
+	_, err = db.Exec(query, id)
+	if err != nil {
+		return fmt.Errorf("ошибка удаления строки: %w", err)
+	}
+	return nil
+}
+
+// rowExists проверяет существование строки по ID
+func rowExists(db *sql.DB, tableName string, id int) (bool, error) {
+	var exists bool
+	query := fmt.Sprintf("SELECT EXISTS(SELECT 1 FROM %s WHERE id = ?)", tableName)
+	err := db.QueryRow(query, id).Scan(&exists)
+	if err != nil {
+		return false, fmt.Errorf("ошибка проверки строки: %w", err)
+	}
+	return exists, nil
 }
 
 // ColumnExists проверяет существование столбца
-func ColumnExists(db *sql.DB, table, column string) (bool, error) {
-	columns, err := getTableColumns(db, table)
+func ColumnExists(db *sql.DB, tableName, columnName string) (bool, error) {
+	columns, err := getTableColumns(db, tableName)
 	if err != nil {
 		return false, err
 	}
+
 	for _, col := range columns {
-		if col == column {
+		if col == columnName {
 			return true, nil
 		}
 	}
 	return false, nil
 }
 
-// GetColumnNames возвращает маппинг "столбец -> отображаемое имя"
+// GetColumnNames возвращает отображаемые имена столбцов
 func GetColumnNames(db *sql.DB, tableName string) (map[string]string, error) {
 	columns, err := getTableColumns(db, tableName)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("не удалось получить столбцы таблицы: %w", err)
 	}
 
-	query := `
-        SELECT column_name, display_name 
-        FROM column_names 
-        WHERE column_name IN (` + strings.Repeat("?, ", len(columns)-1) + "?)"
+	if len(columns) == 0 {
+		return make(map[string]string), nil
+	}
 
+	query := "SELECT column_name, display_name FROM column_names WHERE column_name IN (" +
+		strings.Repeat("?, ", len(columns)-1) + "?)"
+
+	// Преобразуем []string в []interface{}
 	params := make([]interface{}, len(columns))
 	for i, col := range columns {
 		params[i] = col
@@ -250,42 +200,86 @@ func GetColumnNames(db *sql.DB, tableName string) (map[string]string, error) {
 
 	rows, err := db.Query(query, params...)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ошибка запроса пользовательских имен: %w", err)
 	}
 	defer rows.Close()
 
-	result := make(map[string]string)
+	columnNames := make(map[string]string)
 	for rows.Next() {
-		var colName, displayName string
-		if err := rows.Scan(&colName, &displayName); err != nil {
-			return nil, err
+		var (
+			columnName  string
+			displayName string
+		)
+		if err := rows.Scan(&columnName, &displayName); err != nil {
+			return nil, fmt.Errorf("ошибка сканирования имен столбцов: %w", err)
 		}
-		result[colName] = displayName
+		columnNames[columnName] = displayName
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("ошибка при обработке результатов имен: %w", err)
 	}
 
 	// Заполняем недостающие значения
 	for _, col := range columns {
-		if _, exists := result[col]; !exists {
-			result[col] = strings.ReplaceAll(col, "_", " ")
+		if _, exists := columnNames[col]; !exists {
+			columnNames[col] = strings.ReplaceAll(col, "_", " ")
 		}
 	}
 
-	return result, nil
+	return columnNames, nil
 }
 
 // UpdateColumnName обновляет отображаемое имя столбца
 func UpdateColumnName(db *sql.DB, columnName, displayName string) error {
-	_, err := db.Exec(
-		`INSERT OR REPLACE INTO column_names (column_name, display_name) 
-         VALUES (?, ?)`,
-		columnName,
-		displayName,
-	)
-	return err
+	// Проверяем существование столбца в таблице column_names
+	exists, err := columnNameExists(db, columnName)
+	if err != nil {
+		return fmt.Errorf("ошибка проверки столбца: %w", err)
+	}
+
+	if !exists {
+		// Если столбца нет в column_names, добавляем новую запись
+		_, err = db.Exec(
+			`INSERT INTO column_names (column_name, display_name) VALUES (?, ?)`,
+			columnName,
+			displayName,
+		)
+	} else {
+		// Если столбец существует, обновляем его
+		_, err = db.Exec(
+			`UPDATE column_names SET display_name = ? WHERE column_name = ?`,
+			displayName,
+			columnName,
+		)
+	}
+
+	if err != nil {
+		return fmt.Errorf("ошибка обновления названия столбца: %w", err)
+	}
+	return nil
 }
 
-// AddEmptyRow добавляет пустую строку
+// columnNameExists проверяет, существует ли столбец в таблице column_names
+func columnNameExists(db *sql.DB, columnName string) (bool, error) {
+	var exists bool
+	err := db.QueryRow(
+		`SELECT EXISTS(SELECT 1 FROM column_names WHERE column_name = ?)`,
+		columnName,
+	).Scan(&exists)
+
+	if err != nil {
+		return false, fmt.Errorf("ошибка проверки существования столбца: %w", err)
+	}
+	return exists, nil
+}
+
+// AddEmptyRow добавляет пустую строку в таблицу
 func AddEmptyRow(db *sql.DB, tableName string) error {
+	if err := validateTableName(tableName); err != nil {
+		return err
+	}
+
 	columns, err := getTableColumns(db, tableName)
 	if err != nil {
 		return err
@@ -307,4 +301,113 @@ func AddEmptyRow(db *sql.DB, tableName string) error {
 
 	_, err = db.Exec(query)
 	return err
+}
+
+/************************************
+* Вспомогательные функции *
+************************************/
+
+// getTableColumns возвращает список столбцов таблицы
+func getTableColumns(db *sql.DB, tableName string) ([]string, error) {
+	rows, err := db.Query(fmt.Sprintf("PRAGMA table_info(%s)", tableName))
+	if err != nil {
+		return nil, fmt.Errorf("ошибка запроса информации о таблице: %w", err)
+	}
+	defer rows.Close()
+
+	var columns []string
+	for rows.Next() {
+		var (
+			cid     int
+			name    string
+			typ     string
+			notnull int
+			dflt    interface{}
+			pk      int
+		)
+		// Сканируем ВСЕ поля, даже если не используем их
+		if err := rows.Scan(&cid, &name, &typ, &notnull, &dflt, &pk); err != nil {
+			return nil, fmt.Errorf("ошибка сканирования информации о столбце: %w", err)
+		}
+		columns = append(columns, name)
+	}
+
+	// Проверяем ошибки после итерации
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("ошибка при обработке результатов: %w", err)
+	}
+
+	return columns, nil
+}
+
+// scanRowsToMap преобразует строки результата в мапы
+func scanRowsToMap(rows *sql.Rows, columns []string) ([]map[string]interface{}, error) {
+	var results []map[string]interface{}
+	for rows.Next() {
+		values := make([]interface{}, len(columns))
+		valuePtrs := make([]interface{}, len(columns))
+		for i := range columns {
+			valuePtrs[i] = &values[i]
+		}
+
+		if err := rows.Scan(valuePtrs...); err != nil {
+			return nil, err
+		}
+
+		entry := make(map[string]interface{})
+		for i, col := range columns {
+			if b, ok := values[i].([]byte); ok {
+				entry[col] = string(b)
+			} else {
+				entry[col] = values[i]
+			}
+		}
+		results = append(results, entry)
+	}
+	return results, nil
+}
+
+// parseAge преобразует значение возраста
+func parseAge(age interface{}) (*int, error) {
+	if age == nil {
+		return nil, nil
+	}
+
+	if v, ok := age.(int); ok {
+		return &v, nil
+	}
+	return nil, fmt.Errorf("возраст должен быть числом")
+}
+
+// validateTableName проверяет валидность имени таблицы
+func validateTableName(name string) error {
+	if name == "" {
+		return ErrEmptyTableName
+	}
+	if strings.ContainsAny(name, " ;'\"") {
+		return ErrInvalidTableName
+	}
+	return nil
+}
+
+// sanitizeColumnName очищает имя столбца
+func sanitizeColumnName(name string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_' {
+			return r
+		}
+		return -1
+	}, name)
+}
+
+// isValidColumnType проверяет тип столбца
+func isValidColumnType(t string) bool {
+	validTypes := map[string]bool{
+		"TEXT":    true,
+		"INTEGER": true,
+		"REAL":    true,
+		"NUMERIC": true,
+		"BLOB":    true,
+	}
+	return validTypes[strings.ToUpper(t)]
 }

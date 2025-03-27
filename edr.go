@@ -22,7 +22,7 @@ func (a *App) AddTestData(firstName, lastName string, age interface{}) error {
 	return edr.AddTestData(a.db, firstName, lastName, age)
 }
 
-// AddColumn добавляет новый столбец в указанную таблицу
+// AddColumn добавляет новый столбец в указанную таблицу/
 func (a *App) AddColumn(tableName, columnName, columnType string) error {
 	return edr.AddColumn(a.db, tableName, columnName, columnType)
 }
