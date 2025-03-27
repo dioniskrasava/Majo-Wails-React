@@ -11,6 +11,8 @@ export function AddTestData(arg1:string,arg2:string,arg3:any):Promise<void>;
 
 export function ColumnExists(arg1:string,arg2:string):Promise<boolean>;
 
+export function DeleteColumn(arg1:string,arg2:string):Promise<void>;
+
 export function DeleteRow(arg1:number):Promise<void>;
 
 export function GetColumnNames(arg1:string):Promise<Record<string, string>>;

@@ -67,3 +67,11 @@ func (a *App) AddEmptyRow(tableName string) error {
 func (a *App) ColumnExists(tableName, columnName string) (bool, error) {
 	return edr.ColumnExists(a.db, tableName, columnName)
 }
+
+// ================================================================================
+// DeleteColumn удаляет столбец из таблицы
+func (a *App) DeleteColumn(tableName, columnName string) error {
+	return edr.DeleteColumn(a.db, tableName, columnName)
+}
+
+// ================================================================================

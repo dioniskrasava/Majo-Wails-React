@@ -411,3 +411,179 @@ func isValidColumnType(t string) bool {
 	}
 	return validTypes[strings.ToUpper(t)]
 }
+
+//====================================================================================
+//
+//           Э    Х     Х     !      !
+//
+//====================================================================================
+
+// DeleteColumn удаляет столбец из таблицы с использованием транзакции
+func DeleteColumn(db *sql.DB, tableName, columnName string) error {
+	// Начинаем транзакцию
+	tx, err := db.Begin()
+	if err != nil {
+		return fmt.Errorf("ошибка начала транзакции: %w", err)
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// 1. Проверяем валидность параметров
+	if err := validateTableName(tableName); err != nil {
+		return err
+	}
+
+	columnName = sanitizeColumnName(columnName)
+	if columnName == "" {
+		return ErrInvalidColumnName
+	}
+
+	// 2. Проверяем существование столбца
+	exists, err := columnExists(tx, tableName, columnName)
+	if err != nil {
+		return fmt.Errorf("ошибка проверки столбца: %w", err)
+	}
+	if !exists {
+		return fmt.Errorf("столбец %s не существует в таблице %s", columnName, tableName)
+	}
+
+	// 3. Получаем текущую структуру таблицы
+	columns, err := getTableColumnsTrans(tx, tableName)
+	if err != nil {
+		return fmt.Errorf("ошибка получения столбцов: %w", err)
+	}
+
+	// 4. Проверяем, что это не последний столбец
+	if len(columns) <= 1 {
+		return fmt.Errorf("невозможно удалить последний столбец таблицы")
+	}
+
+	// 5. Создаем список столбцов без удаляемого
+	var newColumns []string
+	for _, col := range columns {
+		if col != columnName {
+			newColumns = append(newColumns, col)
+		}
+	}
+
+	// 6. Сохраняем информацию об индексах и триггерах
+	indexes, err := getTableIndexes(tx, tableName)
+	if err != nil {
+		return fmt.Errorf("ошибка получения индексов: %w", err)
+	}
+
+	// 7. Создаем временную таблицу с новой структурой
+	tempTable := "temp_" + tableName
+	_, err = tx.Exec(fmt.Sprintf("DROP TABLE IF EXISTS %s", tempTable))
+	if err != nil {
+		return fmt.Errorf("ошибка удаления временной таблицы: %w", err)
+	}
+
+	// 8. Создаем новую таблицу без удаляемого столбца
+	createQuery := fmt.Sprintf("CREATE TABLE %s AS SELECT %s FROM %s",
+		tempTable,
+		strings.Join(newColumns, ", "),
+		tableName)
+	_, err = tx.Exec(createQuery)
+	if err != nil {
+		return fmt.Errorf("ошибка создания временной таблицы: %w", err)
+	}
+
+	// 9. Удаляем оригинальную таблицу
+	_, err = tx.Exec(fmt.Sprintf("DROP TABLE %s", tableName))
+	if err != nil {
+		return fmt.Errorf("ошибка удаления оригинальной таблицы: %w", err)
+	}
+
+	// 10. Переименовываем временную таблицу
+	_, err = tx.Exec(fmt.Sprintf("ALTER TABLE %s RENAME TO %s", tempTable, tableName))
+	if err != nil {
+		return fmt.Errorf("ошибка переименования таблицы: %w", err)
+	}
+
+	// 11. Восстанавливаем индексы
+	for _, indexSQL := range indexes {
+		_, err = tx.Exec(indexSQL)
+		if err != nil {
+			return fmt.Errorf("ошибка восстановления индекса: %w", err)
+		}
+	}
+
+	// 12. Удаляем запись о столбце из таблицы column_names
+	_, err = tx.Exec("DELETE FROM column_names WHERE column_name = ?", columnName)
+	if err != nil {
+		return fmt.Errorf("ошибка удаления имени столбца: %w", err)
+	}
+
+	// Коммитим транзакцию
+	if err = tx.Commit(); err != nil {
+		return fmt.Errorf("ошибка коммита транзакции: %w", err)
+	}
+
+	return nil
+}
+
+// columnExists проверяет существование столбца (версия для транзакции)
+func columnExists(tx *sql.Tx, tableName, columnName string) (bool, error) {
+	columns, err := getTableColumnsTrans(tx, tableName)
+	if err != nil {
+		return false, err
+	}
+	for _, col := range columns {
+		if col == columnName {
+			return true, nil
+		}
+	}
+	return false, nil
+}
+
+// getTableColumns получает столбцы таблицы (версия для транзакции)
+func getTableColumnsTrans(tx *sql.Tx, tableName string) ([]string, error) {
+	rows, err := tx.Query(fmt.Sprintf("PRAGMA table_info(%s)", tableName))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var columns []string
+	for rows.Next() {
+		var (
+			cid     int
+			name    string
+			typ     string
+			notnull int
+			dflt    interface{}
+			pk      int
+		)
+		if err := rows.Scan(&cid, &name, &typ, &notnull, &dflt, &pk); err != nil {
+			return nil, err
+		}
+		columns = append(columns, name)
+	}
+	return columns, rows.Err()
+}
+
+// getTableIndexes получает SQL-запросы для всех индексов таблицы
+func getTableIndexes(tx *sql.Tx, tableName string) ([]string, error) {
+	rows, err := tx.Query(
+		"SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ? AND sql IS NOT NULL",
+		tableName,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var indexes []string
+	for rows.Next() {
+		var sql string
+		if err := rows.Scan(&sql); err != nil {
+			return nil, err
+		}
+		indexes = append(indexes, sql)
+	}
+	return indexes, rows.Err()
+}

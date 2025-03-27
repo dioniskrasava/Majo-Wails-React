@@ -22,6 +22,10 @@ export function ColumnExists(arg1, arg2) {
   return window['go']['main']['App']['ColumnExists'](arg1, arg2);
 }
 
+export function DeleteColumn(arg1, arg2) {
+  return window['go']['main']['App']['DeleteColumn'](arg1, arg2);
+}
+
 export function DeleteRow(arg1) {
   return window['go']['main']['App']['DeleteRow'](arg1);
 }
