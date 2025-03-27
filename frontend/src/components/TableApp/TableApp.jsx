@@ -25,6 +25,22 @@ const TableApp = () => {
 
   const [showAddModal, setShowAddModal] = useState(false); // окно добавления строки (Состояние)
 
+  // Добавляем обработчик удаления столбца
+  const handleDeleteColumn = async (columnName) => {
+    try {
+      // Убедитесь, что columnName - строка
+      if (typeof columnName !== 'string') {
+        throw new Error('Некорректное имя столбца');
+      }
+      
+      await window.go.main.App.DeleteColumn('test_data', columnName);
+      // ... остальной код обновления данных
+    } catch (error) {
+      console.error('Ошибка при удалении столбца:', error);
+      throw error;
+    }
+  };
+
   // Добавляем состояние для модалки
 const [showAddColumnModal, setShowAddColumnModal] = useState(false);
 
@@ -221,12 +237,13 @@ const handleAddColumn = async (columnName, columnType) => {
 
     
     <TableComponent
-      columns={columns}
-      data={data}
-      onSave={handleSave}
-      onDelete={handleDelete}
-      onUpdateColumn={handleUpdateColumn}
-    />
+  columns={columns}
+  data={data}
+  onSave={handleSave}
+  onDelete={handleDelete}
+  onUpdateColumn={handleUpdateColumn}
+  onDeleteColumn={handleDeleteColumn} // Добавляем этот пропс
+/>
 
 <button 
   onClick={() => {

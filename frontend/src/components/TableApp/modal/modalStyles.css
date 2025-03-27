@@ -112,3 +112,29 @@
   background-color: #3a3a3a; /* Слегка светлее основного фона */
   box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2); /* Лёгкое свечение */
 }
+
+/* модалка удаления столбца */
+.thClass {
+  position: relative;
+  user-select: none;
+}
+
+.context-menu {
+  position: absolute;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  min-width: 150px;
+}
+
+.context-menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.context-menu-item:hover {
+  background-color: #1a73e8;
+}

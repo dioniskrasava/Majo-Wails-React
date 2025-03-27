@@ -4,14 +4,53 @@ import { useTable } from 'react-table';
 import EditModal from './modal/EditModal';
 import DeleteModal from './modal/DeleteModal';
 import ColumnEditModal from './modal/ColumnEditModal';
+import DeleteColumnModal from './modal/DeleteColumnModal';
 import './stylesTable.css';
 
-const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => {
+const TableComponent = ({ 
+  columns, 
+  data, 
+  onSave, 
+  onDelete, 
+  onUpdateColumn,
+  onDeleteColumn // Добавляем этот пропс
+}) => {
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [showColumnEditModal, setShowColumnEditModal] = useState(false);
+  // Добавляем новые состояния
+const [showDeleteColumnModal, setShowDeleteColumnModal] = useState(false);
+const [columnToDelete, setColumnToDelete] = useState(null);
+
+// Новый обработчик для контекстного меню заголовка столбца
+const handleColumnRightClick = (column, event) => {
+  event.preventDefault();
+  setColumnToDelete(column);
+  setShowDeleteColumnModal(true);
+};
+
+ // 2. Обработчик удаления столбца
+ const handleDeleteColumn = async () => {
+  if (!columnToDelete) return;
+  
+  try {
+    // Передаем только имя столбца (id), а не весь объект
+    const dbColumnName = columnToDelete.id.replace(/([A-Z])/g, '_$1').toLowerCase();
+    await onDeleteColumn(dbColumnName); // Теперь передается строка
+    setShowDeleteColumnModal(false);
+    setColumnToDelete(null);
+  } catch (error) {
+    console.error('Ошибка при удалении столбца:', error);
+  }
+};
+
+// Закрытие модалки удаления столбца
+const closeDeleteColumnModal = () => {
+  setShowDeleteColumnModal(false);
+  setColumnToDelete(null);
+};
 
   useEffect(() => {
     if (data.length > 0 && data[data.length - 1].id === 'new') {
@@ -124,6 +163,7 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
         className="thClass"
         {...headerProps}
         onDoubleClick={() => handleColumnDoubleClick(column)}
+        onContextMenu={(e) => handleColumnRightClick(column, e)}
       >
         {column.render('Header')}
       </th>
@@ -162,6 +202,14 @@ const TableComponent = ({ columns, data, onSave, onDelete, onUpdateColumn }) => 
           onClose={closeColumnEditModal}
         />
       )}
+
+{showDeleteColumnModal && (
+      <DeleteColumnModal
+        columnName={columnToDelete?.Header || columnToDelete?.id}
+        onConfirm={handleDeleteColumn}
+        onClose={closeDeleteColumnModal}
+      />
+    )}
     </>
   );
 };

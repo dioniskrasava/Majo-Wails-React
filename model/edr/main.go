@@ -3,7 +3,9 @@ package edr
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 	"strings"
+	"time"
 	"unicode"
 )
 
@@ -419,111 +421,111 @@ func isValidColumnType(t string) bool {
 //====================================================================================
 
 // DeleteColumn удаляет столбец из таблицы с использованием транзакции
+// DeleteColumn удаляет столбец с улучшенной обработкой блокировок
 func DeleteColumn(db *sql.DB, tableName, columnName string) error {
-	// Начинаем транзакцию
+	// Устанавливаем параметры соединения
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(1)
+	db.SetConnMaxLifetime(time.Minute * 5)
+
+	// Повторяем попытку при блокировке
+	var lastErr error
+	for i := 0; i < 5; i++ { // Максимум 5 попыток
+		err := tryDeleteColumn(db, tableName, columnName)
+		if err == nil {
+			return nil
+		}
+
+		if isLockedError(err) {
+			lastErr = err
+			time.Sleep(time.Millisecond * 200 * time.Duration(i+1))
+			continue
+		}
+
+		return err
+	}
+
+	return fmt.Errorf("не удалось выполнить операцию после нескольких попыток: %w", lastErr)
+}
+
+func tryDeleteColumn(db *sql.DB, tableName, columnName string) error {
 	tx, err := db.Begin()
 	if err != nil {
 		return fmt.Errorf("ошибка начала транзакции: %w", err)
 	}
-	defer func() {
-		if err != nil {
-			tx.Rollback()
-		}
-	}()
+	defer tx.Rollback()
 
-	// 1. Проверяем валидность параметров
-	if err := validateTableName(tableName); err != nil {
+	// 1. Проверяем существование столбца
+	exists, err := columnExists(tx, tableName, columnName)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return fmt.Errorf("столбец %s не существует", columnName)
+	}
+
+	// 2. Получаем текущие столбцы
+	columns, err := getTableColumnsTrans(tx, tableName)
+	if err != nil {
 		return err
 	}
 
-	columnName = sanitizeColumnName(columnName)
-	if columnName == "" {
-		return ErrInvalidColumnName
-	}
-
-	// 2. Проверяем существование столбца
-	exists, err := columnExists(tx, tableName, columnName)
-	if err != nil {
-		return fmt.Errorf("ошибка проверки столбца: %w", err)
-	}
-	if !exists {
-		return fmt.Errorf("столбец %s не существует в таблице %s", columnName, tableName)
-	}
-
-	// 3. Получаем текущую структуру таблицы
-	columns, err := getTableColumnsTrans(tx, tableName)
-	if err != nil {
-		return fmt.Errorf("ошибка получения столбцов: %w", err)
-	}
-
-	// 4. Проверяем, что это не последний столбец
-	if len(columns) <= 1 {
-		return fmt.Errorf("невозможно удалить последний столбец таблицы")
-	}
-
-	// 5. Создаем список столбцов без удаляемого
-	var newColumns []string
+	// 3. Фильтруем столбцы
+	newColumns := make([]string, 0, len(columns)-1)
 	for _, col := range columns {
 		if col != columnName {
 			newColumns = append(newColumns, col)
 		}
 	}
 
-	// 6. Сохраняем информацию об индексах и триггерах
-	indexes, err := getTableIndexes(tx, tableName)
-	if err != nil {
-		return fmt.Errorf("ошибка получения индексов: %w", err)
-	}
-
-	// 7. Создаем временную таблицу с новой структурой
-	tempTable := "temp_" + tableName
+	// 4. Создаем временную таблицу
+	tempTable := "temp_" + tableName + "_" + strconv.FormatInt(time.Now().UnixNano(), 10)
 	_, err = tx.Exec(fmt.Sprintf("DROP TABLE IF EXISTS %s", tempTable))
 	if err != nil {
 		return fmt.Errorf("ошибка удаления временной таблицы: %w", err)
 	}
 
-	// 8. Создаем новую таблицу без удаляемого столбца
+	// 5. Копируем данные
 	createQuery := fmt.Sprintf("CREATE TABLE %s AS SELECT %s FROM %s",
 		tempTable,
 		strings.Join(newColumns, ", "),
 		tableName)
-	_, err = tx.Exec(createQuery)
-	if err != nil {
+	if _, err = tx.Exec(createQuery); err != nil {
 		return fmt.Errorf("ошибка создания временной таблицы: %w", err)
 	}
 
-	// 9. Удаляем оригинальную таблицу
-	_, err = tx.Exec(fmt.Sprintf("DROP TABLE %s", tableName))
-	if err != nil {
-		return fmt.Errorf("ошибка удаления оригинальной таблицы: %w", err)
+	// 6. Удаляем оригинальную таблицу
+	if _, err = tx.Exec(fmt.Sprintf("DROP TABLE %s", tableName)); err != nil {
+		return fmt.Errorf("ошибка удаления таблицы: %w", err)
 	}
 
-	// 10. Переименовываем временную таблицу
-	_, err = tx.Exec(fmt.Sprintf("ALTER TABLE %s RENAME TO %s", tempTable, tableName))
-	if err != nil {
-		return fmt.Errorf("ошибка переименования таблицы: %w", err)
+	// 7. Переименовываем временную таблицу
+	if _, err = tx.Exec(fmt.Sprintf("ALTER TABLE %s RENAME TO %s", tempTable, tableName)); err != nil {
+		return fmt.Errorf("ошибка переименования: %w", err)
 	}
 
-	// 11. Восстанавливаем индексы
-	for _, indexSQL := range indexes {
-		_, err = tx.Exec(indexSQL)
-		if err != nil {
+	// 8. Восстанавливаем индексы
+	indexes, err := getTableIndexes(tx, tableName)
+	if err != nil {
+		return fmt.Errorf("ошибка получения индексов: %w", err)
+	}
+
+	for _, sql := range indexes {
+		if _, err = tx.Exec(sql); err != nil {
 			return fmt.Errorf("ошибка восстановления индекса: %w", err)
 		}
 	}
 
-	// 12. Удаляем запись о столбце из таблицы column_names
-	_, err = tx.Exec("DELETE FROM column_names WHERE column_name = ?", columnName)
-	if err != nil {
+	// 9. Удаляем запись о столбце
+	if _, err = tx.Exec("DELETE FROM column_names WHERE column_name = ?", columnName); err != nil {
 		return fmt.Errorf("ошибка удаления имени столбца: %w", err)
 	}
 
-	// Коммитим транзакцию
-	if err = tx.Commit(); err != nil {
-		return fmt.Errorf("ошибка коммита транзакции: %w", err)
-	}
+	return tx.Commit()
+}
 
-	return nil
+func isLockedError(err error) bool {
+	return err != nil && strings.Contains(err.Error(), "database is locked")
 }
 
 // columnExists проверяет существование столбца (версия для транзакции)
