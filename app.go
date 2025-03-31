@@ -89,3 +89,7 @@ func (a *App) SetSettings(command string, parametr int) {
 func (a *App) GetButtonNames() []string {
 	return engwords.GetButtonNames()
 }
+
+func (a *App) SayHello(buttonIndex int) {
+	fmt.Println("Hello, eng-wo. ", buttonIndex, " !")
+}

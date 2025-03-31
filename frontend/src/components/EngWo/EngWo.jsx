@@ -2,28 +2,37 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 
 
-
-const ButtEngwor = ({ name }) => {
+// КНОПКА
+const ButtEngwor = ({ name, say }) => {
     return (
-        <button>{name}</button>
+        <button onClick={say}>{name}</button>
     )
 }
 
+// ГРУППА КНОПОК
 const ButtGroup = ({ buttons }) => {
+
+    const say = (buttonIndex) => {
+        window.go.main.App.SayHello(buttonIndex);
+    }
+
     return (
         <div className='button-grid'>
             {/*ИЗУЧИ ЭТО!!!*/}
             {buttons.map((buttonName, index) => (
-                <ButtEngwor key={index} name={buttonName} />
+                <ButtEngwor key={index} 
+                    name={buttonName} 
+                    say={() => say(index)} 
+                />
             ))}
         </div>
     );
 };
 
-
+// ПРИЛОЖЕНИЕ
 const EngWo = () => {
 
-    const [buttonNames, setButtonNames] = useState([]);
+    const [buttonNames, setButtonNames] = useState([]); // массив для названий кнопок
     const [loading, setLoading] = useState(true);
 
     // Получаем данные из Go при монтировании компонента

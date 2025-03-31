@@ -62,6 +62,10 @@ export function SaveCategory(arg1) {
   return window['go']['main']['App']['SaveCategory'](arg1);
 }
 
+export function SayHello(arg1) {
+  return window['go']['main']['App']['SayHello'](arg1);
+}
+
 export function SetSettings(arg1, arg2) {
   return window['go']['main']['App']['SetSettings'](arg1, arg2);
 }
