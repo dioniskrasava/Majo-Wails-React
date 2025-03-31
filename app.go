@@ -2,6 +2,7 @@
 package main
 
 import (
+	engwords "Majo-Wails-React/model/EngWords"
 	"Majo-Wails-React/model/database"
 	"context"
 	"database/sql"
@@ -76,4 +77,15 @@ func (a *App) SetSettings(command string, parametr int) {
 		fmt.Println("WINDOWS SIZE ---> ", widthFact, HEIGHT)
 	}
 
+}
+
+//=============================================================
+//
+// для ENGLISH WORDS
+//
+//=============================================================
+
+// GetButtonNames возвращает массив названий для кнопок
+func (a *App) GetButtonNames() []string {
+	return engwords.GetButtonNames()
 }

@@ -17,6 +17,9 @@ const Sidebar = ({ onButtonClick }) => {
       <button className="sidebar-button" onClick={() => onButtonClick('AnotherComponent')}>
         β
       </button>
+      <button className="sidebar-button" onClick={() => onButtonClick('EngWo')}>
+        EW
+      </button>
       <button className="sidebar-button" onClick={() => onButtonClick('SettApp')}>
         <FontAwesomeIcon icon={faGear} size='lg' />
       </button>

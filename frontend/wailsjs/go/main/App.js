@@ -30,6 +30,10 @@ export function DeleteRow(arg1) {
   return window['go']['main']['App']['DeleteRow'](arg1);
 }
 
+export function GetButtonNames() {
+  return window['go']['main']['App']['GetButtonNames']();
+}
+
 export function GetColumnNames(arg1) {
   return window['go']['main']['App']['GetColumnNames'](arg1);
 }

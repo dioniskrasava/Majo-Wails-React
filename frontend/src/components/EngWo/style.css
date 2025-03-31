@@ -1,0 +1,38 @@
+/*сетка кнопок*/
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    width: 600px;
+    margin: 20px auto;
+  }
+  
+  .button-grid button {
+    width: 100%;
+    padding: 10px;
+    transition: all 0.3s ease; /* Плавная анимация */
+  }
+
+  .button-grid button:hover {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(90deg, #ff000054, #ff770048, #ffdd0046, #ff77004d, #ff00004f);
+    scale: 1.03;
+    box-shadow: 0 4px 8px rgb(240, 156, 0);
+  }
+
+/*название приложения*/
+.name-app{
+    color: rgb(72, 109, 42);
+    font-size: small;
+}
+
+/*слово для изучения*/
+.word{
+    font-size:xx-large;
+    /*позиционирование по центру*/
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content; /* или фиксированная ширина, например, 300px */
+}
