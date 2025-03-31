@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
+import Test from './Test'
 
 
 // КНОПКА
@@ -64,6 +65,7 @@ const EngWo = () => {
                 <p className='name-app'>ENGLISH WORD APP</p>
                 <p className='word'>--words--</p>
                 <ButtGroup buttons={buttonNames} />
+                <Test/>
             </div>
         </>
     );
