@@ -19,6 +19,8 @@ export function GetButtonNames():Promise<Array<string>>;
 
 export function GetColumnNames(arg1:string):Promise<Record<string, string>>;
 
+export function GetRandomRow():Promise<string>;
+
 export function GetTableData(arg1:string):Promise<Array<Record<string, any>>>;
 
 export function GetTestData():Promise<Array<Record<string, any>>>;
@@ -38,3 +40,5 @@ export function SetSettings(arg1:string,arg2:number):Promise<void>;
 export function UpdateCellValue(arg1:number,arg2:string,arg3:any):Promise<void>;
 
 export function UpdateColumnName(arg1:string,arg2:string):Promise<void>;
+
+export function WriteAndRead():Promise<void>;

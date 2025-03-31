@@ -34,7 +34,8 @@ const ButtGroup = ({ buttons }) => {
 const EngWo = () => {
 
     const [buttonNames, setButtonNames] = useState([]); // массив для названий кнопок
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] =  useState(true);
+    const [labelName, setLabelName] = useState("word")
 
     // Получаем данные из Go при монтировании компонента
     useEffect(() => {
@@ -59,12 +60,25 @@ const EngWo = () => {
     }
 
 
+    const handleClickTestRandom = async () => {
+        try {
+            const wordEnglish = await window.go.main.App.GetRandomRow();
+            setLabelName(wordEnglish);
+        } catch (error) {
+            console.error("Failed to get random word:", error);
+            setLabelName("Error loading word");
+        }
+    }
+
+
     return (
         <>
             <div>
                 <p className='name-app'>ENGLISH WORD APP</p>
-                <p className='word'>--words--</p>
+                <p className='word'>{labelName}</p>
                 <ButtGroup buttons={buttonNames} />
+                <button onClick={() => {window.go.main.App.WriteAndRead()}}>IMPORT</button>
+                <button onClick={handleClickTestRandom}>Test random</button>
                 <Test/>
             </div>
         </>

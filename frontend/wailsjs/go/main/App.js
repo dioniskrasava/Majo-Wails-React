@@ -38,6 +38,10 @@ export function GetColumnNames(arg1) {
   return window['go']['main']['App']['GetColumnNames'](arg1);
 }
 
+export function GetRandomRow() {
+  return window['go']['main']['App']['GetRandomRow']();
+}
+
 export function GetTableData(arg1) {
   return window['go']['main']['App']['GetTableData'](arg1);
 }
@@ -76,4 +80,8 @@ export function UpdateCellValue(arg1, arg2, arg3) {
 
 export function UpdateColumnName(arg1, arg2) {
   return window['go']['main']['App']['UpdateColumnName'](arg1, arg2);
+}
+
+export function WriteAndRead() {
+  return window['go']['main']['App']['WriteAndRead']();
 }
