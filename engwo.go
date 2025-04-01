@@ -27,3 +27,7 @@ func (a *App) WriteAndRead() {
 func (a *App) GetRandomRow() string {
 	return engwords.NewApp() //для теста в консоль
 }
+
+func (a *App) GetAnswers() []string {
+	return engwords.GetAnswers()
+}

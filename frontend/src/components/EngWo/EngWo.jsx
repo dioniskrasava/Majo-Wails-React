@@ -4,18 +4,18 @@ import Test from './Test'
 
 
 // КНОПКА
-const ButtEngwor = ({ name, say }) => {
+const ButtEngwor = ({ name, onClick }) => {
     return (
-        <button onClick={say}>{name}</button>
+        <button onClick={onClick}>{name}</button>
     )
 }
 
 // ГРУППА КНОПОК
-const ButtGroup = ({ buttons }) => {
+const ButtGroup = ({ buttons, checkRespons}) => {
 
-    const say = (buttonIndex) => {
+    /*const say = (buttonIndex) => {
         window.go.main.App.SayHello(buttonIndex);
-    }
+    }*/
 
     return (
         <div className='button-grid'>
@@ -23,7 +23,7 @@ const ButtGroup = ({ buttons }) => {
             {buttons.map((buttonName, index) => (
                 <ButtEngwor key={index} 
                     name={buttonName} 
-                    say={() => say(index)} 
+                    onClick={() => checkRespons(index)} 
                 />
             ))}
         </div>
@@ -35,7 +35,9 @@ const EngWo = () => {
 
     const [buttonNames, setButtonNames] = useState([]); // массив для названий кнопок
     const [loading, setLoading] =  useState(true);
-    const [labelName, setLabelName] = useState("word")
+    const [labelName, setLabelName] = useState("word") // состояние метки слова
+
+    const [corrAnswer, setCorrAnswer] = useState() // правильный ответ по индексу
 
     // Получаем данные из Go при монтировании компонента
     useEffect(() => {
@@ -70,15 +72,41 @@ const EngWo = () => {
         }
     }
 
+    const handlePlay = async () => {
+        try {
+            const answers = await window.go.main.App.GetAnswers();
+            //console.log(answers)
+            setLabelName(answers[0])
+            const answersForButtons = answers.slice(2,8)
+            //console.log("Buttons : ", answersForButtons)
+            setButtonNames(answersForButtons)
+            setCorrAnswer(answers[8])
+            //console.log("Correct answer - ", answers[8])
+
+        } catch (error) {
+            console.error("Failed to get random word:", error);
+        }
+    }
+
+    const checkingResponse = (index) => {
+        console.log(index)
+        if (index == corrAnswer){
+            console.log("УГАДАЛ")
+        } else {
+            console.log("НЕ УГАДАЛ!")
+        }
+    }
+
 
     return (
         <>
             <div>
                 <p className='name-app'>ENGLISH WORD APP</p>
                 <p className='word'>{labelName}</p>
-                <ButtGroup buttons={buttonNames} />
-                <button onClick={() => {window.go.main.App.WriteAndRead()}}>IMPORT</button>
-                <button onClick={handleClickTestRandom}>Test random</button>
+                <ButtGroup buttons={buttonNames} checkRespons={checkingResponse}/>
+                <button className='auxiliaryButton' onClick={() => {window.go.main.App.WriteAndRead()}}>IMPORT</button>
+                <button className='auxiliaryButton' onClick={handleClickTestRandom}>Test random</button>
+                <button className='auxiliaryButton' onClick={handlePlay}>Следующее слово</button>
                 <Test/>
             </div>
         </>

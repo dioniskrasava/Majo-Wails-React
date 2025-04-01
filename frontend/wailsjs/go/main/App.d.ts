@@ -15,6 +15,8 @@ export function DeleteColumn(arg1:string,arg2:string):Promise<void>;
 
 export function DeleteRow(arg1:number):Promise<void>;
 
+export function GetAnswers():Promise<Array<string>>;
+
 export function GetButtonNames():Promise<Array<string>>;
 
 export function GetColumnNames(arg1:string):Promise<Record<string, string>>;

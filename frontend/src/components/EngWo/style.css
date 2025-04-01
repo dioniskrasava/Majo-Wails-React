@@ -11,15 +11,15 @@
   .button-grid button {
     width: 100%;
     padding: 10px;
-    transition: all 0.3s ease; /* Плавная анимация */
+    /*transition: all 0.1s ease; /* Плавная анимация */
   }
 
   .button-grid button:hover {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(90deg, #ff000054, #ff770048, #ffdd0046, #ff77004d, #ff00004f);
-    scale: 1.03;
-    box-shadow: 0 4px 8px rgb(240, 156, 0);
+    background: linear-gradient(90deg, #0026d0, #0026d0, #0026d0, #0026d0, #0026d0);
+    scale: 1.02;
+    box-shadow: 0 2px 4px rgb(240, 156, 0);
   }
 
 /*название приложения*/
@@ -30,9 +30,20 @@
 
 /*слово для изучения*/
 .word{
-    font-size:xx-large;
+    font-size:80px;
     /*позиционирование по центру*/
     margin-left: auto;
     margin-right: auto;
     width: fit-content; /* или фиксированная ширина, например, 300px */
+}
+
+/*вспомогательные кнопки*/
+.auxiliaryButton{
+  margin: 5px;
+  background: linear-gradient(90deg, #7b7b7b54, #bdbdbd46, #ff77004d);
+}
+
+.auxiliaryButton:hover{
+  margin: 5px;
+  background: linear-gradient(90deg, #1f490054, #40960354, #1f490054);
 }
