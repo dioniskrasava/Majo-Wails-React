@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import useSound from 'use-sound';
 import "./style.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
+
+
+import clickSound from '../../assets/click.mp3'; // Импортируем звуковой файл
 
 // КНОПКА
 const ButtEngwor = ({ name, onClick, isCorrect, isClicked }) => {
@@ -50,6 +54,11 @@ const EngWo = () => {
   const [corrAnswer, setCorrAnswer] = useState(); // правильный ответ по индексу
   const [clickedIndex, setClickedIndex] = useState(null); // какая кнопка нажата
 
+  const soundRef = useRef(null);
+
+    // Инициализируем useSound
+    const [playClick] = useSound(clickSound, { volume: 0.5 });
+
   // отображения нового слова (с вариантами ответов)
   const handleNextWord = async () => {
     try {
@@ -96,22 +105,26 @@ const EngWo = () => {
 
   }, []);
 
-  if (loading) {
-    return <div>Loading buttons...</div>;
-  }
+  
 
 
 
 
   const checkingResponse = (index) => {
-    console.log(index);
+    playClick(); // Воспроизводим звук
     setClickedIndex(index); // Запоминаем, какая кнопка нажата
+
+
     if (index === corrAnswer) {
       console.log("УГАДАЛ");
     } else {
       console.log("НЕ УГАДАЛ!");
     }
   };
+
+  if (loading) {
+    return <div>Loading buttons...</div>;
+  }
 
   return (
     <>
