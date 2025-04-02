@@ -154,6 +154,7 @@ func GetAnswers() []string {
 // параметр id нужен для того, чтобы варианты не совпадали с правильным
 func getWrongAnswers(db *sql.DB, id int) []string {
 	quantityAnswers := 0
+	idWrongAnswers := []int{} // запоминаем id неправильных ответов, чтобы не плодить клонов
 	complectAnswers := []string{}
 	for {
 		//если насобирали 5 вариантов ответов - завершаем
@@ -173,8 +174,13 @@ func getWrongAnswers(db *sql.DB, id int) []string {
 			continue
 		}
 
-		// добавляем неправильный вариант ответа в срез
+		if contains(idWrongAnswers, word.ID) {
+			continue
+		}
+
+		// добавляем неправильный вариант ответа в срез неправильных ответов
 		complectAnswers = append(complectAnswers, word.Translate)
+		idWrongAnswers = append(idWrongAnswers, word.ID) // добавляем ID неправильного отв.
 		// увеличиваем значение количества на 1
 		quantityAnswers++
 	}
@@ -210,4 +216,16 @@ func assemblingAnswers(correct string, wrong []string) (answers []string, indexC
 	}
 
 	return answers, indexCorrect
+}
+
+// В С П О М О Г А Т Е Л Ь Н Ы Е  Ф У Н К Ц И И
+
+// есть ли число в срезе?
+func contains(slice []int, item int) bool {
+	for _, v := range slice {
+		if v == item {
+			return true
+		}
+	}
+	return false
 }

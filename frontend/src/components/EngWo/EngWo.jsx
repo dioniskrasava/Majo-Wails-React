@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import Test from "./Test";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
 
 // КНОПКА
 const ButtEngwor = ({ name, onClick, isCorrect, isClicked }) => {
@@ -10,8 +12,8 @@ const ButtEngwor = ({ name, onClick, isCorrect, isClicked }) => {
     buttonColor = isCorrect ? "green" : "red";
   }
   return (
-    <button 
-    onClick={onClick} style={{ background: buttonColor }}>
+    <button
+      onClick={onClick} style={{ background: buttonColor }}>
       {name}
     </button>
   );
@@ -46,7 +48,26 @@ const EngWo = () => {
   const [labelName, setLabelName] = useState("word"); // состояние метки слова
 
   const [corrAnswer, setCorrAnswer] = useState(); // правильный ответ по индексу
-  const [clickedIndex, setClickedIndex] = useState(null); // Пока ни одна кнопка не нажата
+  const [clickedIndex, setClickedIndex] = useState(null); // какая кнопка нажата
+
+  // отображения нового слова (с вариантами ответов)
+  const handleNextWord = async () => {
+    try {
+      const answers = await window.go.main.App.GetAnswers();
+      //console.log(answers)
+      setLabelName(answers[0]);
+      // получаем кнопки для ответов
+      const answersForButtons = answers.slice(2, 8);
+      //console.log("Buttons : ", answersForButtons)
+      setButtonNames(answersForButtons);
+      setCorrAnswer(Number(answers[8])); // преобразуем строку
+      //console.log("Correct answer - ", answers[8])
+
+      setClickedIndex(null)
+    } catch (error) {
+      console.error("Failed to get random word:", error);
+    }
+  };
 
   // Получаем данные из Go при монтировании компонента
   useEffect(() => {
@@ -71,37 +92,16 @@ const EngWo = () => {
     }
 
     fetchButtonNames();
+    handleNextWord();
+
   }, []);
 
   if (loading) {
     return <div>Loading buttons...</div>;
   }
 
-  const handleClickTestRandom = async () => {
-    try {
-      const wordEnglish = await window.go.main.App.GetRandomRow();
-      setLabelName(wordEnglish);
-    } catch (error) {
-      console.error("Failed to get random word:", error);
-      setLabelName("Error loading word");
-    }
-  };
 
-  const handlePlay = async () => {
-    try {
-      const answers = await window.go.main.App.GetAnswers();
-      //console.log(answers)
-      setLabelName(answers[0]);
-      // получаем кнопки для ответов
-      const answersForButtons = answers.slice(2, 8);
-      //console.log("Buttons : ", answersForButtons)
-      setButtonNames(answersForButtons);
-      setCorrAnswer(Number(answers[8])); // преобразуем строку
-      //console.log("Correct answer - ", answers[8])
-    } catch (error) {
-      console.error("Failed to get random word:", error);
-    }
-  };
+
 
   const checkingResponse = (index) => {
     console.log(index);
@@ -116,8 +116,12 @@ const EngWo = () => {
   return (
     <>
       <div>
-        <p className="name-app">ENGLISH WORD APP</p>
-        <p className="word">{labelName}</p>
+        <div>
+          <p className="word">{labelName}</p>
+          <button className="settingsButton">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+        </div>
         <ButtGroup
           buttons={buttonNames}
           checkRespons={checkingResponse}
@@ -132,13 +136,9 @@ const EngWo = () => {
         >
           IMPORT
         </button>
-        <button className="auxiliaryButton" onClick={handleClickTestRandom}>
-          Test random
+        <button className="auxiliaryButton" onClick={handleNextWord}>
+          <FontAwesomeIcon icon={faAnglesRight} />
         </button>
-        <button className="auxiliaryButton" onClick={handlePlay}>
-          Следующее слово
-        </button>
-        <Test />
       </div>
     </>
   );
