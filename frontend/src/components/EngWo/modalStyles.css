@@ -19,7 +19,8 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     color: #ffffff;
     z-index: 1000;
-    min-width: 300px;
+    min-width: 400px;
+    min-height: 150px;
     max-width: 500px;
   }
   

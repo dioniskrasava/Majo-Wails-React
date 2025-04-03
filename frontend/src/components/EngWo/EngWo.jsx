@@ -147,14 +147,7 @@ const EngWo = () => {
           corrAnswer={corrAnswer}
           clickedIndex={clickedIndex}
         />
-        <button
-          className="auxiliaryButton"
-          onClick={() => {
-            window.go.main.App.WriteAndRead();
-          }}
-        >
-          IMPORT
-        </button>
+       
         <button className="auxiliaryButton" onClick={handleNextWord}>
           <FontAwesomeIcon icon={faAnglesRight} />
         </button>
