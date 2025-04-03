@@ -1,0 +1,30 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    z-index: 1000;
+    min-width: 300px;
+    max-width: 500px;
+  }
+  
+  .modal-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }

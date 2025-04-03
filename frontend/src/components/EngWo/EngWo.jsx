@@ -5,6 +5,8 @@ import "./style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
 
+import ModalSettings from "./ModalSettings";
+
 
 import clickSound from '../../assets/click.mp3'; // Импортируем звуковой файл
 
@@ -53,6 +55,8 @@ const EngWo = () => {
 
   const [corrAnswer, setCorrAnswer] = useState(); // правильный ответ по индексу
   const [clickedIndex, setClickedIndex] = useState(null); // какая кнопка нажата
+
+    const [showModalSettings, setShowModalSettings] = useState(false); // модальное окно настроек
 
   const soundRef = useRef(null);
 
@@ -131,7 +135,9 @@ const EngWo = () => {
       <div>
         <div>
           <p className="word">{labelName}</p>
-          <button className="settingsButton">
+          {/*кнопка настроек*/}
+          <button className="settingsButton"
+                  onClick={() => {setShowModalSettings(true)}}>
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
@@ -152,6 +158,8 @@ const EngWo = () => {
         <button className="auxiliaryButton" onClick={handleNextWord}>
           <FontAwesomeIcon icon={faAnglesRight} />
         </button>
+
+        {showModalSettings && (<ModalSettings onClose={() => {setShowModalSettings(false)}}/>)}
       </div>
     </>
   );
