@@ -42,10 +42,6 @@ export function GetColumnNames(arg1) {
   return window['go']['main']['App']['GetColumnNames'](arg1);
 }
 
-export function GetRandomRow() {
-  return window['go']['main']['App']['GetRandomRow']();
-}
-
 export function GetTableData(arg1) {
   return window['go']['main']['App']['GetTableData'](arg1);
 }
@@ -56,6 +52,10 @@ export function GetTestData() {
 
 export function GetWindowSize() {
   return window['go']['main']['App']['GetWindowSize']();
+}
+
+export function IncrementGuessing(arg1) {
+  return window['go']['main']['App']['IncrementGuessing'](arg1);
 }
 
 export function LoadCategories() {

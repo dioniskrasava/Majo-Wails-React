@@ -52,30 +52,7 @@ func GetRandomWord(db *sql.DB) (Word, error) {
 	return word, nil
 }
 
-//
 /*
-Альтернативный вариант (более эффективный для больших таблиц):
-
-Если в вашей таблице много записей и есть пропуски в ID, можно использовать более оптимальный запрос:
-*/
-func GetRandomWord2(db *sql.DB) (Word, error) {
-	var word Word
-
-	// Используем ORDER BY RANDOM() LIMIT 1 для получения случайной записи
-	err := db.QueryRow("SELECT id, english, translate, guessing FROM words ORDER BY RANDOM() LIMIT 1").Scan(
-		&word.ID,
-		&word.English,
-		&word.Translate,
-		&word.Guessing,
-	)
-
-	if err != nil {
-		return word, fmt.Errorf("ошибка при получении случайной записи: %v", err)
-	}
-
-	return word, nil
-}
-
 func NewApp() string {
 	// Открываем базу данных
 	db, err := sql.Open("sqlite3", "./vocabulary.db")
@@ -98,6 +75,7 @@ func NewApp() string {
 
 	return wordEnglish
 }
+*/
 
 func openDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "./vocabulary.db")

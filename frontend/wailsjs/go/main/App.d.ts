@@ -21,13 +21,13 @@ export function GetButtonNames():Promise<Array<string>>;
 
 export function GetColumnNames(arg1:string):Promise<Record<string, string>>;
 
-export function GetRandomRow():Promise<string>;
-
 export function GetTableData(arg1:string):Promise<Array<Record<string, any>>>;
 
 export function GetTestData():Promise<Array<Record<string, any>>>;
 
 export function GetWindowSize():Promise<number|number>;
+
+export function IncrementGuessing(arg1:number):Promise<void>;
 
 export function LoadCategories():Promise<Array<string>>;
 

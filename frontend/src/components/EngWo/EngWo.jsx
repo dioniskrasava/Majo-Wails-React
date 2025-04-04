@@ -3,7 +3,7 @@ import useSound from 'use-sound';
 import "./style.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesRight, faAnglesLeft, faBars } from '@fortawesome/free-solid-svg-icons';
 
 import ModalSettings from "./ModalSettings";
 
@@ -54,14 +54,17 @@ const EngWo = () => {
   const [labelName, setLabelName] = useState("word"); // состояние метки слова
 
   const [corrAnswer, setCorrAnswer] = useState(); // правильный ответ по индексу
+  const [idWord, setIdWord] = useState(); // id изучаемого слова
   const [clickedIndex, setClickedIndex] = useState(null); // какая кнопка нажата
 
-    const [showModalSettings, setShowModalSettings] = useState(false); // модальное окно настроек
+  const [gaveAnswer, setGaveAnswer] = useState(false); // дал ли пользователь ответ?
+
+  const [showModalSettings, setShowModalSettings] = useState(false); // модальное окно настроек
 
   const soundRef = useRef(null);
 
-    // Инициализируем useSound
-    const [playClick] = useSound(clickSound, { volume: 0.5 });
+  // Инициализируем useSound
+  const [playClick] = useSound(clickSound, { volume: 0.5 });
 
   // отображения нового слова (с вариантами ответов)
   const handleNextWord = async () => {
@@ -77,6 +80,10 @@ const EngWo = () => {
       //console.log("Correct answer - ", answers[8])
 
       setClickedIndex(null)
+
+      // запоминаем индекс изучаемого слова из БД
+      setIdWord(answers[1])
+      setGaveAnswer(false) // фиксируем, что пользователь не давал ответа на данное слово
     } catch (error) {
       console.error("Failed to get random word:", error);
     }
@@ -109,20 +116,27 @@ const EngWo = () => {
 
   }, []);
 
-  
 
 
 
 
+  // ПРОВЕРКА КЛИКА
   const checkingResponse = (index) => {
     playClick(); // Воспроизводим звук
     setClickedIndex(index); // Запоминаем, какая кнопка нажата
 
 
-    if (index === corrAnswer) {
-      console.log("УГАДАЛ");
+    if (index === corrAnswer)  {
+      if (gaveAnswer == false) {
+        console.log("Я ТУТ!")
+        const id = Number(idWord)
+        window.go.main.App.IncrementGuessing(id); // увеличивае количество угадываний в бд на 1
+        setGaveAnswer(true) // фиксируем, что пользователь уже дал ответ
+      }
+      console.log("УГАДАЛ");  
     } else {
       console.log("НЕ УГАДАЛ!");
+      setGaveAnswer(true) // фиксируем, что пользователь уже дал ответ
     }
   };
 
@@ -137,7 +151,7 @@ const EngWo = () => {
           <p className="word">{labelName}</p>
           {/*кнопка настроек*/}
           <button className="settingsButton"
-                  onClick={() => {setShowModalSettings(true)}}>
+            onClick={() => { setShowModalSettings(true) }}>
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
@@ -147,12 +161,18 @@ const EngWo = () => {
           corrAnswer={corrAnswer}
           clickedIndex={clickedIndex}
         />
-       
-        <button className="auxiliaryButton" onClick={handleNextWord}>
-          <FontAwesomeIcon icon={faAnglesRight} />
-        </button>
+        <div className="auxiliaryButtons">
 
-        {showModalSettings && (<ModalSettings onClose={() => {setShowModalSettings(false)}}/>)}
+          <button className="auxiliaryButton">
+          <FontAwesomeIcon icon={faAnglesLeft} />
+          </button>
+          <button className="auxiliaryButton" onClick={handleNextWord}>
+            <FontAwesomeIcon icon={faAnglesRight} />
+          </button>
+
+        </div>
+
+        {showModalSettings && (<ModalSettings onClose={() => { setShowModalSettings(false) }} />)}
       </div>
     </>
   );
