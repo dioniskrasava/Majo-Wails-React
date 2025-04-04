@@ -6,11 +6,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
-  h1 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+  
   
   /* Форма добавления заметки */
   .add-note-form {
@@ -123,12 +119,13 @@
     flex: 1;
     position: relative;
     padding-right: 80px;
+    color:black;
   }
   
   .note-category {
     display: inline-block;
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: #cbe8fd;
+    color: #1359a0;
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 12px;
@@ -145,15 +142,15 @@
   }
   
   .delete-btn {
-    background: none;
     border: none;
-    color: #888;
+    background: #cf2b2b;
     font-size: 18px;
     cursor: pointer;
     padding: 5px;
     margin-left: 10px;
+    max-width: 35px;
   }
   
   .delete-btn:hover {
-    color: #f44336;
+    background: #4b0500;
   }

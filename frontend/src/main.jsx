@@ -5,6 +5,8 @@ import './style.css';
 import Sidebar from './components/sidebar/Sidebar';
 import ContentManager from './components/ContentManager/ContentManager';
 
+import WelcomeWindow from './components/welcome/WelcomeWindow'
+
 import { IntlProvider } from 'react-intl';
 import enMessages from './locales/en.json'; // REALIZATION MULTI-LINGUALISM
 import ruMessages from './locales/ru.json'; // REALIZATION MULTI-LINGUALISM
@@ -18,7 +20,7 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 const App = () => {
-  const [activeComponent, setActiveComponent] = useState('AppFixAct');
+  const [activeComponent, setActiveComponent] = useState('WelcomeWindow');
   const [locale, setLocale] = useState('ru'); // По умолчанию язык - русский
 
   return (
