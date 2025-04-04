@@ -4,6 +4,7 @@ import AnotherComponent from '../AnotherComponent/AnotherComponent';
 import SettApp from '../settApp/SettApp';
 import TableApp from '../TableApp/TableApp'
 import EngWo from '../EngWo/EngWo'
+import Notes from '../Notes/Notes'
 
 // ГЛАВНЫЙ ОТРИСОВЩИК АКТИВНОГО ПРИЛОЖЕНИЯ
 const ContentManager = ({ activeComponent, setLocale, locale }) => {
@@ -13,6 +14,7 @@ const ContentManager = ({ activeComponent, setLocale, locale }) => {
     SettApp: <SettApp />, // Пока не передаем пропсы здесь
     TableApp: <TableApp/>,
     EngWo: <EngWo/>,
+    Notes: <Notes/>
   };
 
   // Получаем компонент для активного приложения
