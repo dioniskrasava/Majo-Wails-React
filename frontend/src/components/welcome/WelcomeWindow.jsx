@@ -24,23 +24,21 @@ const WelcomeWindow = () => {
         {" "}
         {/* Контейнер для букв */}
         <span className="welcomeNameLabel underlined">
-          <FontAwesomeIcon icon={faM} size="4x" />
+          <FontAwesomeIcon icon={faM} size="9x" />
         </span>
         <span className="welcomeNameLabel">
-          <FontAwesomeIcon icon={faA} size="3x" />
+          <FontAwesomeIcon icon={faA} size="7x" />
         </span>
         <span className="welcomeNameLabel underlined">
-          <FontAwesomeIcon icon={faJ} size="4x" />
+          <FontAwesomeIcon icon={faJ} size="9x" />
         </span>
         <span className="welcomeNameLabel">
-          <FontAwesomeIcon icon={faO} size="3x" />
+          <FontAwesomeIcon icon={faO} size="7x" />
         </span>
       </div>
       <div className="version-container">
         <span className="version-text">version 0.0.12</span>
       </div>
-      <h1>Добро пожаловать</h1>
-      <p>Вы запустили Main Journal. Сокращенно - MaJo.</p>
     </div>
   );
 };

@@ -8,12 +8,12 @@ import Notes from '../Notes/Notes'
 import WelcomeWindow from '../welcome/WelcomeWindow'
 
 // ГЛАВНЫЙ ОТРИСОВЩИК АКТИВНОГО ПРИЛОЖЕНИЯ
-const ContentManager = ({ activeComponent, setLocale, locale }) => {
+const ContentManager = ({ activeComponent, setLocale, locale, setActiveComponent }) => {
   const components = {
     WelcomeWindow: <WelcomeWindow/>,
     AppFixAct: <AppFixAct />,
     AnotherComponent: <AnotherComponent />,
-    SettApp: <SettApp />, // Пока не передаем пропсы здесь
+    SettApp: <SettApp setActiveComponent={setActiveComponent} />, // Пока не передаем пропсы здесь
     TableApp: <TableApp/>,
     EngWo: <EngWo/>,
     Notes: <Notes/>

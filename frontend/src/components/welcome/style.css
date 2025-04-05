@@ -54,10 +54,12 @@
 .welcome-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /*по центру по горизонтали*/
+    justify-content: center; /*по центру по вертикали*/
     min-height: 100vh; /* На всю высоту экрана */
     text-align: center;
     padding: 20px;
+    margin-top: -20vh; /* Поднимаем на 20% высоты экрана вверх */
   }
   
   /* Контейнер для букв (горизонтальное расположение) */

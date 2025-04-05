@@ -26,7 +26,6 @@
 .button-grid button:hover {
   width: 100%;
   padding: 10px;
-  background: linear-gradient(90deg, #0026d0, #0026d0, #0026d0, #0026d0, #0026d0);
   scale: 1.02;
   box-shadow: 0 2px 4px rgb(240, 156, 0);
 }
@@ -51,7 +50,6 @@
 /*вспомогательные кнопки*/
 .auxiliaryButton {
   margin: 5px;
-  background: linear-gradient(90deg, #7b7b7b54, #bdbdbd46, #ff77004d);
 }
 
 .auxiliaryButton:hover {

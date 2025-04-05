@@ -33,6 +33,7 @@ const App = () => {
               activeComponent={activeComponent}
               setLocale={setLocale}
               locale={locale} // Передаем текущий язык
+              setActiveComponent={setActiveComponent}
             />
           </div>
         </div>

@@ -1,6 +1,6 @@
 /* style.css - глобальные стили */
 html {
-    background-color: #2d2e30; /* Темный фон */
+    background: linear-gradient(135deg, #4b333340, #8d2f2f39); /* Темный фон */
     color: white; /* Белый текст */
 }
 
@@ -23,4 +23,28 @@ html {
     position: fixed; /* Закрепляем сайдбар */
     left: 50px; /* Прижимаем к левой части экрана */
     top: 0px; /* Прижимаем к верхней части экрана */
+}
+
+button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #350606, #a00000); /* Градиентный фон */
+    /*background: linear-gradient(135deg, #e8431a, #004ba0); /* Градиентный фон */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /*тень*/
+    transition: background-color 0.3s ease;
+    font-family: 'Georgia', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9); /* легкая тень */
+}
+
+button:hover {  
+    background: linear-gradient(135deg, #134008, #157e09); /* Градиентный фон */
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.3); /*тень*/
+    /*letter-spacing: 0.03em; /* немного увеличить расстояние между буквами */
 }

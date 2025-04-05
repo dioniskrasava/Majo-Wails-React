@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './styleSettApp.css';
 import useThemeStore from '../utils/themeStore'; // Импортируем хранилище Zustand
 
-const SettApp = ({ setLocale, locale }) => {
+const SettApp = ({ setLocale, locale, setActiveComponent }) => {
   // Получаем состояние и методы из хранилища
   const { isDarkMode, toggleTheme } = useThemeStore();
 
@@ -31,14 +31,14 @@ const SettApp = ({ setLocale, locale }) => {
           <button
             className="buttonSettApp"
             onClick={() => setLocale('en')}
-            style={{ background: locale === 'en' ? 'linear-gradient(135deg, #e8431a, #004ba0)' : 'linear-gradient(135deg, #1a73e8, #004ba0)' }}
+            style={{ background: locale === 'en' ? 'linear-gradient(135deg,rgb(16, 83, 9),rgb(32, 160, 0))' : '' }}
           >
             English
           </button>
           <button
             className="buttonSettApp"
             onClick={() => setLocale('ru')}
-            style={{ background: locale === 'ru' ? 'linear-gradient(135deg, #e8431a, #004ba0)' : 'linear-gradient(135deg, #1a73e8, #004ba0)' }}
+            style={{ background: locale === 'ru' ? 'linear-gradient(135deg,rgb(16, 83, 9),rgb(32, 160, 0))' : '' }}
           >
             Русский
           </button>
@@ -47,6 +47,8 @@ const SettApp = ({ setLocale, locale }) => {
           <button className="buttonSettApp" onClick={toggleTheme}>
             {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           </button>
+
+          <div><button onClick={() => {setActiveComponent('AnotherComponent')}}>beta-testing-functions</button></div>
         </div>
       </div>
     </div>

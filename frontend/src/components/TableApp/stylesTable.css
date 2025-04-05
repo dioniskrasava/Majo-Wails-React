@@ -14,18 +14,18 @@ table {
   .thClass {
     padding: 12px;
     text-align: left;
-    background: linear-gradient(135deg, #1a73e8, #004ba0); /* Градиентный фон для заголовков */
+    background: linear-gradient(135deg, #590909, #660707); /* Градиентный фон для заголовков */
     color: #ffffff;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid #004ba0;
+    border-bottom: 2px solid #a00000;
     transition: background 0.3s ease;
   }
   
   /* Анимация при наведении на заголовок */
   .thClass:hover {
-    background: linear-gradient(135deg, #004ba0, #1a73e8);
+    background: linear-gradient(135deg, #bd1a1a, #e81a1a);
   }
   
   /* Стили для ячеек таблицы */
@@ -37,10 +37,10 @@ table {
   
   /* Анимация при наведении на ячейку */
   .cellTable:hover {
-    background-color: rgba(26, 115, 232, 0.1); /* Полупрозрачный синий фон */
+    background-color: rgba(232, 26, 26, 0.1); /* Полупрозрачный синий фон */
     transform: scale(1.02); /* Легкое увеличение */
-    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.3); /* Тень с синим оттенком */
-    border-bottom: 1px solid #1a73e8; /* Синяя граница снизу */
+    box-shadow: 0 4px 8px rgba(232, 26, 26, 0.3); /* Тень с синим оттенком */
+    border-bottom: 1px solid #e81a1a; /* Синяя граница снизу */
   }
   
   /* Стили для четных строк (опционально) */
@@ -55,7 +55,7 @@ table {
   
   /* Стили для строки при наведении */
   tr:hover {
-    background-color: rgba(26, 115, 232, 0.05); /* Легкий синий фон при наведении на строку */
+    background-color: rgba(232, 26, 26, 0.05); /* Легкий синий фон при наведении на строку */
   }
 
 

@@ -1,7 +1,7 @@
 .sidebar {
   width: 50px; /* Ширина сайдбара */
   height: 100vh; /* Высота на весь экран */
-  background: linear-gradient(135deg, #333f4b, #2f608d); /* Градиентный фон */
+  background: linear-gradient(135deg, #4b3333, #8d2f2f); /* Градиентный фон */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +18,8 @@
   width: 100%;
 }
 
+
+
 /*попытка поиграться со стилями иконок*/
 .iconsSideBar{
   color: rgb(255, 255, 255);
@@ -25,7 +27,6 @@
 
 
 .sidebar .sidebar-button {
-  background: linear-gradient(135deg, #1a73e8, #004ba0); /* Градиентный фон */
   color: white;
   margin: 10px 0; /* Уменьшаем отступ между кнопками */
   text-align: center;
@@ -43,6 +44,5 @@
 }
 
 .sidebar .sidebar-button:hover {
-  background: linear-gradient(135deg, #1a73e8, #8a1919); /* Градиентный фон */
   box-shadow: 0 6px 4px rgba(0, 0, 0, 0.3); /* Тень */
 }
