@@ -1,0 +1,109 @@
+.welcomeNameLabel {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px; /* Отступ между буквами */
+    color: #1e3c72;
+    filter: drop-shadow(0 2px 4px rgb(58, 134, 235));
+    animation: gentleSway 3s ease-in-out infinite;
+  }
+  
+  /* Подчеркивание */
+
+  .underlined::after {
+    /* Стили только для больших букв */
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 10px;
+    background: linear-gradient(90deg, #726c1e, #2a5298);
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(42, 82, 152, 0.5);
+  }
+  
+  /* Анимация при наведении */
+  .welcomeNameLabel:hover {
+    animation: gentleSwayFast 1s ease infinite;
+    color: #510c0c;
+    filter: drop-shadow(0 2px 4px rgb(235, 58, 58));
+    
+  }
+  
+  .welcomeNameLabel:hover::after {
+    width: 100%;
+    height: 3px;
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  /* Анимация покачивания */
+  @keyframes gentleSway {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-4px) rotate(1deg); }
+  }
+  
+  /* Ускоренная анимация при наведении */
+  @keyframes gentleSwayFast {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-7px) rotate(0.5deg); }
+  }
+
+  /* Центрирование всего контента */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* На всю высоту экрана */
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Контейнер для букв (горизонтальное расположение) */
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Расстояние между буквами */
+    margin-bottom: 20px;
+  }
+
+/*ВЕРСИЯ ПРИЛОЖЕНИЯ*/
+
+.version-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .version-text {
+    position: relative;
+    font-size: 1.2rem; /* Увеличиваем размер */
+    font-weight: 600; /* Делаем шрифт шире */
+    letter-spacing: 1px; /* Добавляем расстояние между буквами */
+    
+    /* Градиент для текста */
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    /* Анимация подчеркивания */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #6e8efb, #a777e3);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s ease;
+    }
+    
+    &:hover::after {
+      transform: scaleX(1);
+    }
+  }
