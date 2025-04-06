@@ -48,7 +48,7 @@ const SettApp = ({ setLocale, locale, setActiveComponent }) => {
             {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           </button>
 
-          <div><button onClick={() => {setActiveComponent('AnotherComponent')}}>beta-testing-functions</button></div>
+          <div><button onClick={() => {setActiveComponent('AnotherComponent')}}>beta-testing-functions</button><button onClick={() => {setActiveComponent('WelcomeWindow')}}>welcome</button></div>
         </div>
       </div>
     </div>
